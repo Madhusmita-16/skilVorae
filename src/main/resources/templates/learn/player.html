@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${currentLesson.title + ' — SkilVorae Player'}">Learning Player — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/player.css}">
+</head>
+<body style="background: #FFFFFF;">
+
+  <!-- Header Bar -->
+  <header style="height: 65px; background: var(--primary); color: #FFFFFF; display: flex; align-items: center; justify-content: space-between; padding: 0 1.5rem; border-bottom: 1px solid #1E293B;">
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <a th:href="@{/dashboard}" class="brand-logo" style="color: #FFFFFF;">
+        <div class="brand-icon" style="background: #FFFFFF; color: #0F172A;">S</div>
+        <span>SkilVorae</span>
+      </a>
+      <span style="color: #64748B;">|</span>
+      <span style="font-weight: 600; font-size: 0.95rem;" th:text="${course.title}">Course Title</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 1.5rem;">
+      <div style="width: 180px;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.25rem;">
+          <span>Progress</span>
+          <span id="course-progress-text" th:text="${course.progressPercentage + '% Completed'}">0% Completed</span>
+        </div>
+        <div class="progress-bar-wrap" style="height: 6px; background: #334155;">
+          <div id="course-progress-fill" class="progress-bar-fill" th:style="${'width: ' + course.progressPercentage + '%;'}"></div>
+        </div>
+      </div>
+
+      <a th:href="@{/assessments/{id}(id=${course.id})}" class="btn btn-accent btn-sm">Course Quiz 🏆</a>
+      <a th:href="@{/dashboard}" class="btn btn-outline btn-sm" style="color: #FFFFFF; border-color: #334155;">Exit Player</a>
+    </div>
+  </header>
+
+  <!-- Player Layout -->
+  <div class="player-container">
+    <!-- Course Curriculum Sidebar -->
+    <aside class="player-sidebar">
+      <div th:each="module : ${course.modules}">
+        <div class="module-header" th:text="${module.title}">Module Title</div>
+
+        <div th:each="lesson : ${module.lessons}"
+             th:id="${'lesson-item-' + lesson.id}"
+             class="lesson-item"
+             th:classappend="${(currentLesson.id == lesson.id ? ' active' : '') + (lesson.isCompleted ? ' completed' : '')}"
+             th:data-course-id="${course.id}"
+             th:data-lesson-id="${lesson.id}">
+          <div class="lesson-status-icon" th:text="${lesson.isCompleted ? '✓' : ''}"></div>
+          <div style="flex: 1;" th:text="${lesson.title}">Lesson Title</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${lesson.durationMinutes + 'm'}">30m</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Window -->
+    <main class="player-content">
+      <div class="lesson-body">
+        <h1 style="font-size: 2.25rem; margin-bottom: 1.5rem;" th:text="${currentLesson.title}">Lesson Title</h1>
+
+        <div style="font-size: 1.05rem; line-height: 1.8; color: var(--text-primary);" th:utext="${currentLesson.content}">
+          Lesson content body...
+        </div>
+
+        <!-- Navigation Controls -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+          <div>
+            <a th:href="@{/courses}" class="btn btn-outline btn-sm">← Back to Catalog</a>
+          </div>
+
+          <div style="display: flex; gap: 1rem;">
+            <button id="mark-complete-btn"
+                    class="btn"
+                    th:classappend="${currentLesson.isCompleted ? 'btn-outline' : 'btn-accent'}"
+                    th:data-course-id="${course.id}"
+                    th:data-lesson-id="${currentLesson.id}">
+              <span th:text="${currentLesson.isCompleted ? 'Completed ✓' : 'Mark as Complete'}">Mark as Complete</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script th:src="@{/js/main.js}"></script>
+  <script th:src="@{/js/player.js}"></script>
+  <script>
+    // Wire up lesson sidebar clicks
+    document.querySelectorAll('.lesson-item[data-lesson-id]').forEach(function(el) {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', function() {
+        var cId = this.getAttribute('data-course-id');
+        var lId = this.getAttribute('data-lesson-id');
+        window.location.href = '/courses/' + cId + '/learn?lessonId=' + lId;
+      });
+    });
+
+    // Wire up mark-complete button
+    var mcBtn = document.getElementById('mark-complete-btn');
+    if (mcBtn) {
+      mcBtn.addEventListener('click', function() {
+        var cId = this.getAttribute('data-course-id');
+        var lId = this.getAttribute('data-lesson-id');
+        markLessonComplete(cId, lId);
+      });
+    }
+  </script>
+</body>
+</html>

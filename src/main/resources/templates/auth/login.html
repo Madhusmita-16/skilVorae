@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 0;">
+
+  <div class="card" style="width: 100%; max-width: 420px; padding: 2.5rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a th:href="@{/}" class="brand-logo" style="justify-content: center; margin-bottom: 1rem;">
+        <div class="brand-icon">S</div>
+        <span>SkilVorae</span>
+      </a>
+      <h2>Welcome back</h2>
+      <p style="font-size: 0.9rem; margin-top: 0.25rem;">Sign in to your learning account</p>
+    </div>
+
+    <div th:if="${errorMessage}" style="background: #FEE2E2; color: #991B1B; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1.25rem;" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" style="background: #ECFDF5; color: #065F46; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1.25rem;" th:text="${successMessage}"></div>
+
+    <form th:action="@{/login-process}" method="post">
+      <div class="form-group">
+        <label class="form-label" for="username">Email Address</label>
+        <input type="email" id="username" name="username" class="form-control" placeholder="student@skilvorae.com" required value="student@skilvorae.com">
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <label class="form-label" for="password">Password</label>
+          <a th:href="@{/forgot-password}" style="font-size: 0.8rem; margin-bottom: 0.4rem;">Forgot password?</a>
+        </div>
+        <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required value="password123">
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">Sign In</button>
+    </form>
+
+    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
+      Don't have an account? <a th:href="@{/register}">Create Account</a>
+    </div>
+  </div>
+
+</body>
+</html>

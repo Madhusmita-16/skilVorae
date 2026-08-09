@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify OTP — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 0;">
+
+  <div class="card" style="width: 100%; max-width: 420px; padding: 2.5rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <a th:href="@{/}" class="brand-logo" style="justify-content: center; margin-bottom: 1rem;">
+        <div class="brand-icon">S</div>
+        <span>SkilVorae</span>
+      </a>
+      <h2>Enter 6-Digit OTP</h2>
+      <p style="font-size: 0.9rem; margin-top: 0.25rem;" th:text="${'Sent to ' + email}">Sent to user@example.com</p>
+    </div>
+
+    <form onsubmit="handleVerifyOtp(event)">
+      <input type="hidden" id="email" th:value="${email}">
+      <div class="form-group">
+        <label class="form-label" for="otp">OTP Code</label>
+        <input type="text" id="otp" class="form-control" placeholder="123456" maxlength="6" style="text-align: center; font-size: 1.5rem; letter-spacing: 0.3em; font-weight: 700;" required autofocus>
+      </div>
+
+      <button type="submit" id="verify-btn" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">Verify OTP</button>
+    </form>
+  </div>
+
+  <script th:src="@{/js/main.js}"></script>
+  <script>
+    async function handleVerifyOtp(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const otp = document.getElementById('otp').value;
+      const btn = document.getElementById('verify-btn');
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/auth/verify-otp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, otp: otp })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast('OTP verified!', 'success');
+          setTimeout(() => window.location.href = `/reset-password?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`, 1000);
+        } else {
+          showToast(data.message || 'Invalid or expired OTP', 'error');
+          btn.disabled = false;
+        }
+      } catch(err) {
+        showToast('Server connection error', 'error');
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

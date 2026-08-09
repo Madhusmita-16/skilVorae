@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Courses — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <link rel="stylesheet" th:href="@{/css/course.css}">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <div th:replace="~{fragments/sidebar :: sidebar('my-courses')}"></div>
+
+    <main class="dashboard-main">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">My Enrolled Courses</h1>
+        <p>Manage your learning progress and attempt end-of-course certification assessments.</p>
+      </div>
+
+      <div class="course-grid">
+        <div class="card card-interactive" th:each="item : ${enrollments}" style="display: flex; flex-direction: column;">
+          <img th:src="${item.courseThumbnailUrl}" class="course-card-thumb" alt="Thumb">
+          <h3 class="course-card-title"><a th:href="@{/courses/{id}/learn(id=${item.courseId})}" th:text="${item.courseTitle}">Course Title</a></h3>
+          <p class="course-card-instructor" th:text="${'Instructor: ' + item.instructorName}">Instructor</p>
+
+          <div style="margin: 1rem 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 600;">
+              <span>Progress</span>
+              <span th:text="${item.progressPercentage + '%'}">50%</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" th:style="${'width: ' + item.progressPercentage + '%;'}"></div>
+            </div>
+          </div>
+
+          <div class="course-card-footer" style="gap: 0.5rem;">
+            <a th:href="@{/courses/{id}/learn(id=${item.courseId}, lessonId=${item.lastLessonId})}" class="btn btn-primary btn-sm btn-block">Continue Lesson</a>
+            <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

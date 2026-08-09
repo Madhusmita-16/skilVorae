@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${assessment.title + ' — SkilVorae Quiz'}">Assessment — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/quiz.css}">
+</head>
+<body style="background: var(--bg-main);">
+
+  <div class="quiz-container">
+    <!-- Header with Timer -->
+    <div class="quiz-header">
+      <div>
+        <h2 style="font-size: 1.3rem;" th:text="${assessment.title}">Assessment Title</h2>
+        <p style="font-size: 0.85rem;" th:text="${'Passing score: ' + assessment.passingScore + '%'}">Passing score: 70%</p>
+      </div>
+
+      <div class="timer-badge">
+        <span>⏱️ Time:</span>
+        <span id="timer-display">15:00</span>
+      </div>
+    </div>
+
+    <!-- Question Navigator -->
+    <div class="quiz-nav-grid">
+      <button th:each="q, idx : ${assessment.questions}"
+              th:id="${'nav-btn-' + q.id}"
+              th:data-question-id="${q.id}"
+              class="quiz-nav-btn"
+              th:text="${idx.count}">1</button>
+    </div>
+
+    <!-- Question Cards -->
+    <div th:each="q, idx : ${assessment.questions}" class="question-card" th:id="${'q-card-' + q.id}">
+      <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent); margin-bottom: 0.5rem;" th:text="${'QUESTION ' + idx.count + ' OF ' + #lists.size(assessment.questions)}">QUESTION 1</div>
+      <div class="question-text" th:text="${q.questionText}">Question text goes here...</div>
+
+      <div class="option-list">
+        <div th:each="opt : ${q.options}"
+             class="option-item"
+             th:data-question-id="${q.id}"
+             th:data-option-id="${opt.id}">
+          <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border-color); display: flex; align-items: center; justify-content: center;"></div>
+          <span th:text="${opt.optionText}">Option text</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 4rem; text-align: right;">
+      <button id="submit-quiz-btn"
+              class="btn btn-primary"
+              style="padding: 0.9rem 2.5rem; font-size: 1rem;"
+              th:data-assessment-id="${assessment.id}"
+              th:data-course-id="${assessment.courseId}">
+        Submit Assessment
+      </button>
+    </div>
+  </div>
+
+  <script th:src="@{/js/main.js}"></script>
+  <script th:src="@{/js/quiz.js}"></script>
+  <script th:inline="javascript">
+    var assId = [[${assessment.id}]];
+    var crsId = [[${assessment.courseId}]];
+    var timeLimit = [[${assessment.timeLimitMinutes}]];
+
+    // Wire up option selection via event delegation
+    document.querySelectorAll('.option-item[data-option-id]').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var qId = this.getAttribute('data-question-id');
+        var oId = this.getAttribute('data-option-id');
+        selectOption(qId, oId, this);
+      });
+    });
+
+    // Wire up nav buttons
+    document.querySelectorAll('.quiz-nav-btn[data-question-id]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var qId = this.getAttribute('data-question-id');
+        scrollToQuestion(qId);
+      });
+    });
+
+    // Wire up submit button
+    var submitBtn = document.getElementById('submit-quiz-btn');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function() {
+        var aId = this.getAttribute('data-assessment-id');
+        var cId = this.getAttribute('data-course-id');
+        submitQuiz(aId, cId);
+      });
+    }
+
+    initQuiz(assId, crsId, timeLimit);
+  </script>
+</body>
+</html>

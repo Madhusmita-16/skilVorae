@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+  <footer style="background: var(--primary); color: #94A3B8; padding: 4rem 0 2rem 0; margin-top: 4rem;" th:fragment="footer">
+    <div class="container">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; margin-bottom: 3rem;">
+        <div style="max-width: 360px;">
+          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
+            <div class="brand-icon" style="background: #FFFFFF; color: #0F172A;">S</div>
+            <span>SkilVorae</span>
+          </div>
+          <p style="color: #94A3B8; font-size: 0.9rem;">
+            Production-grade Online Learning Platform engineered with Spring Boot 3, Oracle DB, Spring Security JWT, and Thymeleaf SSR.
+          </p>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 1rem;">Explore</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+            <li><a th:href="@{/courses}" style="color: #94A3B8;">All Courses</a></li>
+            <li><a th:href="@{/courses(categoryId=1)}" style="color: #94A3B8;">Java Architecture</a></li>
+            <li><a th:href="@{/courses(categoryId=2)}" style="color: #94A3B8;">Spring Boot & JWT</a></li>
+            <li><a th:href="@{/courses(categoryId=3)}" style="color: #94A3B8;">Oracle Database</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 1rem;">Platform</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
+            <li><a th:href="@{/login}" style="color: #94A3B8;">Student Portal</a></li>
+            <li><a th:href="@{/register}" style="color: #94A3B8;">Create Account</a></li>
+            <li><a th:href="@{/h2-console}" style="color: #94A3B8;" target="_blank">Database Console</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="border-top: 1px solid #1E293B; padding-top: 1.5rem; text-align: center; font-size: 0.85rem; color: #64748B;">
+        © 2026 SkilVorae Inc. Built with Java 17+, Spring Boot 3.x, and Oracle DB compatibility.
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

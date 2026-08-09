@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+  <aside class="sidebar" th:fragment="sidebar(activeTab)">
+    <div>
+      <a th:href="@{/}" class="brand-logo" style="margin-bottom: 2rem; display: flex;">
+        <div class="brand-icon">S</div>
+        <span>SkilVorae</span>
+      </a>
+
+      <ul class="sidebar-menu">
+        <li>
+          <a th:href="@{/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'dashboard' ? 'active' : ''}">
+            <span>📊</span> Dashboard
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/my-courses}" class="sidebar-link" th:classappend="${activeTab == 'my-courses' ? 'active' : ''}">
+            <span>📚</span> My Courses
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/courses}" class="sidebar-link">
+            <span>🔍</span> Explore Catalog
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/profile}" class="sidebar-link" th:classappend="${activeTab == 'profile' ? 'active' : ''}">
+            <span>👤</span> My Profile & Certs
+          </a>
+        </li>
+        <li th:if="${user != null and user.role.name() == 'ADMIN'}">
+          <a th:href="@{/admin/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'admin' ? 'active' : ''}">
+            <span>⚙️</span> Admin Portal
+          </a>
+        </li>
+        <li th:if="${user != null and (user.role.name() == 'INSTRUCTOR' or user.role.name() == 'ADMIN')}">
+          <a th:href="@{/instructor/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'instructor' ? 'active' : ''}">
+            <span>👨‍🏫</span> Instructor Portal
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <div style="padding: 1rem; background: var(--bg-subtle); border-radius: var(--border-radius-sm); margin-bottom: 1rem;">
+        <div style="font-weight: 700; font-size: 0.9rem;" th:text="${user.fullName}">Alex Morgan</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted);" th:text="${user.email}">student@skilvorae.com</div>
+      </div>
+      <a th:href="@{/logout}" class="btn btn-outline btn-sm btn-block">Logout</a>
+    </div>
+  </aside>
+</body>
+</html>

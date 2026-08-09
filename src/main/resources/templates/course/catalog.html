@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Catalog — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/course.css}">
+</head>
+<body>
+
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+  <div class="container">
+    <div class="catalog-header">
+      <h1>Explore Course Catalog</h1>
+      <p style="font-size: 1.1rem; max-width: 600px; margin: 0.5rem auto 0;">Structured curriculums designed to advance software engineering skills with hands-on practice.</p>
+    </div>
+
+    <!-- Search & Filter Bar -->
+    <form th:action="@{/courses}" method="get" class="filter-bar">
+      <div style="flex: 1; min-width: 240px;">
+        <input type="text" name="search" class="form-control" placeholder="Search by title or topic..." th:value="${selectedSearch}">
+      </div>
+
+      <div class="filter-group">
+        <select name="categoryId" class="form-control" onchange="this.form.submit()">
+          <option value="">All Categories</option>
+          <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}" th:selected="${cat.id == selectedCategory}">Category</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <select name="difficulty" class="form-control" onchange="this.form.submit()">
+          <option value="">All Difficulties</option>
+          <option value="BEGINNER" th:selected="${selectedDifficulty == 'BEGINNER'}">Beginner</option>
+          <option value="INTERMEDIATE" th:selected="${selectedDifficulty == 'INTERMEDIATE'}">Intermediate</option>
+          <option value="ADVANCED" th:selected="${selectedDifficulty == 'ADVANCED'}">Advanced</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <select name="minRating" class="form-control" onchange="this.form.submit()">
+          <option value="">All Ratings</option>
+          <option value="4.5" th:selected="${selectedMinRating == 4.5}">4.5+ ★</option>
+          <option value="4.8" th:selected="${selectedMinRating == 4.8}">4.8+ ★</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <select name="sortBy" class="form-control" onchange="this.form.submit()">
+          <option value="rating" th:selected="${selectedSortBy == 'rating'}">Highest Rated</option>
+          <option value="popular" th:selected="${selectedSortBy == 'popular'}">Most Enrolled</option>
+          <option value="newest" th:selected="${selectedSortBy == 'newest'}">Newest First</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+      <a th:href="@{/courses}" class="btn btn-outline btn-sm">Clear</a>
+    </form>
+
+    <!-- Course Grid -->
+    <div class="course-grid">
+      <div class="card card-interactive" th:each="course : ${coursePage.content}" style="display: flex; flex-direction: column;">
+        <img th:src="${course.thumbnailUrl}" class="course-card-thumb" alt="Thumbnail">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <span class="badge badge-primary" th:text="${course.categoryName}">Category</span>
+          <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(course.difficulty)}" th:text="${course.difficulty}">Beginner</span>
+        </div>
+
+        <h3 class="course-card-title"><a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}">Title</a></h3>
+        <p class="course-card-instructor" th:text="${'Instructor: ' + course.instructorName}">Instructor</p>
+        <p style="font-size: 0.875rem; margin-bottom: 1.25rem;" th:text="${#strings.abbreviate(course.description, 110)}">Description</p>
+
+        <div class="course-card-footer">
+          <span style="font-weight: 700; color: var(--warning);" th:text="${'★ ' + course.rating}">★ 4.9</span>
+          <a th:href="@{/courses/{id}(id=${course.id})}" class="btn btn-outline btn-sm">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:replace="~{fragments/footer :: footer}"></div>
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

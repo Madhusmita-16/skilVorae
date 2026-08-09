@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+  <nav class="navbar" th:fragment="navbar">
+    <div class="container">
+      <a th:href="@{/}" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <span>SkilVorae</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a th:href="@{/courses}" class="nav-link">Catalog</a></li>
+        <li><a th:href="@{/courses(difficulty='BEGINNER')}" class="nav-link">Beginner</a></li>
+        <li><a th:href="@{/courses(difficulty='ADVANCED')}" class="nav-link">Advanced Full Stack</a></li>
+        <li th:if="${user != null}"><a th:href="@{/dashboard}" class="nav-link">Dashboard</a></li>
+        <li th:if="${user != null and user.role.name() == 'ADMIN'}"><a th:href="@{/admin/dashboard}" class="nav-link" style="color: var(--accent); font-weight: 700;">Admin</a></li>
+        <li th:if="${user != null and (user.role.name() == 'INSTRUCTOR' or user.role.name() == 'ADMIN')}"><a th:href="@{/instructor/dashboard}" class="nav-link" style="color: var(--success); font-weight: 700;">Instructor</a></li>
+      </ul>
+
+      <div class="nav-auth">
+        <button id="theme-toggle-btn" class="btn btn-outline btn-sm" title="Toggle Light/Dark Theme" style="padding: 0.4rem 0.6rem;">🌙</button>
+
+        <th:block th:if="${user == null}">
+          <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+          <a th:href="@{/register}" class="btn btn-primary btn-sm">Get Started</a>
+        </th:block>
+
+        <th:block th:if="${user != null}">
+          <a th:href="@{/dashboard}" class="btn btn-outline btn-sm" th:text="${user.fullName}">My Account</a>
+          <a th:href="@{/logout}" class="btn btn-primary btn-sm">Logout</a>
+        </th:block>
+      </div>
+    </div>
+  </nav>
+</body>
+</html>

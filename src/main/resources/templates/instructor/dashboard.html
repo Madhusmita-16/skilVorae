@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Instructor Dashboard — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar Fragment -->
+    <div th:replace="~{fragments/sidebar :: sidebar('instructor')}"></div>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Instructor Portal 👨‍🏫</h1>
+        <p>Manage your courses, create curriculum modules, monitor learner progress, and review student feedback.</p>
+      </div>
+
+      <!-- Instructor Stat Cards -->
+      <div class="stats-grid">
+        <div class="card stat-card">
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">COURSES AUTHORING</div>
+            <div class="stat-number" th:text="${#lists.size(courses)}">11</div>
+          </div>
+          <div class="stat-icon">📚</div>
+        </div>
+
+        <div class="card stat-card">
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">ACTIVE LEARNERS</div>
+            <div class="stat-number" th:text="${totalStudents}">2</div>
+          </div>
+          <div class="stat-icon">🎓</div>
+        </div>
+
+        <div class="card stat-card">
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">AVG SATISFACTION</div>
+            <div class="stat-number">4.9 ★</div>
+          </div>
+          <div class="stat-icon">🏆</div>
+        </div>
+      </div>
+
+      <!-- Authoring Table -->
+      <div class="card" style="margin-top: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h3 style="font-size: 1.2rem;">Managed Courses</h3>
+          <a th:href="@{/courses}" class="btn btn-primary btn-sm">+ Create New Course</a>
+        </div>
+
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
+              <th style="padding: 0.5rem 0;">Course Title</th>
+              <th style="padding: 0.5rem 0;">Category</th>
+              <th style="padding: 0.5rem 0;">Difficulty</th>
+              <th style="padding: 0.5rem 0;">Enrolled</th>
+              <th style="padding: 0.5rem 0;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="c : ${courses}" style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 0.75rem 0; font-weight: 600;">
+                <a th:href="@{/courses/{id}(id=${c.id})}" th:text="${c.title}">Title</a>
+              </td>
+              <td style="padding: 0.75rem 0; color: var(--text-secondary);" th:text="${c.category.name}">Category</td>
+              <td style="padding: 0.75rem 0;">
+                <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(c.difficulty)}" th:text="${c.difficulty}">Difficulty</span>
+              </td>
+              <td style="padding: 0.75rem 0; font-weight: 600;" th:text="${c.enrollmentCount != null ? c.enrollmentCount : 0}">0</td>
+              <td style="padding: 0.75rem 0;">
+                <a th:href="@{/courses/{id}(id=${c.id})}" class="btn btn-outline btn-sm">Manage</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+  <script th:src="@{/js/main.js}"></script>
+</body>
+</html>
