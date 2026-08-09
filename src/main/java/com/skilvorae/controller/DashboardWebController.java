@@ -71,4 +71,12 @@ public class DashboardWebController {
         model.addAttribute("activeTab", "certificates");
         return "dashboard/profile";
     }
+
+    @GetMapping("/settings")
+    public String settings(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        model.addAttribute("user", user);
+        model.addAttribute("activeTab", "settings");
+        return "dashboard/profile";
+    }
 }
