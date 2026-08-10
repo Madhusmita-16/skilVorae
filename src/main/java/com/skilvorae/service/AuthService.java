@@ -50,11 +50,24 @@ public class AuthService {
             }
         }
 
+        if (userRole == Role.ADMIN) {
+            String adminCode = request.getAdminCode();
+            if (adminCode == null || (!adminCode.trim().equalsIgnoreCase("SKILVORAE-ADMIN-2026") && !adminCode.trim().equalsIgnoreCase("ADM-SECRET-2026"))) {
+                throw new BadRequestException("Invalid or missing Admin Verification Code. Admin accounts require authorization.");
+            }
+        }
+
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail().toLowerCase().trim())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(userRole)
+                .phone(request.getPhone())
+                .qualification(request.getQualification())
+                .areaOfInterest(request.getAreaOfInterest())
+                .expertise(request.getExpertise())
+                .yearsOfExperience(request.getYearsOfExperience())
+                .bio(request.getBio())
                 .build();
 
         userRepository.save(user);

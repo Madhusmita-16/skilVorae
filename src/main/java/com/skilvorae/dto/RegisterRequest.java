@@ -24,4 +24,18 @@ public class RegisterRequest {
     private String confirmPassword;
 
     private String role;
+
+    private String phone;
+
+    private String qualification;
+
+    private String areaOfInterest;
+
+    private String expertise;
+
+    private Integer yearsOfExperience;
+
+    private String bio;
+
+    private String adminCode;
 }

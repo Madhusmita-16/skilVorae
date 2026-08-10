@@ -35,6 +35,19 @@ public class User {
 
     private LocalDateTime otpExpiry;
 
+    private String phone;
+
+    private String qualification;
+
+    private String areaOfInterest;
+
+    private String expertise;
+
+    private Integer yearsOfExperience;
+
+    @Column(length = 1000)
+    private String bio;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

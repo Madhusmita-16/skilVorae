@@ -3,80 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login — SkilVorae</title>
+  <title>Sign In — SkilVorae</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
-<body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 1rem;">
+<body>
 
-  <div class="card" style="width: 100%; max-width: 440px; padding: 2.5rem; box-shadow: var(--shadow-lg);">
-    <div style="text-align: center; margin-bottom: 2rem;">
-      <a th:href="@{/}" class="brand-logo" style="justify-content: center; margin-bottom: 1rem;">
-        <div class="brand-icon">S</div>
-        <span>SkilVorae</span>
-      </a>
-      <h2 style="font-size: 1.75rem;">Welcome back to SkilVorae</h2>
-      <p style="font-size: 0.9rem; margin-top: 0.25rem; color: var(--text-muted);">Sign in to access your customized role dashboard</p>
-    </div>
-
-    <div th:if="${errorMessage}" style="background: #FEE2E2; color: #991B1B; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1.25rem;" th:text="${errorMessage}"></div>
-    <div th:if="${param.registered}" style="background: #ECFDF5; color: #065F46; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1.25rem;">Account created successfully! Please sign in below.</div>
-    <div th:if="${successMessage}" style="background: #ECFDF5; color: #065F46; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.85rem; margin-bottom: 1.25rem;" th:text="${successMessage}"></div>
-
-    <!-- Role Selector Tabs -->
-    <label class="form-label" style="margin-bottom: 0.5rem;">Select Demo Account Role</label>
-    <div style="display: flex; gap: 0.5rem; background: var(--bg-subtle); padding: 0.35rem; border-radius: var(--border-radius-sm); margin-bottom: 1.5rem;">
-      <button type="button" class="btn btn-sm btn-block role-tab active" id="tab-student" onclick="switchLoginRole('student@skilvorae.com', 'STUDENT')" style="padding: 0.5rem; font-size: 0.85rem; background: var(--bg-card); color: var(--primary); font-weight: 700; border-radius: 6px; box-shadow: var(--shadow-sm);">Student</button>
-      <button type="button" class="btn btn-sm btn-block role-tab" id="tab-instructor" onclick="switchLoginRole('instructor@skilvorae.com', 'INSTRUCTOR')" style="padding: 0.5rem; font-size: 0.85rem; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 6px;">Instructor</button>
-      <button type="button" class="btn btn-sm btn-block role-tab" id="tab-admin" onclick="switchLoginRole('admin@skilvorae.com', 'ADMIN')" style="padding: 0.5rem; font-size: 0.85rem; background: transparent; color: var(--text-muted); font-weight: 600; border-radius: 6px;">Admin</button>
-    </div>
-
-    <form th:action="@{/login-process}" method="post" id="login-form">
-      <div class="form-group">
-        <label class="form-label" for="username">Email Address</label>
-        <input type="email" id="username" name="username" class="form-control" placeholder="student@skilvorae.com" required value="student@skilvorae.com">
+  <div class="auth-wrapper">
+    <div class="auth-card-login auth-fade-in">
+      
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <a th:href="@{/}" class="brand-logo" style="justify-content: center; margin-bottom: 1.25rem;">
+          <div class="brand-icon">S</div>
+          <span>SkilVorae</span>
+        </a>
+        <h1 style="font-size: 1.85rem; margin-bottom: 0.35rem;">Welcome back to Skilvorae</h1>
+        <p style="font-size: 0.925rem; color: var(--text-muted);">Sign in to continue your learning and professional journey.</p>
       </div>
 
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
-          <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
-          <a th:href="@{/forgot-password}" style="font-size: 0.8rem; font-weight: 500;">Forgot Password?</a>
+      <!-- ALERTS & NOTIFICATIONS -->
+      <div th:if="${errorMessage}" style="background: #FEE2E2; color: #991B1B; padding: 0.75rem 1rem; border-radius: var(--border-radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem; font-weight: 600;" th:text="${errorMessage}"></div>
+      <div th:if="${param.registered}" style="background: #ECFDF5; color: #065F46; padding: 0.75rem 1rem; border-radius: var(--border-radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem; font-weight: 600;">Account created successfully! Please sign in below.</div>
+      <div th:if="${successMessage}" style="background: #ECFDF5; color: #065F46; padding: 0.75rem 1rem; border-radius: var(--border-radius-sm); font-size: 0.85rem; margin-bottom: 1.25rem; font-weight: 600;" th:text="${successMessage}"></div>
+
+      <!-- COMPACT ROLE SELECTOR TABS -->
+      <div class="compact-role-tabs">
+        <button type="button" class="compact-role-tab active" id="role-tab-STUDENT" onclick="selectLoginRole('STUDENT')">Student</button>
+        <button type="button" class="compact-role-tab" id="role-tab-INSTRUCTOR" onclick="selectLoginRole('INSTRUCTOR')">Instructor</button>
+        <button type="button" class="compact-role-tab" id="role-tab-ADMIN" onclick="selectLoginRole('ADMIN')">Admin</button>
+      </div>
+
+      <form th:action="@{/login-process}" method="post" id="login-form">
+        <input type="hidden" id="loginRole" name="role" value="STUDENT">
+
+        <div class="form-group">
+          <label class="form-label" for="username">Email Address</label>
+          <input type="email" id="username" name="username" class="form-control" placeholder="e.g. student@skilvorae.com" required autocomplete="email">
         </div>
-        <div style="position: relative;">
-          <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required value="password123">
-          <button type="button" onclick="toggleLoginPassword(this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+            <label class="form-label" for="password" style="margin-bottom: 0;">Password</label>
+            <a th:href="@{/forgot-password}" style="font-size: 0.825rem; font-weight: 600; color: var(--primary);">Forgot Password?</a>
+          </div>
+          <div style="position: relative;">
+            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" onclick="toggleLoginPassword(this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+          </div>
         </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+            <input type="checkbox" name="remember-me" checked style="accent-color: var(--primary);"> Remember me
+          </label>
+        </div>
+
+        <button type="submit" id="login-submit-btn" class="btn btn-primary btn-block" style="padding: 0.85rem;">Sign In</button>
+      </form>
+
+      <div style="text-align: center; margin-top: 1.75rem; font-size: 0.875rem; color: var(--text-muted);">
+        Don’t have an account? <a th:href="@{/register}" style="font-weight: 700; color: var(--primary);">Create Account</a>
       </div>
 
-      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
-          <input type="checkbox" name="remember-me" checked style="accent-color: var(--primary);"> Remember Me
-        </label>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-block" style="padding: 0.85rem;">Login</button>
-    </form>
-
-    <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
-      Don't have an account? <a th:href="@{/register}" style="font-weight: 700;">Create Account</a>
     </div>
   </div>
 
   <script th:src="@{/js/main.js}"></script>
   <script>
-    function switchLoginRole(email, role) {
-      document.getElementById('username').value = email;
-      document.querySelectorAll('.role-tab').forEach(btn => {
-        btn.style.background = 'transparent';
-        btn.style.color = 'var(--text-muted)';
-        btn.style.fontWeight = '600';
-        btn.style.boxShadow = 'none';
-      });
-      const activeBtn = document.getElementById('tab-' + role.toLowerCase());
-      if (activeBtn) {
-        activeBtn.style.background = 'var(--bg-card)';
-        activeBtn.style.color = 'var(--primary)';
-        activeBtn.style.fontWeight = '700';
-        activeBtn.style.boxShadow = 'var(--shadow-sm)';
+    function selectLoginRole(role) {
+      document.querySelectorAll('.compact-role-tab').forEach(tab => tab.classList.remove('active'));
+      const activeTab = document.getElementById('role-tab-' + role);
+      if (activeTab) activeTab.classList.add('active');
+
+      document.getElementById('loginRole').value = role;
+      const emailInput = document.getElementById('username');
+
+      if (role === 'STUDENT') {
+        emailInput.placeholder = 'e.g. student@skilvorae.com';
+      } else if (role === 'INSTRUCTOR') {
+        emailInput.placeholder = 'e.g. instructor@skilvorae.com';
+      } else if (role === 'ADMIN') {
+        emailInput.placeholder = 'e.g. admin@skilvorae.com';
       }
     }
 

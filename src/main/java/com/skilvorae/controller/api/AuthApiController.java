@@ -2,6 +2,8 @@ package com.skilvorae.controller.api;
 
 import com.skilvorae.dto.*;
 import com.skilvorae.service.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +17,27 @@ public class AuthApiController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<AuthResponse>> register(@Valid @RequestBody RegisterRequest request) {
-        AuthResponse response = authService.register(request);
-        return ResponseEntity.ok(ApiResponse.success("Account registered successfully", response));
+    public ResponseEntity<ApiResponse<AuthResponse>> register(@Valid @RequestBody RegisterRequest request, HttpServletResponse response) {
+        AuthResponse authResp = authService.register(request);
+        setJwtCookie(response, authResp.getToken());
+        return ResponseEntity.ok(ApiResponse.success("Account registered successfully", authResp));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request) {
-        AuthResponse response = authService.login(request);
-        return ResponseEntity.ok(ApiResponse.success("Logged in successfully", response));
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
+        AuthResponse authResp = authService.login(request);
+        setJwtCookie(response, authResp.getToken());
+        return ResponseEntity.ok(ApiResponse.success("Logged in successfully", authResp));
+    }
+
+    private void setJwtCookie(HttpServletResponse response, String token) {
+        if (token != null) {
+            Cookie cookie = new Cookie("SKILVORAE_JWT", token);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
+            response.addCookie(cookie);
+        }
     }
 
     @PostMapping("/forgot-password")
