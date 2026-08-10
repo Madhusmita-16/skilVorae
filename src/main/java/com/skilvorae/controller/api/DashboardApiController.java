@@ -80,10 +80,10 @@ public class DashboardApiController {
 
     @GetMapping("/verify-certificate/{certId}")
     public ResponseEntity<ApiResponse<CertificateDto>> verifyCertificate(@PathVariable String certId) {
-        CertificateDto cert = certificateService.getCertificateByNumber(certId);
-        if (cert != null) {
+        try {
+            CertificateDto cert = certificateService.getCertificateByCode(certId);
             return ResponseEntity.ok(ApiResponse.success("Certificate verified successfully!", cert));
-        } else {
+        } catch (Exception e) {
             return ResponseEntity.status(404).body(ApiResponse.error("Invalid or unverified Certificate ID"));
         }
     }
