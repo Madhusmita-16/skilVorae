@@ -55,7 +55,7 @@ public class DashboardService {
 
         // Total hours calculated from actual progress
         double totalHours = allEnrollments.stream()
-                .mapToDouble(e -> (e.getProgressPercentage() / 100.0) * (e.getDurationHours() != null ? e.getDurationHours() : 12.0))
+                .mapToDouble(e -> (e.getProgressPercentage() / 100.0) * 12.0)
                 .sum();
 
         // Realistic weekly activity data for Chart.js (Mon-Sun lessons completed)
