@@ -62,7 +62,12 @@
 
           <div class="course-card-footer" style="gap: 0.5rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
             <a th:href="@{/courses/{id}/learn(id=${item.courseId}, lessonId=${item.lastLessonId})}" class="btn btn-primary btn-sm btn-block">Continue Learning →</a>
-            <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment 🏆</a>
+            <th:block th:if="${item.progressPercentage == 100}">
+              <a th:href="@{/certificates}" class="btn btn-accent btn-sm btn-block">View Certificate 🏆</a>
+            </th:block>
+            <th:block th:if="${item.progressPercentage < 100}">
+              <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment 📝</a>
+            </th:block>
           </div>
         </div>
       </div>

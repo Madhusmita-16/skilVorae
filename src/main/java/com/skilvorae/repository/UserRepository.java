@@ -8,4 +8,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
     Optional<User> findByEmailAndResetOtp(String email, String resetOtp);
+    long countByRole(com.skilvorae.enums.Role role);
+    java.util.List<User> findByRole(com.skilvorae.enums.Role role);
 }

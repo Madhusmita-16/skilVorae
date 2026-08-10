@@ -21,7 +21,7 @@ public class LandingController {
     public String landingPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         Long currentUserId = getCurrentUserId(userDetails);
         model.addAttribute("featuredCourses", courseService.getFeaturedCourses(currentUserId));
-        model.addAttribute("allCourses", courseService.getTopCourses12(currentUserId));
+        model.addAttribute("allCourses", courseService.getFeaturedCourses(currentUserId));
         model.addAttribute("categories", courseService.getAllCategories());
         model.addAttribute("isLoggedIn", userDetails != null);
         if (userDetails != null) {

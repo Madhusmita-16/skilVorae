@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -51,6 +52,9 @@ public class DataInitializer implements CommandLineRunner {
                 .email("student@skilvorae.com")
                 .password(passwordEncoder.encode("password123"))
                 .role(Role.STUDENT)
+                .phone("+1 (555) 234-5678")
+                .qualification("Bachelor's Degree")
+                .areaOfInterest("Software Engineering")
                 .build();
         userRepository.save(student);
 
@@ -59,6 +63,10 @@ public class DataInitializer implements CommandLineRunner {
                 .email("instructor@skilvorae.com")
                 .password(passwordEncoder.encode("password123"))
                 .role(Role.INSTRUCTOR)
+                .phone("+1 (555) 876-5432")
+                .expertise("Full Stack Web Development, Java 17 & Spring Boot")
+                .yearsOfExperience(12)
+                .bio("Senior Software Architect and EdTech Instructor with 12+ years of enterprise application engineering experience.")
                 .build();
         userRepository.save(instructor);
 
@@ -67,10 +75,11 @@ public class DataInitializer implements CommandLineRunner {
                 .email("admin@skilvorae.com")
                 .password(passwordEncoder.encode("password123"))
                 .role(Role.ADMIN)
+                .phone("+1 (555) 999-0000")
                 .build();
         userRepository.save(admin);
 
-        // 2. Seed 8 Categories
+        // 2. Seed Categories
         Category catProg = Category.builder().name("Programming").slug("programming").description("Core Java, Python, C, C++, C#, JS, TS, Kotlin, Go, PHP, Rust.").icon("code").build();
         Category catFullStack = Category.builder().name("Full Stack Development").slug("full-stack").description("Java Full Stack, MERN, MEAN, .NET, Spring Boot & Microservices.").icon("layers").build();
         Category catWeb = Category.builder().name("Web Development").slug("web-dev").description("HTML, CSS, JavaScript, React.js, Angular, Vue.js, Node.js, REST APIs.").icon("globe").build();
@@ -79,11 +88,15 @@ public class DataInitializer implements CommandLineRunner {
         Category catSecurity = Category.builder().name("Cybersecurity").slug("cybersecurity").description("Ethical Hacking, Network Security, Pen Testing, Web App Security.").icon("shield").build();
         Category catIT = Category.builder().name("IT & Infrastructure").slug("it-infrastructure").description("Computer Networks, Operating Systems, Linux, Linux Admin, IT Support.").icon("cpu").build();
         Category catMgmt = Category.builder().name("Management").slug("management").description("Project Mgmt, Product Mgmt, Business Analysis, Agile & Scrum, Marketing.").icon("briefcase").build();
+        Category catAuto = Category.builder().name("Automation & Hardware").slug("automation-hardware").description("PLC, SCADA, Robotics, Embedded Systems, IoT, BMS, PCB Design, 3D Printing.").icon("cpu").build();
+        Category catEmerging = Category.builder().name("Emerging Technologies").slug("emerging-tech").description("Industry 4.0, AI, Machine Learning, Quantum Computing, RHEL, CCNA, CCNP, CEH.").icon("zap").build();
+        Category catRenewable = Category.builder().name("Renewable Energy").slug("renewable-energy").description("Solar PV Installation, Electric Vehicles, ETAP Power Analysis.").icon("sun").build();
+        Category catLang = Category.builder().name("Languages & Soft Skills").slug("languages-career").description("English, French, Spanish, German, Japanese, Korean, Career Skills, Digital Marketing.").icon("globe").build();
 
-        categoryRepository.saveAll(List.of(catProg, catFullStack, catWeb, catDb, catCloud, catSecurity, catIT, catMgmt));
+        categoryRepository.saveAll(List.of(catProg, catFullStack, catWeb, catDb, catCloud, catSecurity, catIT, catMgmt, catAuto, catEmerging, catRenewable, catLang));
 
-        // 3. Build 40+ Courses
-        create40CourseCatalog(catProg, catFullStack, catWeb, catDb, catCloud, catSecurity, catIT, catMgmt, student, instructor);
+        // 3. Build Catalog
+        createCourseCatalog(catProg, catFullStack, catWeb, catDb, catCloud, catSecurity, catIT, catMgmt, catAuto, catEmerging, catRenewable, catLang, student, instructor);
 
         // Seed Notifications
         Notification n1 = Notification.builder().user(student).title("Welcome to SkilVorae! 🚀").message("Explore our catalog of 40+ trending tech & management courses.").type("SYSTEM").build();
@@ -93,7 +106,7 @@ public class DataInitializer implements CommandLineRunner {
         log.info("SkilVorae 40+ course catalog seeded successfully!");
     }
 
-    private void create40CourseCatalog(Category catProg, Category catFullStack, Category catWeb, Category catDb, Category catCloud, Category catSecurity, Category catIT, Category catMgmt, User student, User instructor) {
+    private void createCourseCatalog(Category catProg, Category catFullStack, Category catWeb, Category catDb, Category catCloud, Category catSecurity, Category catIT, Category catMgmt, Category catAuto, Category catEmerging, Category catRenewable, Category catLang, User student, User instructor) {
         // --- PROGRAMMING (11 Courses) ---
         Course c1 = addCourse("Java 17 Enterprise Masterclass", "java-17-enterprise-masterclass", "Master Java 17 LTS, Object-Oriented Design, Collections, Streams, and Multithreading.", "Prof. Sarah Jenkins", catProg, Difficulty.BEGINNER, 14.5, "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80", 4.9, 1499.0, 2999.0, 50, 1240);
         Course c2 = addCourse("Python 3 Programming: Beginner to Advanced", "python-3-programming-mastery", "Learn Python 3 syntaxes, data structures, OOP, file handling, and scripts.", "Elena Rostova", catProg, Difficulty.BEGINNER, 16.0, "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80", 4.85, 1299.0, 2599.0, 50, 1560);
@@ -159,13 +172,54 @@ public class DataInitializer implements CommandLineRunner {
         addCourse("Penetration Testing Methodology", "penetration-testing-methodology", "Reconnaissance, scanning, exploitation, post-exploitation, and reporting.", "Marcus Thorne", catSecurity, Difficulty.ADVANCED, 15.5, "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80", 4.91, 1899.0, 3799.0, 50, 750);
         addCourse("Web Application Security", "web-application-security", "Secure coding practices, authentication security, CSRF, and CORS policies.", "Marcus Thorne", catSecurity, Difficulty.INTERMEDIATE, 11.5, "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80", 4.89, 1499.0, 2999.0, 50, 1080);
 
-        // --- IT & INFRASTRUCTURE (6 Courses) ---
-        addCourse("Computer Networks & Protocol Architecture", "computer-networks-protocol-architecture", "OSI model, TCP/IP stack, routing protocols, DNS, DHCP, and subnetting.", "Dr. Michael Vance", catIT, Difficulty.BEGINNER, 11.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.83, 1199.0, 2399.0, 50, 1190);
-        addCourse("Operating Systems Concepts", "operating-systems-concepts", "Process management, threads, memory paging, deadlocks, and file systems.", "Dr. Michael Vance", catIT, Difficulty.BEGINNER, 12.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.81, 1099.0, 2199.0, 50, 930);
-        addCourse("Linux System Essentials & Shell Scripting", "linux-system-essentials-shell-scripting", "Bash terminal, permissions, process monitoring, grep/sed/awk, and cron jobs.", "David Miller", catIT, Difficulty.BEGINNER, 10.5, "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=600&q=80", 4.9, 1299.0, 2599.0, 50, 1620);
-        addCourse("Linux Administration & System Performance", "linux-administration-system-performance", "User management, systemd services, LVM storage, kernel parameters, and SSH.", "David Miller", catIT, Difficulty.INTERMEDIATE, 14.0, "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=600&q=80", 4.88, 1499.0, 2999.0, 50, 970);
-        addCourse("IT Support & Troubleshooting Essentials", "it-support-troubleshooting-essentials", "Hardware diagnostics, OS troubleshooting, ticketing systems, and remote support.", "Rachel Vance", catIT, Difficulty.BEGINNER, 9.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.75, 999.0, 1999.0, 50, 810);
-        addCourse("IT Infrastructure Management", "it-infrastructure-management", "Enterprise server deployment, SAN/NAS storage, data center ops, and SLAs.", "David Miller", catIT, Difficulty.INTERMEDIATE, 13.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.82, 1399.0, 2799.0, 50, 640);
+        // --- AUTOMATION, ELECTRONICS & HARDWARE (14 Courses) ---
+        addCourse("Automation Architecture", "automation-architecture", "Master industrial automation systems, PLC logic, SCADA integration, and enterprise control loops.", "Dr. Michael Vance", catAuto, Difficulty.ADVANCED, 16.0, "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80", 4.91, 1799.0, 3599.0, 50, 890);
+        addCourse("Embedded Systems Engineering", "embedded-systems-engineering", "Design microcontroller firmware, RTOS, ARM architecture, and hardware interfaces.", "Dr. Michael Vance", catAuto, Difficulty.ADVANCED, 18.0, "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80", 4.93, 1899.0, 3799.0, 50, 1120);
+        addCourse("Sensors & IoT Systems Integration", "sensors-iot-systems-integration", "Interface analog/digital sensors, MQTT, Zigbee, microcontrollers, and IoT cloud gateways.", "Elena Rostova", catAuto, Difficulty.INTERMEDIATE, 14.0, "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=600&q=80", 4.86, 1499.0, 2999.0, 50, 1450);
+        addCourse("Industrial Electronics Design", "industrial-electronics-design", "Power electronics, signal conditioning, PCB routing, and industrial noise immunity.", "Dr. Michael Vance", catAuto, Difficulty.ADVANCED, 17.5, "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=600&q=80", 4.89, 1799.0, 3599.0, 50, 780);
+        addCourse("Precision Agriculture Technologies", "precision-agriculture-technologies", "Smart farming sensors, automated irrigation, soil monitoring, and agricultural drones.", "Rachel Vance", catAuto, Difficulty.BEGINNER, 10.0, "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80", 4.79, 999.0, 1999.0, 50, 620);
+        addCourse("Building Management Systems (BMS)", "building-management-systems-bms", "HVAC control, BACnet protocols, smart lighting, energy efficiency, and security integration.", "David Miller", catAuto, Difficulty.INTERMEDIATE, 13.0, "https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=600&q=80", 4.82, 1399.0, 2799.0, 50, 840);
+        addCourse("PLC & SCADA Industrial Automation", "plc-scada-industrial-automation", "Programmable Logic Controllers (Siemens/Allen Bradley), Ladder Logic, HMI, and SCADA monitoring.", "Dr. Michael Vance", catAuto, Difficulty.ADVANCED, 20.0, "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80", 4.95, 1999.0, 3999.0, 50, 1680);
+        addCourse("Robotics Engineering & Kinematics", "robotics-engineering-kinematics", "Industrial robotic arms, ROS 2, inverse kinematics, actuators, and computer vision guidance.", "Dr. Michael Vance", catAuto, Difficulty.ADVANCED, 22.0, "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80", 4.96, 2199.0, 4399.0, 50, 1350);
+        addCourse("Motion Control Systems & Servo Motors", "motion-control-servo-motors", "Stepper and servo motor drives, PID closed-loop tuning, encoders, and multi-axis motion.", "Dr. Michael Vance", catAuto, Difficulty.INTERMEDIATE, 12.5, "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=600&q=80", 4.84, 1399.0, 2799.0, 50, 710);
+        addCourse("Process Control Systems & Instrumentation", "process-control-systems-instrumentation", "P&ID diagrams, transmitters, control valves, distributed control systems (DCS), and loop tuning.", "Dr. Michael Vance", catAuto, Difficulty.INTERMEDIATE, 14.0, "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80", 4.87, 1499.0, 2999.0, 50, 830);
+        addCourse("Industrial Safety & Hazard Management", "industrial-safety-hazard-management", "OSHA safety standards, lockout/tagout (LOTO), functional safety (SIL), and risk assessment.", "Rachel Vance", catAuto, Difficulty.BEGINNER, 9.0, "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80", 4.77, 899.0, 1799.0, 50, 950);
+        addCourse("PCB Design & Circuit Fabrication", "pcb-design-circuit-fabrication", "Schematic capture, multi-layer routing using KiCad/Altium, signal integrity, and Gerber export.", "Elena Rostova", catAuto, Difficulty.INTERMEDIATE, 15.0, "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80", 4.88, 1499.0, 2999.0, 50, 1290);
+        addCourse("Basics of 3D Printing & Additive Manufacturing", "basics-of-3d-printing-additive-manufacturing", "FDM/SLA 3D printers, CAD modeling, slicer settings, materials, and rapid prototyping.", "Elena Rostova", catAuto, Difficulty.BEGINNER, 8.5, "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80", 4.81, 999.0, 1999.0, 50, 1140);
+        addCourse("Complete Domestic Civil, Electrical & Plumbing Technician", "domestic-civil-electrical-plumbing-technician", "Comprehensive hands-on training in residential wiring, plumbing hydraulics, civil repairs, and skill self-employability.", "Rachel Vance", catAuto, Difficulty.ADVANCED, 24.0, "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=80", 4.92, 1999.0, 3999.0, 50, 1540);
+
+        // --- INFORMATION TECHNOLOGY & EMERGING TECHNOLOGIES (12 Courses) ---
+        addCourse("Industry 4.0 & Smart Manufacturing", "industry-4-0-smart-manufacturing", "Digital twin technology, industrial IoT, cyber-physical systems, and smart factory architecture.", "Prof. Sarah Jenkins", catEmerging, Difficulty.ADVANCED, 15.0, "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80", 4.91, 1699.0, 3399.0, 50, 920);
+        addCourse("Data Analytics Professional", "data-analytics-professional", "Transform raw data into business intelligence using SQL, Excel, Python Pandas, and Power BI.", "Elena Rostova", catEmerging, Difficulty.INTERMEDIATE, 16.0, "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80", 4.88, 1499.0, 2999.0, 50, 1850);
+        addCourse("Cybersecurity Architecture & Defense", "cybersecurity-architecture-defense", "Zero trust models, threat hunting, SIEM, network defense, and incident response planning.", "Marcus Thorne", catEmerging, Difficulty.ADVANCED, 18.0, "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80", 4.94, 1899.0, 3799.0, 50, 1420);
+        addCourse("Artificial Intelligence Foundations", "artificial-intelligence-foundations", "Search algorithms, expert systems, neural networks, natural language processing, and AI ethics.", "Elena Rostova", catEmerging, Difficulty.ADVANCED, 20.0, "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=600&q=80", 4.96, 1999.0, 3999.0, 50, 2100);
+        addCourse("Machine Learning & Predictive Modeling", "machine-learning-predictive-modeling", "Supervised/unsupervised learning, scikit-learn, regression, classification, and model deployment.", "Elena Rostova", catEmerging, Difficulty.ADVANCED, 18.5, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80", 4.93, 1899.0, 3799.0, 50, 1780);
+        addCourse("Quantum Computing Principles", "quantum-computing-principles", "Qubits, quantum gates, entanglement, Qiskit framework, and quantum algorithms.", "Dr. Michael Vance", catEmerging, Difficulty.ADVANCED, 14.0, "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=600&q=80", 4.92, 1999.0, 3999.0, 50, 640);
+        addCourse("Red Hat Enterprise Linux (RHEL) Administration", "red-hat-linux-rhel-administration", "RHEL 9 system administration, storage management, SELinux policies, and Ansible automation.", "David Miller", catEmerging, Difficulty.INTERMEDIATE, 16.0, "https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=600&q=80", 4.89, 1599.0, 3199.0, 50, 1260);
+        addCourse("CCNA Cisco Certified Network Associate", "ccna-cisco-network-associate", "IPv4/IPv6 addressing, switching, routing, wireless networking, and network security fundamentals.", "David Miller", catEmerging, Difficulty.INTERMEDIATE, 20.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.91, 1699.0, 3399.0, 50, 1980);
+        addCourse("CCNP Enterprise Network Architecture", "ccnp-enterprise-network-architecture", "Advanced dual-stack routing (OSPF, BGP), SD-WAN, network automation, and enterprise infrastructure.", "David Miller", catEmerging, Difficulty.ADVANCED, 24.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.95, 2199.0, 4399.0, 50, 890);
+        addCourse("CompTIA A+ IT Technician", "comptia-a-plus-it-technician", "Hardware installation, OS troubleshooting, mobile devices, security protocols, and operational procedures.", "Rachel Vance", catEmerging, Difficulty.BEGINNER, 14.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.82, 1199.0, 2399.0, 50, 1420);
+        addCourse("CompTIA Network+ Certification Guide", "comptia-network-plus-certification", "Network topologies, Ethernet standards, OSI layers, cloud concepts, and network troubleshooting.", "David Miller", catEmerging, Difficulty.INTERMEDIATE, 15.0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80", 4.86, 1399.0, 2799.0, 50, 1180);
+        addCourse("EC-Council Ethical Hacking Certification", "ec-council-ethical-hacking-programs", "CEH curriculum: footprinting, scanning, malware analysis, social engineering, and wireless hacking.", "Marcus Thorne", catEmerging, Difficulty.ADVANCED, 22.0, "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80", 4.97, 2299.0, 4599.0, 50, 1650);
+
+        // --- RENEWABLE ENERGY & SMART SYSTEMS (3 Courses) ---
+        addCourse("Solar Panel Installation & Maintenance", "solar-panel-installation-maintenance", "Photovoltaic panel sizing, inverter wiring, grid-tie/off-grid systems, safety, and routine maintenance.", "David Miller", catRenewable, Difficulty.BEGINNER, 11.0, "https://images.unsplash.com/photo-1509391365360-2e959784a276?auto=format&fit=crop&w=600&q=80", 4.83, 1099.0, 2199.0, 50, 980);
+        addCourse("Electric Vehicle Management & Charging Solutions", "electric-vehicle-charging-solutions", "EV battery management systems (BMS), AC/DC fast charging stations, power electronics, and grid load balancing.", "Dr. Michael Vance", catRenewable, Difficulty.INTERMEDIATE, 14.0, "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80", 4.88, 1499.0, 2999.0, 50, 1150);
+        addCourse("Electric Transient Analysis Program (ETAP)", "electric-transient-analysis-program-etap", "Power system modeling, short circuit analysis, load flow, protection coordination, and arc flash safety in ETAP.", "Dr. Michael Vance", catRenewable, Difficulty.ADVANCED, 18.0, "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=80", 4.94, 1899.0, 3799.0, 50, 720);
+
+        // --- LANGUAGE & PROFESSIONAL DEVELOPMENT (12 Courses) ---
+        addCourse("English Communication for Professionals", "english-communication-professionals", "Business English grammar, vocabulary, email etiquette, presentation delivery, and interview skills.", "Rachel Vance", catLang, Difficulty.BEGINNER, 10.0, "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=600&q=80", 4.82, 899.0, 1799.0, 50, 2100);
+        addCourse("French Language Essentials", "french-language-essentials", "Beginner French conversational vocabulary, pronunciation, basic grammar, and greeting etiquette.", "Rachel Vance", catLang, Difficulty.BEGINNER, 9.0, "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80", 4.79, 899.0, 1799.0, 50, 1120);
+        addCourse("Spanish Language Essentials", "spanish-language-essentials", "Spanish pronunciation, common expressions, verb conjugations, and everyday conversation.", "Rachel Vance", catLang, Difficulty.BEGINNER, 9.0, "https://images.unsplash.com/photo-1543783207-ec64e4d95325?auto=format&fit=crop&w=600&q=80", 4.81, 899.0, 1799.0, 50, 1340);
+        addCourse("German Language Essentials", "german-language-essentials", "German A1 basics, sentence structure, workplace vocabulary, and practical dialogue.", "Rachel Vance", catLang, Difficulty.BEGINNER, 9.5, "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=600&q=80", 4.8, 899.0, 1799.0, 50, 980);
+        addCourse("Italian Language Essentials", "italian-language-essentials", "Italian conversational phrases, cultural context, travel/business vocabulary, and pronunciation.", "Rachel Vance", catLang, Difficulty.BEGINNER, 8.5, "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=600&q=80", 4.78, 899.0, 1799.0, 50, 760);
+        addCourse("Portuguese Language Essentials", "portuguese-language-essentials", "Brazilian and European Portuguese fundamentals, basic grammar, and conversation skills.", "Rachel Vance", catLang, Difficulty.BEGINNER, 8.5, "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=600&q=80", 4.77, 899.0, 1799.0, 50, 620);
+        addCourse("Chinese Mandarin Conversational Skills", "chinese-mandarin-conversational", "Pinyin, essential Chinese characters, business greetings, and Mandarin dialogue fluency.", "Rachel Vance", catLang, Difficulty.INTERMEDIATE, 12.0, "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=600&q=80", 4.86, 1199.0, 2399.0, 50, 890);
+        addCourse("Japanese Language & Cultural Etiquette", "japanese-language-cultural-etiquette", "Hiragana, Katakana, basic Kanji, workplace honorifics, and conversational Japanese.", "Rachel Vance", catLang, Difficulty.INTERMEDIATE, 13.0, "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80", 4.9, 1299.0, 2599.0, 50, 1150);
+        addCourse("Korean Language Foundations", "korean-language-foundations", "Hangul script, Korean grammar structures, formal/informal honorifics, and everyday speech.", "Rachel Vance", catLang, Difficulty.INTERMEDIATE, 11.5, "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=600&q=80", 4.87, 1199.0, 2399.0, 50, 1040);
+        addCourse("Russian Language Essentials", "russian-language-essentials", "Cyrillic alphabet, Russian case system, business dialogue, and conversational basics.", "Elena Rostova", catLang, Difficulty.INTERMEDIATE, 12.5, "https://images.unsplash.com/photo-1513326738677-b964603b136d?auto=format&fit=crop&w=600&q=80", 4.83, 1199.0, 2399.0, 50, 680);
+        addCourse("Employability & Career Skills", "employability-career-skills", "Resume building, LinkedIn optimization, behavioral interviewing, and workplace soft skills.", "Rachel Vance", catLang, Difficulty.BEGINNER, 8.0, "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&q=80", 4.88, 799.0, 1599.0, 50, 2450);
+        addCourse("Digital Marketing Strategy & Analytics", "digital-marketing-strategy-analytics", "SEO, SEM, social media marketing, conversion funnels, and data-driven analytics.", "Rachel Vance", catLang, Difficulty.INTERMEDIATE, 12.0, "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80", 4.84, 1199.0, 2399.0, 50, 1150);
 
         // --- MANAGEMENT (9 Courses) ---
         addCourse("Project Management Principles", "project-management-principles", "Project lifecycle, scope definition, WBS, risk management, and budgeting.", "Rachel Vance", catMgmt, Difficulty.BEGINNER, 10.0, "https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80", 4.8, 1199.0, 2399.0, 50, 1040);
@@ -227,6 +281,61 @@ public class DataInitializer implements CommandLineRunner {
                 .discountPercentage(discount)
                 .enrollmentCount(enrolled)
                 .build();
-        return courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+
+        int moduleCount = 3;
+        if (diff == Difficulty.INTERMEDIATE) {
+            moduleCount = 6;
+        } else if (diff == Difficulty.ADVANCED) {
+            moduleCount = 10;
+        }
+
+        List<Module> modules = new ArrayList<>();
+        List<Lesson> lessons = new ArrayList<>();
+
+        for (int m = 1; m <= moduleCount; m++) {
+            String modTitle;
+            if (m == 1) modTitle = "Module 1: Foundations & System Architecture Setup";
+            else if (m == 2) modTitle = "Module 2: Core Engineering & Syntax Deep Dive";
+            else if (m == 3) modTitle = "Module 3: Hands-On Development & Lab Practice";
+            else if (m == 4) modTitle = "Module 4: Advanced Systems & Architectural Patterns";
+            else if (m == 5) modTitle = "Module 5: Performance Tuning & Optimization";
+            else if (m == 6) modTitle = "Module 6: Security, Testing & Industrial Standards";
+            else if (m == 7) modTitle = "Module 7: Enterprise Distributed Workflows";
+            else if (m == 8) modTitle = "Module 8: Cloud Deployment & CI/CD Pipelines";
+            else if (m == 9) modTitle = "Module 9: Microservices & System Resilience";
+            else modTitle = "Module 10: Capstone Project & Skill Certification";
+
+            Module module = Module.builder().course(savedCourse).title(modTitle).moduleOrder(m).build();
+            modules.add(module);
+        }
+        moduleRepository.saveAll(modules);
+
+        for (int i = 0; i < modules.size(); i++) {
+            Module module = modules.get(i);
+            int mNum = i + 1;
+
+            Lesson l1 = Lesson.builder()
+                    .module(module)
+                    .title(mNum + ".1 " + title + " — Part A: Architecture & Principles")
+                    .durationMinutes(25 + (mNum * 2))
+                    .lessonOrder(1)
+                    .content("### Welcome to " + title + " — Module " + mNum + "\nExplore core principles, architectural guidelines, environment setup, and foundational concepts.")
+                    .build();
+
+            Lesson l2 = Lesson.builder()
+                    .module(module)
+                    .title(mNum + ".2 " + title + " — Part B: Practical Hands-On Lab")
+                    .durationMinutes(30 + (mNum * 3))
+                    .lessonOrder(2)
+                    .content("### Practical Hands-On Lab — Module " + mNum + "\nWrite production code, run test cases, profile memory/execution performance, and apply industry best practices.")
+                    .build();
+
+            lessons.add(l1);
+            lessons.add(l2);
+        }
+        lessonRepository.saveAll(lessons);
+
+        return savedCourse;
     }
 }

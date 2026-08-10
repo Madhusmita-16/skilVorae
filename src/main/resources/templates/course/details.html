@@ -60,36 +60,36 @@
   <!-- Demo Checkout Modal Overlay -->
   <div id="checkout-modal" class="modal-overlay">
     <div class="modal-card">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-        <h3 style="font-size: 1.25rem;">Demo Order Summary</h3>
-        <button onclick="closeCheckoutModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-muted);">&times;</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-color);">
+        <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0; color: var(--text-primary);">Demo Order Summary</h3>
+        <button onclick="closeCheckoutModal()" style="background: var(--bg-subtle); border: 1px solid var(--border-color); font-size: 1.2rem; cursor: pointer; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" aria-label="Close">&times;</button>
       </div>
 
-      <div style="margin-bottom: 1.5rem;">
-        <div style="font-weight: 700; font-size: 1rem; margin-bottom: 0.25rem;" th:text="${course.title}">Course Title</div>
-        <div style="font-size: 0.85rem; color: var(--text-muted);" th:text="${'Instructor: ' + course.instructorName}">Instructor Name</div>
+      <div style="margin-bottom: 1.25rem; background: var(--soft-lavender); padding: 1rem 1.15rem; border-radius: 10px; border: 1px solid rgba(124, 58, 237, 0.15);">
+        <div style="font-weight: 700; font-size: 1.05rem; margin-bottom: 0.35rem; color: var(--electric-violet);" th:text="${course.title}">Course Title</div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;" th:text="${'Instructor: ' + course.instructorName}">Instructor Name</div>
       </div>
 
-      <div style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 1.5rem; font-size: 0.9rem;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-          <span>Course Price</span>
-          <span style="font-weight: 600;" th:text="${'₹' + #numbers.formatDecimal(course.price, 0, 'COMMA', 0, 'POINT')}">₹1,499</span>
+      <div style="border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); padding: 1rem 0; margin-bottom: 1.25rem; font-size: 0.925rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
+          <span style="color: var(--text-secondary);">Course Price</span>
+          <span style="font-weight: 700; color: var(--text-primary);" th:text="${'₹' + #numbers.formatDecimal(course.price, 0, 'COMMA', 0, 'POINT')}">₹1,499</span>
         </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; color: var(--text-muted);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; color: var(--text-muted);">
           <span>Applicable GST (18%)</span>
-          <span th:text="${'₹' + #numbers.formatDecimal(course.price * 0.18, 0, 'COMMA', 0, 'POINT')}">₹270</span>
+          <span style="font-weight: 600;" th:text="${'₹' + #numbers.formatDecimal(course.price * 0.18, 0, 'COMMA', 0, 'POINT')}">₹270</span>
         </div>
-        <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-top: 0.75rem; pt: 0.75rem; border-top: 1px dashed var(--border-color);">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.15rem; font-weight: 800; color: var(--electric-violet); margin-top: 0.85rem; padding-top: 0.85rem; border-top: 1px dashed var(--border-color);">
           <span>Total Payable</span>
           <span th:text="${'₹' + #numbers.formatDecimal(course.price * 1.18, 0, 'COMMA', 0, 'POINT')}">₹1,769</span>
         </div>
       </div>
 
-      <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem; background: var(--bg-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
-        💡 Portfolio Demo Notice: Clicking below will enroll your account immediately without charging real payment.
+      <div style="font-size: 0.8rem; color: var(--electric-violet); margin-bottom: 1.25rem; background: rgba(124, 58, 237, 0.08); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.15); line-height: 1.45;">
+        💡 <strong>Portfolio Demo Notice:</strong> Clicking below will enroll your account immediately without charging real payment.
       </div>
 
-      <button type="button" onclick="confirmDemoCheckout()" id="confirm-checkout-btn" class="btn btn-primary btn-block">Continue to Enrollment →</button>
+      <button type="button" onclick="confirmDemoCheckout()" id="confirm-checkout-btn" class="btn btn-primary btn-block" style="padding: 0.85rem; font-size: 1rem; font-weight: 700;">Continue to Enrollment →</button>
     </div>
   </div>
 

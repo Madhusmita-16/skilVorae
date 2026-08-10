@@ -6,6 +6,7 @@
   <title>Admin Portal — SkilVorae</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -15,127 +16,187 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
-      <div style="margin-bottom: 2rem;">
-        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">System Administration Portal ⚙️</h1>
-        <p style="font-size: 1rem; color: var(--text-muted);">Manage platform security, user permissions, course catalog operations, and business performance metrics.</p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+        <div>
+          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'System Administration Portal 🛡️'}">System Administration Portal 🛡️</h1>
+          <p style="font-size: 1.05rem; color: var(--text-muted);">Manage platform governance, user authorizations, course operations, certificate verifications, and audit activity.</p>
+        </div>
       </div>
 
-      <!-- System Stat Cards -->
-      <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
-        <div class="card stat-card">
+      <!-- 8 System Stat Cards -->
+      <div class="stats-grid" style="grid-template-columns: repeat(8, 1fr);">
+        <div class="stat-card">
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TOTAL USERS</div>
-            <div class="stat-number" th:text="${totalUsers}">3</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">USERS</div>
+            <div class="stat-number" th:text="${stats.totalUsersCount}">3</div>
           </div>
           <div class="stat-icon">👥</div>
         </div>
 
-        <div class="card stat-card">
+        <div class="stat-card">
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">ACTIVE COURSES</div>
-            <div class="stat-number" th:text="${totalCourses}">40</div>
-          </div>
-          <div class="stat-icon">📖</div>
-        </div>
-
-        <div class="card stat-card">
-          <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">ENROLLMENTS</div>
-            <div class="stat-number" th:text="${totalEnrollments}">2</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">STUDENTS</div>
+            <div class="stat-number" th:text="${stats.totalStudentsCount}">1</div>
           </div>
           <div class="stat-icon">🎓</div>
         </div>
 
-        <div class="card stat-card">
+        <div class="stat-card">
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">DEMO REVENUE</div>
-            <div class="stat-number" style="font-size: 1.6rem;">₹1.48L</div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">INSTRUCTORS</div>
+            <div class="stat-number" th:text="${stats.totalInstructorsCount}">1</div>
+          </div>
+          <div class="stat-icon">👨‍🏫</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COURSES</div>
+            <div class="stat-number" th:text="${stats.totalCoursesCount}">40</div>
+          </div>
+          <div class="stat-icon">📖</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ENROLLMENTS</div>
+            <div class="stat-number" th:text="${stats.activeEnrollmentsCount}">2</div>
+          </div>
+          <div class="stat-icon">📄</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETED</div>
+            <div class="stat-number" th:text="${stats.completedCoursesCount}">0</div>
+          </div>
+          <div class="stat-icon">✅</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">CERTS ISSUED</div>
+            <div class="stat-number" th:text="${stats.certificatesIssuedCount}">0</div>
+          </div>
+          <div class="stat-icon">🏆</div>
+        </div>
+
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">PLATFORM METRICS</div>
+            <div class="stat-number" style="font-size: 1.4rem;" th:text="${'₹' + #numbers.formatDecimal(stats.platformRevenue, 0, 'COMMA', 0, 'POINT')}">₹1.4L</div>
           </div>
           <div class="stat-icon">💰</div>
         </div>
+      </div>
 
-        <div class="card stat-card">
+      <!-- Platform Analytics Row -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2.5rem;">
+        <div class="card">
+          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">User Growth & Registration Velocity</h3>
+          <div style="height: 240px; position: relative;">
+            <canvas id="adminGrowthChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Category Distribution</h3>
+          <div style="height: 240px; position: relative;">
+            <canvas id="adminCategoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Management Table -->
+      <div class="card" style="margin-bottom: 2.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
           <div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">CATEGORIES</div>
-            <div class="stat-number" th:text="${totalCategories}">8</div>
+            <h3 style="font-size: 1.25rem;">User Administration & Security Controls</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Manage platform roles, authorization states, and account status.</p>
           </div>
-          <div class="stat-icon">📁</div>
+          <input type="text" id="user-search" onkeyup="filterAdminUsers()" class="form-control" placeholder="Search by name or email..." style="max-width: 240px; padding: 0.45rem 0.8rem; font-size: 0.85rem;">
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="dashboard-table" id="user-table">
+            <thead>
+              <tr>
+                <th>User Name</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Joined Date</th>
+                <th>Courses</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="u : ${stats.recentUsers}" class="user-row">
+                <td style="font-weight: 700; color: var(--off-white);" class="uname-cell" th:text="${u.fullName}">User Name</td>
+                <td style="color: var(--text-muted);" class="uemail-cell" th:text="${u.email}">user@email.com</td>
+                <td>
+                  <span class="badge" th:classappend="${u.role.name() == 'ADMIN' ? 'badge-advanced' : (u.role.name() == 'INSTRUCTOR' ? 'badge-intermediate' : 'badge-primary')}" th:text="${u.role}">ROLE</span>
+                </td>
+                <td>
+                  <span class="badge badge-success">ACTIVE</span>
+                </td>
+                <td th:text="${u.joinedDate}">Aug 2026</td>
+                <td style="font-weight: 700;" th:text="${u.enrolledCoursesCount}">2</td>
+                <td style="text-align: right;">
+                  <button type="button" onclick="showToast('User security status verified', 'info')" class="btn btn-outline btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.7rem;">Permissions</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- Admin Management Tables Grid -->
+      <!-- Certificate Verification & Audit Logs Grid -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-        
-        <!-- User Accounts Table -->
+        <!-- Certificate Verification Tool -->
         <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-            <h3 style="font-size: 1.2rem;">User Accounts & Security</h3>
-            <input type="text" id="user-search" onkeyup="filterAdminUsers()" class="form-control" placeholder="Search user..." style="max-width: 180px; padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Certificate Verification Tool</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Enter a Certificate ID to verify authenticity against the database registry.</p>
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem;">
+            <input type="text" id="cert-verify-id" class="form-control" placeholder="e.g. SKIL-JAVA-2026-9921">
+            <button type="button" onclick="verifyCertLive()" class="btn btn-primary" style="white-space: nowrap;">Verify Certificate</button>
           </div>
-
-          <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;" id="user-table">
-              <thead>
-                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
-                  <th style="padding: 0.5rem 0.25rem;">Name</th>
-                  <th style="padding: 0.5rem 0.25rem;">Email</th>
-                  <th style="padding: 0.5rem 0.25rem;">Role</th>
-                  <th style="padding: 0.5rem 0.25rem; text-align: right;">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="u : ${usersList}" style="border-bottom: 1px solid var(--border-color);" class="user-row">
-                  <td style="padding: 0.75rem 0.25rem; font-weight: 700;" class="uname-cell" th:text="${u.fullName}">User Name</td>
-                  <td style="padding: 0.75rem 0.25rem; color: var(--text-secondary);" class="uemail-cell" th:text="${u.email}">user@email.com</td>
-                  <td style="padding: 0.75rem 0.25rem;">
-                    <span class="badge" th:classappend="${u.role.name() == 'ADMIN' ? 'badge-advanced' : (u.role.name() == 'INSTRUCTOR' ? 'badge-intermediate' : 'badge-primary')}" th:text="${u.role}">ROLE</span>
-                  </td>
-                  <td style="padding: 0.75rem 0.25rem; text-align: right;">
-                    <button onclick="showToast('User permissions managed', 'info')" class="btn btn-outline btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Manage</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div id="cert-result-box" style="display: none; padding: 1rem; background: var(--soft-lavender); border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.2);">
+            <div style="font-weight: 700; color: var(--electric-violet);" id="cert-res-title">Verified Certificate</div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.3rem;" id="cert-res-details">Details</div>
           </div>
         </div>
 
-        <!-- Course Catalog Overview Table -->
+        <!-- System Audit Logs -->
         <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-            <h3 style="font-size: 1.2rem;">Course Catalog Overview</h3>
-            <a th:href="@{/courses}" class="btn btn-outline btn-sm" style="font-size: 0.8rem;">View All →</a>
-          </div>
-
-          <div style="overflow-x: auto;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
-              <thead>
-                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
-                  <th style="padding: 0.5rem 0.25rem;">Course Title</th>
-                  <th style="padding: 0.5rem 0.25rem;">Category</th>
-                  <th style="padding: 0.5rem 0.25rem;">Rating</th>
-                  <th style="padding: 0.5rem 0.25rem; text-align: right;">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="c : ${coursesList}" style="border-bottom: 1px solid var(--border-color);">
-                  <td style="padding: 0.75rem 0.25rem; font-weight: 700;" th:text="${#strings.abbreviate(c.title, 28)}">Course Title</td>
-                  <td style="padding: 0.75rem 0.25rem; color: var(--text-secondary);" th:text="${c.category.name}">Category</td>
-                  <td style="padding: 0.75rem 0.25rem; font-weight: 700; color: var(--warning);" th:text="${'★ ' + c.rating}">★ 4.9</td>
-                  <td style="padding: 0.75rem 0.25rem; text-align: right;">
-                    <a th:href="@{/courses/{id}(id=${c.id})}" class="btn btn-outline btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Inspect</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">System Audit Activity Logs</h3>
+          <div style="display: flex; flex-direction: column; gap: 0.85rem; max-height: 280px; overflow-y: auto;">
+            <div th:if="${#lists.isEmpty(stats.recentAuditLogs)}" style="color: var(--text-muted); font-size: 0.85rem;">
+              No audit logs generated yet.
+            </div>
+            <div th:each="log : ${stats.recentAuditLogs}" style="padding: 0.75rem; background: var(--bg-subtle); border-radius: 6px; border: 1px solid var(--border-color); font-size: 0.825rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem;">
+                <span style="font-weight: 700; color: var(--electric-violet);" th:text="${log.action}">ACTION</span>
+                <span style="color: var(--text-muted);" th:text="${log.formattedTimestamp}">Aug 10, 19:30</span>
+              </div>
+              <div style="color: var(--text-secondary);" th:text="${log.details}">Details</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;" th:text="${'By: ' + log.userEmail}">By: user@email.com</div>
+            </div>
           </div>
         </div>
-
       </div>
+
     </main>
   </div>
 
   <script th:src="@{/js/main.js}"></script>
-  <script>
+  <script th:src="@{/js/dashboard-charts.js}"></script>
+  <script th:inline="javascript">
+    var growthData = [[${stats.userGrowthData}]];
+    var monthLabels = [[${stats.monthLabels}]];
+    initAdminUserGrowthChart(growthData, monthLabels);
+    initAdminCategoryChart();
+
     function filterAdminUsers() {
       const q = document.getElementById('user-search').value.toLowerCase();
       document.querySelectorAll('#user-table .user-row').forEach(row => {
@@ -143,6 +204,30 @@
         const email = row.querySelector('.uemail-cell').textContent.toLowerCase();
         row.style.display = (name.includes(q) || email.includes(q)) ? '' : 'none';
       });
+    }
+
+    async function verifyCertLive() {
+      const certId = document.getElementById('cert-verify-id').value.trim();
+      if (!certId) {
+        showToast('Please enter a Certificate ID', 'error');
+        return;
+      }
+      try {
+        const res = await fetch('/api/dashboard/verify-certificate/' + encodeURIComponent(certId));
+        const data = await res.json();
+        const box = document.getElementById('cert-result-box');
+        if (data.success) {
+          box.style.display = 'block';
+          document.getElementById('cert-res-title').textContent = '✅ Authentic Certificate: ' + data.data.certificateNumber;
+          document.getElementById('cert-res-details').textContent = 'Issued to ' + data.data.studentName + ' for ' + data.data.courseTitle + ' (Grade: ' + data.data.grade + ')';
+        } else {
+          box.style.display = 'block';
+          document.getElementById('cert-res-title').textContent = '❌ Unverified Certificate';
+          document.getElementById('cert-res-details').textContent = data.message || 'No matching certificate record found in database.';
+        }
+      } catch(err) {
+        showToast('Error verifying certificate', 'error');
+      }
     }
   </script>
 </body>

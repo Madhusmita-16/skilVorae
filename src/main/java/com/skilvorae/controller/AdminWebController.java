@@ -1,10 +1,12 @@
 package com.skilvorae.controller;
 
+import com.skilvorae.dto.AdminDashboardStatsDto;
 import com.skilvorae.entity.User;
 import com.skilvorae.enums.Role;
-import com.skilvorae.repository.*;
+import com.skilvorae.repository.CategoryRepository;
+import com.skilvorae.repository.UserRepository;
+import com.skilvorae.service.DashboardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminWebController {
 
     private final UserRepository userRepository;
-    private final CourseRepository courseRepository;
-    private final EnrollmentRepository enrollmentRepository;
-    private final AssessmentRepository assessmentRepository;
+    private final DashboardService dashboardService;
     private final CategoryRepository categoryRepository;
 
     @GetMapping("/dashboard")
@@ -30,15 +30,33 @@ public class AdminWebController {
             return "redirect:/dashboard";
         }
 
+        AdminDashboardStatsDto stats = dashboardService.getAdminDashboardStats();
+
         model.addAttribute("user", user);
-        model.addAttribute("totalUsers", userRepository.count());
-        model.addAttribute("totalCourses", courseRepository.count());
-        model.addAttribute("totalEnrollments", enrollmentRepository.count());
-        model.addAttribute("totalCategories", categoryRepository.count());
-        model.addAttribute("usersList", userRepository.findAll());
-        model.addAttribute("coursesList", courseRepository.findAll());
+        model.addAttribute("stats", stats);
+        model.addAttribute("categories", categoryRepository.findAll());
         model.addAttribute("activeTab", "admin");
 
         return "admin/dashboard";
+    }
+
+    @GetMapping("/users")
+    public String adminUsers(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        return adminDashboard(model, userDetails);
+    }
+
+    @GetMapping("/courses")
+    public String adminCourses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        return adminDashboard(model, userDetails);
+    }
+
+    @GetMapping("/certificates")
+    public String adminCertificates(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        return adminDashboard(model, userDetails);
+    }
+
+    @GetMapping("/audit-logs")
+    public String adminAuditLogs(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        return adminDashboard(model, userDetails);
     }
 }

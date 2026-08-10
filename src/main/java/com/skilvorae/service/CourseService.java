@@ -23,6 +23,7 @@ public class CourseService {
     private final EnrollmentRepository enrollmentRepository;
     private final UserProgressRepository userProgressRepository;
     private final LessonRepository lessonRepository;
+    private final ModuleRepository moduleRepository;
     private final CourseReviewRepository courseReviewRepository;
     private final UserRepository userRepository;
 
@@ -79,7 +80,7 @@ public class CourseService {
     }
 
     public List<CourseDto> getTopCourses12(Long currentUserId) {
-        return courseRepository.findAll(PageRequest.of(0, 12, Sort.by("rating").descending()))
+        return courseRepository.findAll(PageRequest.of(0, 48, Sort.by("rating").descending()))
                 .getContent()
                 .stream()
                 .map(c -> mapToDto(c, currentUserId, false))
@@ -88,6 +89,71 @@ public class CourseService {
 
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
+    }
+
+    public List<CourseDto> getAllCourses() {
+        return courseRepository.findAll().stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    public CourseDto mapToDto(Course course) {
+        return mapToDto(course, null, false);
+    }
+
+    @Transactional
+    public CourseDto createCourse(CourseCreateRequestDto req) {
+        Category category = categoryRepository.findById(req.getCategoryId())
+                .orElseGet(() -> categoryRepository.findAll().get(0));
+
+        Course course = Course.builder()
+                .title(req.getTitle())
+                .slug(req.getSlug() != null ? req.getSlug() : req.getTitle().toLowerCase().replaceAll("[^a-z0-9]", "-"))
+                .description(req.getDescription())
+                .instructorName(req.getInstructorName())
+                .category(category)
+                .difficulty(req.getDifficulty())
+                .durationHours(req.getDurationHours())
+                .thumbnailUrl(req.getThumbnailUrl())
+                .rating(4.8)
+                .price(req.getPrice())
+                .originalPrice(req.getOriginalPrice() != null ? req.getOriginalPrice() : req.getPrice() * 2)
+                .discountPercentage(50)
+                .enrollmentCount(0)
+                .build();
+
+        Course savedCourse = courseRepository.save(course);
+
+        if (req.getModules() != null) {
+            int mIdx = 1;
+            for (CourseCreateRequestDto.ModulePayload mPayload : req.getModules()) {
+                com.skilvorae.entity.Module module = com.skilvorae.entity.Module.builder()
+                        .course(savedCourse)
+                        .title(mPayload.getTitle())
+                        .moduleOrder(mIdx++)
+                        .build();
+                com.skilvorae.entity.Module savedModule = moduleRepository.save(module);
+
+                if (mPayload.getLessons() != null) {
+                    int lIdx = 1;
+                    for (CourseCreateRequestDto.LessonPayload lPayload : mPayload.getLessons()) {
+                        Lesson lesson = Lesson.builder()
+                                .module(savedModule)
+                                .title(lPayload.getTitle())
+                                .durationMinutes(lPayload.getDurationMinutes() != null ? lPayload.getDurationMinutes() : 30)
+                                .lessonOrder(lIdx++)
+                                .content(lPayload.getContent() != null ? lPayload.getContent() : "Lesson content for " + lPayload.getTitle())
+                                .build();
+                        lessonRepository.save(lesson);
+                    }
+                }
+            }
+        }
+
+        return mapToDto(savedCourse, null, true);
+    }
+
+    @Transactional
+    public void deleteCourse(Long courseId) {
+        courseRepository.deleteById(courseId);
     }
 
     @Transactional
