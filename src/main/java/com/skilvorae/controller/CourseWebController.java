@@ -88,6 +88,7 @@ public class CourseWebController {
         LessonDto currentLesson = null;
         if (course.getModules() != null) {
             for (ModuleDto module : course.getModules()) {
+                if (module.getLessons() == null) continue;
                 for (LessonDto lesson : module.getLessons()) {
                     if (lessonId != null && lesson.getId().equals(lessonId)) {
                         currentLesson = lesson;
@@ -101,6 +102,16 @@ public class CourseWebController {
                     break;
                 }
             }
+        }
+
+        if (currentLesson == null) {
+            currentLesson = LessonDto.builder()
+                    .id(0L)
+                    .title("Course Overview & Orientation")
+                    .content("### Welcome to " + course.getTitle() + "\nThis course curriculum modules and interactive coding labs are currently being prepared by " + course.getInstructorName() + ".\n\nCheck back soon or explore our practice assessments!")
+                    .durationMinutes(15)
+                    .isCompleted(false)
+                    .build();
         }
 
         model.addAttribute("course", course);

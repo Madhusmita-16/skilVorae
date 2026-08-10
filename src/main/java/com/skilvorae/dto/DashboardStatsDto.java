@@ -15,6 +15,7 @@ public class DashboardStatsDto {
     private Long completedCoursesCount;
     private Double totalLearningHours;
     private Double averageAssessmentScore;
+    private Long certificatesCount;
     private List<EnrollmentDto> activeCourses;
     private List<Integer> weeklyActivityData; // Lessons completed per day (Mon - Sun)
     private List<String> recentActivities;

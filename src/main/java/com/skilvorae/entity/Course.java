@@ -50,6 +50,10 @@ public class Course {
     @Builder.Default
     private Integer enrollmentCount = 0;
 
+    private Double price;
+    private Double originalPrice;
+    private Integer discountPercentage;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("moduleOrder ASC")
     @Builder.Default

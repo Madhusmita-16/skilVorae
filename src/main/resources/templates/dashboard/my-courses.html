@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Courses — SkilVorae</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
@@ -15,18 +16,43 @@
     <main class="dashboard-main">
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">My Enrolled Courses</h1>
-        <p>Manage your learning progress and attempt end-of-course certification assessments.</p>
+        <p>Manage active learning tracks, review module progress, and attempt certification assessments.</p>
       </div>
 
-      <div class="course-grid">
-        <div class="card card-interactive" th:each="item : ${enrollments}" style="display: flex; flex-direction: column;">
+      <!-- Filter Tabs -->
+      <div style="display: flex; gap: 0.75rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.75rem;">
+        <button class="btn btn-sm course-tab active" onclick="filterMyCourses('ALL', this)">All Courses</button>
+        <button class="btn btn-sm btn-outline course-tab" onclick="filterMyCourses('IN_PROGRESS', this)">In Progress</button>
+        <button class="btn btn-sm btn-outline course-tab" onclick="filterMyCourses('COMPLETED', this)">Completed</button>
+        <button class="btn btn-sm btn-outline course-tab" onclick="filterMyCourses('NOT_STARTED', this)">Not Started</button>
+      </div>
+
+      <div th:if="${#lists.isEmpty(enrollments)}" style="text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: var(--border-radius); border: 1px solid var(--border-color);">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+        <h3>No courses enrolled yet</h3>
+        <p style="margin: 0.5rem 0 1.5rem 0;">Browse our catalog of 40+ trending engineering & management courses to get started.</p>
+        <a th:href="@{/courses}" class="btn btn-primary">Explore Course Catalog →</a>
+      </div>
+
+      <div class="course-grid" id="my-courses-grid">
+        <div class="card card-interactive my-course-item"
+             th:each="item : ${enrollments}"
+             th:data-progress="${item.progressPercentage}"
+             style="display: flex; flex-direction: column;">
           <img th:src="${item.courseThumbnailUrl}" class="course-card-thumb" alt="Thumb">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-primary" th:text="${item.categoryName}">Category</span>
+            <span class="badge" th:classappend="${item.progressPercentage == 100 ? 'badge-success' : (item.progressPercentage > 0 ? 'badge-intermediate' : 'badge-beginner')}"
+                  th:text="${item.progressPercentage == 100 ? 'COMPLETED' : (item.progressPercentage > 0 ? 'IN PROGRESS' : 'NOT STARTED')}">Status</span>
+          </div>
+
           <h3 class="course-card-title"><a th:href="@{/courses/{id}/learn(id=${item.courseId})}" th:text="${item.courseTitle}">Course Title</a></h3>
           <p class="course-card-instructor" th:text="${'Instructor: ' + item.instructorName}">Instructor</p>
 
-          <div style="margin: 1rem 0;">
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 600;">
-              <span>Progress</span>
+          <div style="margin: 1.25rem 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.4rem; font-weight: 700;">
+              <span>Overall Progress</span>
               <span th:text="${item.progressPercentage + '%'}">50%</span>
             </div>
             <div class="progress-bar-wrap">
@@ -34,9 +60,9 @@
             </div>
           </div>
 
-          <div class="course-card-footer" style="gap: 0.5rem;">
-            <a th:href="@{/courses/{id}/learn(id=${item.courseId}, lessonId=${item.lastLessonId})}" class="btn btn-primary btn-sm btn-block">Continue Lesson</a>
-            <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment</a>
+          <div class="course-card-footer" style="gap: 0.5rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <a th:href="@{/courses/{id}/learn(id=${item.courseId}, lessonId=${item.lastLessonId})}" class="btn btn-primary btn-sm btn-block">Continue Learning →</a>
+            <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment 🏆</a>
           </div>
         </div>
       </div>
@@ -44,5 +70,31 @@
   </div>
 
   <script th:src="@{/js/main.js}"></script>
+  <script>
+    function filterMyCourses(status, btn) {
+      document.querySelectorAll('.course-tab').forEach(b => {
+        b.classList.remove('active', 'btn-primary');
+        b.classList.add('btn-outline');
+      });
+      btn.classList.add('active', 'btn-primary');
+      btn.classList.remove('btn-outline');
+
+      const items = document.querySelectorAll('.my-course-item');
+      items.forEach(item => {
+        const prog = parseInt(item.getAttribute('data-progress') || '0', 10);
+        if (status === 'ALL') {
+          item.style.display = 'flex';
+        } else if (status === 'IN_PROGRESS' && prog > 0 && prog < 100) {
+          item.style.display = 'flex';
+        } else if (status === 'COMPLETED' && prog === 100) {
+          item.style.display = 'flex';
+        } else if (status === 'NOT_STARTED' && prog === 0) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>

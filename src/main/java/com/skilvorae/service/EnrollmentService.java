@@ -80,6 +80,7 @@ public class EnrollmentService {
                 .courseId(courseId)
                 .courseTitle(enrollment.getCourse().getTitle())
                 .courseThumbnailUrl(enrollment.getCourse().getThumbnailUrl())
+                .categoryName(enrollment.getCourse().getCategory() != null ? enrollment.getCourse().getCategory().getName() : "General")
                 .instructorName(enrollment.getCourse().getInstructorName())
                 .status(enrollment.getStatus().name())
                 .progressPercentage(progressPercentage)

@@ -15,6 +15,7 @@ public class EnrollmentDto {
     private Long courseId;
     private String courseTitle;
     private String courseThumbnailUrl;
+    private String categoryName;
     private String instructorName;
     private String status;
     private Integer progressPercentage;

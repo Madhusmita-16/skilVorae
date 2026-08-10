@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard — SkilVorae</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal — SkilVorae</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
@@ -15,15 +16,15 @@
     <!-- Main Content Area -->
     <main class="dashboard-main">
       <div style="margin-bottom: 2rem;">
-        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">System Administration Portal ⚙️</h1>
-        <p>Monitor platform health, user accounts, course catalog performance, and database statistics.</p>
+        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">System Administration Portal ⚙️</h1>
+        <p style="font-size: 1rem; color: var(--text-muted);">Manage platform security, user permissions, course catalog operations, and business performance metrics.</p>
       </div>
 
       <!-- System Stat Cards -->
-      <div class="stats-grid">
+      <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">TOTAL USERS</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TOTAL USERS</div>
             <div class="stat-number" th:text="${totalUsers}">3</div>
           </div>
           <div class="stat-icon">👥</div>
@@ -31,15 +32,15 @@
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">ACTIVE COURSES</div>
-            <div class="stat-number" th:text="${totalCourses}">11</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">ACTIVE COURSES</div>
+            <div class="stat-number" th:text="${totalCourses}">40</div>
           </div>
           <div class="stat-icon">📖</div>
         </div>
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">TOTAL ENROLLMENTS</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">ENROLLMENTS</div>
             <div class="stat-number" th:text="${totalEnrollments}">2</div>
           </div>
           <div class="stat-icon">🎓</div>
@@ -47,63 +48,102 @@
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">CATEGORIES</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">DEMO REVENUE</div>
+            <div class="stat-number" style="font-size: 1.6rem;">₹1.48L</div>
+          </div>
+          <div class="stat-icon">💰</div>
+        </div>
+
+        <div class="card stat-card">
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">CATEGORIES</div>
             <div class="stat-number" th:text="${totalCategories}">8</div>
           </div>
           <div class="stat-icon">📁</div>
         </div>
       </div>
 
-      <!-- Admin Tables -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+      <!-- Admin Management Tables Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+        
         <!-- User Accounts Table -->
         <div class="card">
-          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Registered Users</h3>
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
-                <th style="padding: 0.5rem 0;">Name</th>
-                <th style="padding: 0.5rem 0;">Email</th>
-                <th style="padding: 0.5rem 0;">Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="u : ${usersList}" style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.75rem 0; font-weight: 600;" th:text="${u.fullName}">User Name</td>
-                <td style="padding: 0.75rem 0; color: var(--text-secondary);" th:text="${u.email}">user@email.com</td>
-                <td style="padding: 0.75rem 0;">
-                  <span class="badge" th:classappend="${u.role.name() == 'ADMIN' ? 'badge-advanced' : (u.role.name() == 'INSTRUCTOR' ? 'badge-intermediate' : 'badge-primary')}" th:text="${u.role}">ROLE</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 style="font-size: 1.2rem;">User Accounts & Security</h3>
+            <input type="text" id="user-search" onkeyup="filterAdminUsers()" class="form-control" placeholder="Search user..." style="max-width: 180px; padding: 0.4rem 0.6rem; font-size: 0.85rem;">
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;" id="user-table">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
+                  <th style="padding: 0.5rem 0.25rem;">Name</th>
+                  <th style="padding: 0.5rem 0.25rem;">Email</th>
+                  <th style="padding: 0.5rem 0.25rem;">Role</th>
+                  <th style="padding: 0.5rem 0.25rem; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="u : ${usersList}" style="border-bottom: 1px solid var(--border-color);" class="user-row">
+                  <td style="padding: 0.75rem 0.25rem; font-weight: 700;" class="uname-cell" th:text="${u.fullName}">User Name</td>
+                  <td style="padding: 0.75rem 0.25rem; color: var(--text-secondary);" class="uemail-cell" th:text="${u.email}">user@email.com</td>
+                  <td style="padding: 0.75rem 0.25rem;">
+                    <span class="badge" th:classappend="${u.role.name() == 'ADMIN' ? 'badge-advanced' : (u.role.name() == 'INSTRUCTOR' ? 'badge-intermediate' : 'badge-primary')}" th:text="${u.role}">ROLE</span>
+                  </td>
+                  <td style="padding: 0.75rem 0.25rem; text-align: right;">
+                    <button onclick="showToast('User permissions managed', 'info')" class="btn btn-outline btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Manage</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <!-- Course Catalog Overview -->
+        <!-- Course Catalog Overview Table -->
         <div class="card">
-          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Course Catalog Status</h3>
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-            <thead>
-              <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
-                <th style="padding: 0.5rem 0;">Course Title</th>
-                <th style="padding: 0.5rem 0;">Category</th>
-                <th style="padding: 0.5rem 0;">Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="c : ${coursesList}" style="border-bottom: 1px solid var(--border-color);">
-                <td style="padding: 0.75rem 0; font-weight: 600;" th:text="${#strings.abbreviate(c.title, 35)}">Course Title</td>
-                <td style="padding: 0.75rem 0; color: var(--text-secondary);" th:text="${c.category.name}">Category</td>
-                <td style="padding: 0.75rem 0; font-weight: 700; color: var(--warning);" th:text="${'★ ' + c.rating}">★ 4.9</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 style="font-size: 1.2rem;">Course Catalog Overview</h3>
+            <a th:href="@{/courses}" class="btn btn-outline btn-sm" style="font-size: 0.8rem;">View All →</a>
+          </div>
 
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
+              <thead>
+                <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
+                  <th style="padding: 0.5rem 0.25rem;">Course Title</th>
+                  <th style="padding: 0.5rem 0.25rem;">Category</th>
+                  <th style="padding: 0.5rem 0.25rem;">Rating</th>
+                  <th style="padding: 0.5rem 0.25rem; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="c : ${coursesList}" style="border-bottom: 1px solid var(--border-color);">
+                  <td style="padding: 0.75rem 0.25rem; font-weight: 700;" th:text="${#strings.abbreviate(c.title, 28)}">Course Title</td>
+                  <td style="padding: 0.75rem 0.25rem; color: var(--text-secondary);" th:text="${c.category.name}">Category</td>
+                  <td style="padding: 0.75rem 0.25rem; font-weight: 700; color: var(--warning);" th:text="${'★ ' + c.rating}">★ 4.9</td>
+                  <td style="padding: 0.75rem 0.25rem; text-align: right;">
+                    <a th:href="@{/courses/{id}(id=${c.id})}" class="btn btn-outline btn-sm" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Inspect</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
     </main>
   </div>
 
   <script th:src="@{/js/main.js}"></script>
+  <script>
+    function filterAdminUsers() {
+      const q = document.getElementById('user-search').value.toLowerCase();
+      document.querySelectorAll('#user-table .user-row').forEach(row => {
+        const name = row.querySelector('.uname-cell').textContent.toLowerCase();
+        const email = row.querySelector('.uemail-cell').textContent.toLowerCase();
+        row.style.display = (name.includes(q) || email.includes(q)) ? '' : 'none';
+      });
+    }
+  </script>
 </body>
 </html>

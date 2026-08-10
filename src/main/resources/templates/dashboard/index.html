@@ -16,15 +16,15 @@
     <!-- Main Content Area -->
     <main class="dashboard-main">
       <div style="margin-bottom: 2rem;">
-        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" th:text="${'Welcome back, ' + user.fullName + ' 👋'}">Welcome back, Student</h1>
-        <p>Track your active courses, assessment performance, and learning velocity.</p>
+        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;" th:text="${'Good morning, ' + user.fullName + ' 👋'}">Good morning, Student 👋</h1>
+        <p style="font-size: 1.05rem; color: var(--text-muted);">Continue your learning journey.</p>
       </div>
 
-      <!-- Stats Cards -->
-      <div class="stats-grid">
+      <!-- Top Statistics -->
+      <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">ENROLLED COURSES</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em;">COURSES ENROLLED</div>
             <div class="stat-number" th:text="${stats.enrolledCoursesCount}">2</div>
           </div>
           <div class="stat-icon">📚</div>
@@ -32,7 +32,7 @@
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">COMPLETED</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em;">COURSES COMPLETED</div>
             <div class="stat-number" th:text="${stats.completedCoursesCount}">0</div>
           </div>
           <div class="stat-icon">🎓</div>
@@ -40,7 +40,7 @@
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">LEARNING HOURS</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em;">LEARNING HOURS</div>
             <div class="stat-number" th:text="${stats.totalLearningHours}">14.5</div>
           </div>
           <div class="stat-icon">⏱️</div>
@@ -48,8 +48,16 @@
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">AVG SCORE</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em;">AVERAGE SCORE</div>
             <div class="stat-number" th:text="${stats.averageAssessmentScore + '%'}">88.5%</div>
+          </div>
+          <div class="stat-icon">📈</div>
+        </div>
+
+        <div class="card stat-card">
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; letter-spacing: 0.05em;">CERTIFICATES</div>
+            <div class="stat-number" th:text="${stats.certificatesCount}">0</div>
           </div>
           <div class="stat-icon">🏆</div>
         </div>
@@ -61,30 +69,37 @@
           <!-- Continue Learning -->
           <div class="card" style="margin-bottom: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-              <h3 style="font-size: 1.2rem;">Continue Learning</h3>
-              <a th:href="@{/my-courses}" style="font-size: 0.875rem;">View All Courses →</a>
+              <h3 style="font-size: 1.25rem;">Continue Learning</h3>
+              <a th:href="@{/my-courses}" style="font-size: 0.875rem; font-weight: 600;">View All Courses →</a>
             </div>
 
-            <div th:if="${#lists.isEmpty(stats.activeCourses)}" style="text-align: center; padding: 2rem; color: var(--text-muted);">
-              No active courses yet. <a th:href="@{/courses}">Explore catalog</a>
+            <div th:if="${#lists.isEmpty(stats.activeCourses)}" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+              You have no active courses yet. <a th:href="@{/courses}" style="font-weight: 700;">Explore course catalog →</a>
             </div>
 
-            <div th:each="course : ${stats.activeCourses}" style="display: flex; align-items: center; gap: 1.25rem; padding: 1rem 0; border-bottom: 1px solid var(--border-color);">
-              <img th:src="${course.courseThumbnailUrl}" style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;" alt="Course thumb">
+            <div th:each="course : ${stats.activeCourses}" style="display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem; background: var(--bg-subtle); border-radius: var(--border-radius-sm); margin-bottom: 1rem;">
+              <img th:src="${course.courseThumbnailUrl}" style="width: 90px; height: 65px; object-fit: cover; border-radius: 8px;" alt="Course thumb">
               <div style="flex: 1;">
-                <h4 style="font-size: 1rem; margin-bottom: 0.25rem;"><a th:href="@{/courses/{id}/learn(id=${course.courseId})}" th:text="${course.courseTitle}">Java 17 Enterprise</a></h4>
-                <div style="font-size: 0.8rem; color: var(--text-muted);" th:text="${'Last lesson: ' + (course.lastLessonTitle != null ? course.lastLessonTitle : 'Lesson 1')}">Last lesson</div>
-                <div class="progress-bar-wrap" style="margin-top: 0.5rem; height: 6px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                  <h4 style="font-size: 1.05rem; font-weight: 700;">
+                    <a th:href="@{/courses/{id}/learn(id=${course.courseId})}" th:text="${course.courseTitle}">Java Full Stack Development</a>
+                  </h4>
+                  <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);" th:text="${course.progressPercentage + '% Complete'}">78% Complete</span>
+                </div>
+                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;" th:text="${'Last accessed: ' + (course.lastLessonTitle != null ? course.lastLessonTitle : 'Lesson 1')}">Last accessed: Spring Boot REST APIs</div>
+                
+                <div class="progress-bar-wrap" style="height: 8px;">
                   <div class="progress-bar-fill" th:style="${'width: ' + course.progressPercentage + '%;'}"></div>
                 </div>
               </div>
-              <a th:href="@{/courses/{id}/learn(id=${course.courseId}, lessonId=${course.lastLessonId})}" class="btn btn-primary btn-sm">Resume</a>
+              
+              <a th:href="@{/courses/{id}/learn(id=${course.courseId}, lessonId=${course.lastLessonId})}" class="btn btn-primary btn-sm" style="white-space: nowrap; padding: 0.6rem 1.2rem;">Continue Learning →</a>
             </div>
           </div>
 
           <!-- Chart.js Activity Graph -->
           <div class="card">
-            <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Weekly Learning Velocity</h3>
+            <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Learning Activity & Velocity</h3>
             <div style="height: 240px; position: relative;">
               <canvas id="activityChart"></canvas>
             </div>
@@ -94,11 +109,11 @@
         <!-- Recent Activity Column -->
         <div>
           <div class="card">
-            <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Recent Activity</h3>
+            <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Recent Activity</h3>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 1.25rem;">
               <li th:each="act : ${stats.recentActivities}" style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
-                <span style="color: var(--accent);">•</span>
-                <span th:text="${act}">Activity item</span>
+                <span style="color: var(--primary); font-weight: 800;">•</span>
+                <span th:text="${act}" style="color: var(--text-secondary);">Activity item</span>
               </li>
             </ul>
           </div>

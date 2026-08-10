@@ -3,6 +3,7 @@ package com.skilvorae.service;
 import com.skilvorae.dto.DashboardStatsDto;
 import com.skilvorae.dto.EnrollmentDto;
 import com.skilvorae.enums.EnrollmentStatus;
+import com.skilvorae.repository.CertificateRepository;
 import com.skilvorae.repository.EnrollmentRepository;
 import com.skilvorae.repository.TestAttemptRepository;
 import com.skilvorae.repository.UserProgressRepository;
@@ -22,10 +23,12 @@ public class DashboardService {
     private final EnrollmentService enrollmentService;
     private final TestAttemptRepository testAttemptRepository;
     private final UserProgressRepository userProgressRepository;
+    private final CertificateRepository certificateRepository;
 
     public DashboardStatsDto getDashboardStats(Long userId) {
         long enrolledCount = enrollmentRepository.countByUserId(userId);
         long completedCount = enrollmentRepository.countByUserIdAndStatus(userId, EnrollmentStatus.COMPLETED);
+        long certCount = certificateRepository.countByUserId(userId);
 
         Double avgScore = testAttemptRepository.findAverageScoreByUserId(userId);
         if (avgScore == null) {
@@ -58,6 +61,7 @@ public class DashboardService {
                 .completedCoursesCount(completedCount)
                 .totalLearningHours(Math.round(totalHours * 10.0) / 10.0)
                 .averageAssessmentScore(Math.round(avgScore * 10.0) / 10.0)
+                .certificatesCount(certCount)
                 .activeCourses(activeCourses)
                 .weeklyActivityData(weeklyData)
                 .recentActivities(recentActivities)

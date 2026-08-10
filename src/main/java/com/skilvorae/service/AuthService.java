@@ -41,11 +41,20 @@ public class AuthService {
             throw new BadRequestException("An account with this email already exists");
         }
 
+        Role userRole = Role.STUDENT;
+        if (request.getRole() != null) {
+            try {
+                userRole = Role.valueOf(request.getRole().toUpperCase().trim());
+            } catch (IllegalArgumentException ignored) {
+                userRole = Role.STUDENT;
+            }
+        }
+
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail().toLowerCase().trim())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.STUDENT)
+                .role(userRole)
                 .build();
 
         userRepository.save(user);

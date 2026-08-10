@@ -3,112 +3,619 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkilVorae — Premium Online Learning & Skill Development Platform</title>
+  <title>Skilvorae — Industry-Grade Online Learning & Career Skills Platform</title>
+  <meta name="description" content="Master practical skills, build real-world projects, and advance your tech career with Skilvorae industry-aligned curriculums.">
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/course.css}">
 </head>
-<body>
+<body id="home">
 
-  <!-- Navigation Bar -->
-  <div th:replace="~{fragments/navbar :: navbar}"></div>
-
-  <!-- Hero Section -->
-  <header style="padding: 5rem 0 4rem 0; overflow: hidden; background: linear-gradient(180deg, #FAFAFC 0%, #F1F5F9 100%); border-bottom: 1px solid var(--border-color);">
+  <!-- STICKY NAVBAR -->
+  <nav class="navbar">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+      <a th:href="@{/}" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <span>Skilvorae</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a th:href="@{/}" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#courses" class="nav-link">Courses</a></li>
+        <li><a href="#why-us" class="nav-link">Why Skilvorae</a></li>
+        <li><a href="#enquiry" class="nav-link">Enquiry</a></li>
+      </ul>
+
+      <div class="nav-auth">
+        <button id="theme-toggle-btn" class="btn btn-outline btn-sm" title="Toggle Light/Dark Mode">🌙</button>
+
+        <th:block th:if="${!isLoggedIn}">
+          <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+          <a th:href="@{/register}" class="btn btn-primary btn-sm">Get Started</a>
+        </th:block>
+
+        <th:block th:if="${isLoggedIn}">
+          <a th:href="@{/dashboard}" class="btn btn-outline btn-sm" th:text="${user != null ? user.fullName : 'Dashboard'}">Dashboard</a>
+          <a th:href="@{/logout}" class="btn btn-primary btn-sm">Logout</a>
+        </th:block>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header style="position: relative; padding: 5rem 0 6rem 0; overflow: hidden; background: radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.08) 0%, rgba(23, 18, 37, 0.02) 60%), var(--bg-main); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; align-items: center;">
+        
         <div>
-          <span class="badge badge-primary" style="margin-bottom: 1rem;">Enterprise Ed-Tech Platform</span>
-          <h1 style="margin-bottom: 1.25rem;">Learn Skills. Build Your Future.</h1>
-          <p style="font-size: 1.15rem; margin-bottom: 2rem; max-width: 520px; line-height: 1.6;">
-            SkilVorae delivers structured software engineering curriculums, interactive quizzes, automated progress tracking, and verifiable certificates.
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <span class="badge badge-lime">Learn. Practice. Excel.</span>
+            <span class="badge badge-lavender">Industry-Ready Skills</span>
+          </div>
+
+          <h1 style="margin-bottom: 1.25rem; font-size: 3.5rem; letter-spacing: -0.03em;">
+            Master Skills.<br>
+            <span style="background: linear-gradient(135deg, var(--electric-violet) 0%, #A855F7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Build Your Future.</span>
+          </h1>
+
+          <h3 style="color: var(--electric-violet); font-weight: 700; margin-bottom: 1rem; font-size: 1.35rem;">
+            Industry-grade learning for real-world careers.
+          </h3>
+
+          <p style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2.25rem; max-width: 580px; color: var(--text-secondary);">
+            Learn practical skills, work on real-world projects, and build the expertise that helps you move confidently from learning to the workplace.
           </p>
-          <div style="display: flex; gap: 1rem;">
-            <a th:href="@{/courses}" class="btn btn-primary">Explore Courses</a>
-            <a th:href="@{/register}" class="btn btn-outline">Start Learning</a>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="#courses" class="btn btn-primary" style="padding: 0.95rem 2rem; font-size: 1rem;">Explore Courses →</a>
+            <a th:href="@{/register}" class="btn btn-outline" style="padding: 0.95rem 2rem; font-size: 1rem;">Get Started</a>
           </div>
         </div>
 
-        <!-- Pure CSS Abstract Artwork -->
+        <!-- RIGHT SIDE ABSTRACT ANIMATED VISUAL -->
         <div style="position: relative; display: flex; justify-content: center; align-items: center;">
-          <div style="width: 380px; height: 320px; background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 20px; padding: 2rem; box-shadow: var(--shadow-lg); position: relative; z-index: 2;">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
-              <div style="font-weight: 700; font-size: 1.1rem; color: #0F172A;">Java 17 Masterclass</div>
-              <span class="badge badge-success">85% Complete</span>
+          <!-- Ambient Glow Background -->
+          <div style="position: absolute; width: 340px; height: 340px; background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, rgba(199, 243, 107, 0.2) 70%, transparent 100%); border-radius: 50%; filter: blur(40px); animation: pulseGlow 8s infinite alternate;"></div>
+
+          <!-- Main Floating Skill Interface Card -->
+          <div class="hero-graphic-card" style="width: 100%; max-width: 420px; background: #171225; color: #FAF9F6; border: 1px solid rgba(199, 243, 107, 0.25); border-radius: 24px; padding: 2rem; box-shadow: 0 24px 48px rgba(23, 18, 37, 0.4); position: relative; z-index: 2;">
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 1rem;">
+              <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #F59E0B;"></div>
+                <div style="width: 12px; height: 12px; border-radius: 50%; background: #10B981;"></div>
+              </div>
+              <span class="badge badge-lime" style="font-size: 0.7rem;">Live Skill Progress</span>
             </div>
-            <div class="progress-bar-wrap" style="margin-bottom: 1.5rem;">
-              <div class="progress-bar-fill" style="width: 85%;"></div>
+
+            <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: #FAF9F6; margin-bottom: 0.4rem;">
+              Java Full Stack Architecture
             </div>
-            <div style="background: var(--bg-subtle); padding: 1rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; color: #334155; margin-bottom: 1rem;">
-              record Student(String name, String email) {}
+
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #D4CEE3; margin-bottom: 1rem;">
+              <span>Spring Boot 3 + Oracle DB</span>
+              <span style="color: #C7F36B; font-weight: 700;">88% Competency</span>
             </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted);">
-              <span>Module 2 of 4</span>
-              <span>14.5 Hours</span>
+
+            <div class="progress-bar-wrap" style="height: 10px; background: rgba(255, 255, 255, 0.1); margin-bottom: 1.5rem;">
+              <div class="progress-bar-fill" style="width: 88%; background: linear-gradient(90deg, #7C3AED 0%, #C7F36B 100%);"></div>
+            </div>
+
+            <!-- Code Snippet Box -->
+            <div style="background: rgba(0, 0, 0, 0.4); padding: 1rem; border-radius: 12px; font-family: monospace; font-size: 0.85rem; color: #C7F36B; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 1.25rem; line-height: 1.5;">
+              <span style="color: #A855F7;">@Service</span><br>
+              <span style="color: #FAF9F6;">public class</span> <span style="color: #F59E0B;">CareerSkillEngine</span> {<br>
+              &nbsp;&nbsp;<span style="color: #A855F7;">@Autowired</span> <span style="color: #FAF9F6;">SkillPipeline</span> pipeline;<br>
+              }
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #9E96B0;">
+              <span>⚡ Hands-on Lab Completed</span>
+              <span style="color: #C7F36B; font-weight: 700;">Verified ✓</span>
+            </div>
+
+            <!-- Floating Pill Badge Accent -->
+            <div style="position: absolute; bottom: -20px; right: -15px; background: #7C3AED; color: #FFFFFF; padding: 0.6rem 1.2rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; box-shadow: 0 10px 24px rgba(124, 58, 237, 0.5); border: 2px solid #FAF9F6; display: flex; align-items: center; gap: 0.5rem;">
+              🚀 Industry Ready
             </div>
           </div>
-          <div style="position: absolute; width: 340px; height: 280px; background: linear-gradient(135deg, #3B82F6, #10B981); border-radius: 24px; filter: blur(40px); opacity: 0.25; z-index: 1;"></div>
         </div>
+
       </div>
     </div>
   </header>
 
-  <!-- Statistics Section -->
-  <section style="padding: 3.5rem 0; border-bottom: 1px solid var(--border-color); background: #FFFFFF;">
+  <!-- SECOND SECTION — IMPACT IN NUMBERS -->
+  <section style="padding: 4.5rem 0; background: var(--midnight-plum); color: var(--off-white); position: relative;">
     <div class="container">
       <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
-        <div>
-          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">12+</div>
-          <p style="font-size: 0.9rem; margin-top: 0.25rem;">Curated Courses</p>
+        
+        <div style="padding: 1rem;">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--neon-lime); line-height: 1;">10+</div>
+          <p style="font-size: 0.95rem; color: var(--soft-lavender); margin-top: 0.5rem; font-weight: 600;">Industry-Focused Courses</p>
         </div>
-        <div>
-          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">4,850+</div>
-          <p style="font-size: 0.9rem; margin-top: 0.25rem;">Active Learners</p>
+
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--off-white); line-height: 1;">1,000+</div>
+          <p style="font-size: 0.95rem; color: var(--soft-lavender); margin-top: 0.5rem; font-weight: 600;">Learning Hours</p>
         </div>
-        <div>
-          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">28</div>
-          <p style="font-size: 0.9rem; margin-top: 0.25rem;">Expert Instructors</p>
+
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--neon-lime); line-height: 1;">50+</div>
+          <p style="font-size: 0.95rem; color: var(--soft-lavender); margin-top: 0.5rem; font-weight: 600;">Practical Projects</p>
         </div>
-        <div>
-          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);">14,200+</div>
-          <p style="font-size: 0.9rem; margin-top: 0.25rem;">Learning Hours</p>
+
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--off-white); line-height: 1;">24/7</div>
+          <p style="font-size: 0.95rem; color: var(--soft-lavender); margin-top: 0.5rem; font-weight: 600;">Learning Access</p>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Featured Courses Section -->
-  <section style="padding: 5rem 0;">
+  <!-- FEATURED COURSES SECTION -->
+  <section style="padding: 6rem 0; background: var(--bg-main);">
     <div class="container">
-      <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2.5rem;">
-        <div>
-          <h2>Featured Courses</h2>
-          <p>Explore top-rated software developer tracks designed for enterprise readiness.</p>
-        </div>
-        <a th:href="@{/courses}" class="btn btn-outline btn-sm">View All Courses →</a>
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 3.5rem auto;">
+        <span class="badge badge-lavender" style="margin-bottom: 0.75rem;">Career-Ready Curriculums</span>
+        <h2>Featured Courses</h2>
+        <p style="margin-top: 0.5rem; font-size: 1.1rem;">Master in-demand technologies through practical labs, real-world case studies, and industry mentorship.</p>
       </div>
 
       <div class="course-grid">
-        <div class="card card-interactive" th:each="course : ${featuredCourses}" style="display: flex; flex-direction: column;">
-          <img th:src="${course.thumbnailUrl}" class="course-card-thumb" alt="Course thumbnail">
+        <!-- Card 1: Full Stack Development -->
+        <div class="card card-interactive" style="display: flex; flex-direction: column;">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80" class="course-card-thumb" alt="Full Stack Development">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-            <span class="badge badge-primary" th:text="${course.categoryName}">Java</span>
-            <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(course.difficulty)}" th:text="${course.difficulty}">Beginner</span>
+            <span class="badge badge-lavender">Development</span>
+            <span class="badge badge-plum">Advanced</span>
           </div>
-          <h3 class="course-card-title"><a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}">Course Title</a></h3>
-          <p class="course-card-instructor" th:text="${'Instructor: ' + course.instructorName}">Instructor Name</p>
+          <h3 class="course-card-title"><a th:href="@{/courses/1}">Full Stack Development</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Build enterprise web applications using Spring Boot, React.js, REST APIs, and database architecture.
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto; align-items: center;">
+            <span>⏱️ 12 Weeks</span>
+            <span>📖 10 Modules</span>
+            <a th:href="@{/courses/1}" class="btn btn-sm btn-outline">View Course</a>
+          </div>
+        </div>
 
-          <div class="course-card-footer">
-            <span style="font-weight: 700; color: var(--warning);" th:text="${'★ ' + course.rating}">★ 4.9</span>
-            <a th:href="@{/courses/{id}(id=${course.id})}" class="btn btn-sm btn-outline">Course Outline</a>
+        <!-- Card 2: Data Analytics -->
+        <div class="card card-interactive" style="display: flex; flex-direction: column;">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" class="course-card-thumb" alt="Data Analytics">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-lavender">Data & AI</span>
+            <span class="badge badge-plum">Intermediate</span>
+          </div>
+          <h3 class="course-card-title"><a th:href="@{/courses/28}">Data Analytics & Visualization</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Clean, transform, analyze, and visualize complex business datasets using Python, Pandas, and SQL.
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto; align-items: center;">
+            <span>⏱️ 10 Weeks</span>
+            <span>📖 8 Modules</span>
+            <a th:href="@{/courses/28}" class="btn btn-sm btn-outline">View Course</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Java Development -->
+        <div class="card card-interactive" style="display: flex; flex-direction: column;">
+          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80" class="course-card-thumb" alt="Java Development">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-lavender">Development</span>
+            <span class="badge badge-plum">Beginner</span>
+          </div>
+          <h3 class="course-card-title"><a th:href="@{/courses/1}">Java 17 Enterprise Masterclass</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Master Java 17 LTS syntax, OOP design, Collections, Streams API, and multithreaded backend services.
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto; align-items: center;">
+            <span>⏱️ 8 Weeks</span>
+            <span>📖 6 Modules</span>
+            <a th:href="@{/courses/1}" class="btn btn-sm btn-outline">View Course</a>
+          </div>
+        </div>
+
+        <!-- Card 4: AI & Machine Learning -->
+        <div class="card card-interactive" style="display: flex; flex-direction: column;">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" class="course-card-thumb" alt="AI & Machine Learning">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-lavender">Emerging Tech</span>
+            <span class="badge badge-plum">Advanced</span>
+          </div>
+          <h3 class="course-card-title"><a th:href="@{/courses/2}">Python AI & Machine Learning</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Train predictive models, neural networks, and computer vision pipelines using Python & TensorFlow.
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto; align-items: center;">
+            <span>⏱️ 14 Weeks</span>
+            <span>📖 12 Modules</span>
+            <a th:href="@{/courses/2}" class="btn btn-sm btn-outline">View Course</a>
+          </div>
+        </div>
+
+        <!-- Card 5: Cloud & DevOps -->
+        <div class="card card-interactive" style="display: flex; flex-direction: column;">
+          <img src="https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=600&q=80" class="course-card-thumb" alt="Cloud & DevOps">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-lavender">Cloud & DevOps</span>
+            <span class="badge badge-plum">Advanced</span>
+          </div>
+          <h3 class="course-card-title"><a th:href="@{/courses/37}">Docker & Kubernetes Microservices</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Containerize applications with Docker and orchestrate distributed cloud pods using Kubernetes & Helm.
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto; align-items: center;">
+            <span>⏱️ 10 Weeks</span>
+            <span>📖 8 Modules</span>
+            <a th:href="@{/courses/37}" class="btn btn-sm btn-outline">View Course</a>
+          </div>
+        </div>
+
+        <!-- Card 6: Digital Marketing -->
+        <div class="card card-interactive" style="display: flex; flex-direction: column;">
+          <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=80" class="course-card-thumb" alt="Digital Marketing">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-lavender">Business</span>
+            <span class="badge badge-plum">Beginner</span>
+          </div>
+          <h3 class="course-card-title"><a th:href="@{/courses/47}">Digital Marketing & Growth Analytics</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem; line-height: 1.6;">
+            Execute performance campaigns, SEO strategies, conversion funnels, and data-driven growth analytics.
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-muted); padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto; align-items: center;">
+            <span>⏱️ 6 Weeks</span>
+            <span>📖 5 Modules</span>
+            <a th:href="@{/courses/47}" class="btn btn-sm btn-outline">View Course</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <div th:replace="~{fragments/footer :: footer}"></div>
+  <!-- ALL COURSES (EXPLORE ALL COURSES WITH INTERACTIVE FILTERING) -->
+  <section id="courses" style="padding: 6rem 0; background: var(--bg-card); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem auto;">
+        <span class="badge badge-lime" style="margin-bottom: 0.75rem;">Comprehensive Catalog</span>
+        <h2>Explore All Courses</h2>
+        <p style="margin-top: 0.5rem; font-size: 1.1rem;">Filter courses by category to find your target career skill path.</p>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-pills">
+        <button class="filter-pill active" onclick="filterLandingCategory('ALL', this)">All</button>
+        <button class="filter-pill" onclick="filterLandingCategory('Development', this)">Development</button>
+        <button class="filter-pill" onclick="filterLandingCategory('Data & AI', this)">Data & AI</button>
+        <button class="filter-pill" onclick="filterLandingCategory('Cloud & DevOps', this)">Cloud & DevOps</button>
+        <button class="filter-pill" onclick="filterLandingCategory('Business', this)">Business</button>
+        <button class="filter-pill" onclick="filterLandingCategory('Design', this)">Design</button>
+        <button class="filter-pill" onclick="filterLandingCategory('Emerging Technologies', this)">Emerging Technologies</button>
+      </div>
+
+      <!-- Course Grid -->
+      <div class="course-grid" id="all-courses-grid">
+        <div class="card card-interactive landing-course-item"
+             th:each="course : ${allCourses}"
+             th:data-category="${course.categoryName}"
+             style="display: flex; flex-direction: column;">
+          
+          <img th:src="${course.thumbnailUrl}" class="course-card-thumb" alt="Course thumbnail">
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <span class="badge badge-lavender" th:text="${course.categoryName}">Category</span>
+            <span class="badge badge-plum" th:text="${course.difficulty}">Difficulty</span>
+          </div>
+
+          <h3 class="course-card-title"><a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}">Course Title</a></h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem;" th:text="${#strings.abbreviate(course.description, 110)}">Description</p>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid var(--border-color); margin-top: auto;">
+            <div>
+              <span class="price-tag" th:text="${course.formattedPrice}">₹1,499 + taxes</span>
+            </div>
+            <a th:href="@{/courses/{id}(id=${course.id})}" class="btn btn-sm btn-outline">View Details</a>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <a th:href="@{/courses}" class="btn btn-primary" style="padding: 0.9rem 2.5rem; font-size: 1rem;">View Full 40+ Course Catalog →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY SKILVORAE SECTION -->
+  <section id="why-us" style="padding: 6rem 0; background: var(--bg-main);">
+    <div class="container">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 4rem auto;">
+        <span class="badge badge-lavender" style="margin-bottom: 0.75rem;">The Skilvorae Advantage</span>
+        <h2>Why Learners Choose Skilvorae</h2>
+        <p style="margin-top: 0.5rem; font-size: 1.1rem;">Engineered to bridge the gap between conceptual understanding and workplace execution.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+        
+        <!-- Feature 1 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 52px; height: 52px; background: var(--soft-lavender); color: var(--electric-violet); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+            🎯
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Industry-Aligned Curriculum</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Curriculums designed in collaboration with active tech leads to ensure every topic meets current industry demands.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 52px; height: 52px; background: rgba(199, 243, 107, 0.3); color: var(--midnight-plum); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+            💻
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Hands-On Projects</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Build production-ready applications, microservices, and analytical dashboards for your professional portfolio.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 52px; height: 52px; background: var(--soft-lavender); color: var(--electric-violet); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+            ⚡
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Practical Learning</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Focus on writing clean code, profiling performance, debugging edge cases, and applying design patterns.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 52px; height: 52px; background: rgba(199, 243, 107, 0.3); color: var(--midnight-plum); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+            📊
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Real-World Case Studies</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Analyze actual enterprise engineering challenges, system trade-offs, and database optimization techniques.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 52px; height: 52px; background: var(--soft-lavender); color: var(--electric-violet); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+            🏆
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Career-Focused Skills</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Develop end-of-course assessments and earn verifiable completion certificates recognized by hiring partners.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 52px; height: 52px; background: rgba(199, 243, 107, 0.3); color: var(--midnight-plum); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1.25rem;">
+            ⏱️
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Learn at Your Own Pace</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Flexible lifetime access to all course modules, code repositories, assessments, and continuous content updates.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SKILVORAE SECTION -->
+  <section id="about" style="padding: 6rem 0; background: var(--midnight-plum); color: var(--off-white); position: relative;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+        
+        <div>
+          <span class="badge badge-lime" style="margin-bottom: 1rem;">About Skilvorae</span>
+          <h2 style="color: var(--off-white); margin-bottom: 1.25rem; font-size: 2.5rem; letter-spacing: -0.02em;">
+            Bridging the Gap Between Learning & Industry Execution.
+          </h2>
+          <p style="color: var(--soft-lavender); font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+            Skilvorae exists to eliminate the disconnect between traditional academic courses and actual software industry requirements.
+          </p>
+          <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 2rem;">
+            We combine rigorous computer science fundamentals with real-world developer tools, cloud infrastructure deployments, and automated testing suites so learners can transition into workplace roles with confidence.
+          </p>
+          <a th:href="@{/register}" class="btn btn-lime">Start Your Journey Today →</a>
+        </div>
+
+        <!-- Abstract Career Progression Graphic -->
+        <div style="position: relative; display: flex; justify-content: center;">
+          <div style="width: 100%; max-width: 440px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(199, 243, 107, 0.2); border-radius: 24px; padding: 2.5rem; backdrop-filter: blur(12px);">
+            <div style="font-size: 1.1rem; font-weight: 700; color: var(--neon-lime); margin-bottom: 1.5rem;">
+              Career Progression Track
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--neon-lime); color: var(--midnight-plum); font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: #FAF9F6;">Core Concepts & Syntax</div>
+                  <div style="font-size: 0.825rem; color: var(--text-muted);">Master fundamental architecture & data structures.</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--electric-violet); color: #FAF9F6; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: #FAF9F6;">Hands-On Project Labs</div>
+                  <div style="font-size: 0.825rem; color: var(--text-muted);">Build full stack services and microservice APIs.</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--neon-lime); color: var(--midnight-plum); font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 0.95rem; color: #FAF9F6;">Industry Certification</div>
+                  <div style="font-size: 0.825rem; color: var(--text-muted);">Pass rigorous assessments and earn verified credentials.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ENQUIRY FORM SECTION -->
+  <section id="enquiry" style="padding: 6rem 0; background: var(--bg-main);">
+    <div class="container">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <div class="card" style="padding: 3rem; box-shadow: var(--shadow-lg); border-radius: 24px;">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <span class="badge badge-lavender" style="margin-bottom: 0.75rem;">Get in Touch</span>
+            <h2>Start Your Learning Journey</h2>
+            <p style="margin-top: 0.4rem;">Have questions about our curriculums or career tracks? Drop us a message.</p>
+          </div>
+
+          <form id="enquiry-form" onsubmit="handleEnquirySubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="eq-fullname">Full Name</label>
+              <input type="text" id="eq-fullname" class="form-control" placeholder="Alex Morgan" required>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label" for="eq-email">Email Address</label>
+                <input type="email" id="eq-email" class="form-control" placeholder="alex@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="eq-phone">Phone Number</label>
+                <input type="tel" id="eq-phone" class="form-control" placeholder="+91 98765 43210" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="eq-course">Course Interested In</label>
+              <select id="eq-course" class="form-control">
+                <option value="Full Stack Development">Full Stack Development</option>
+                <option value="Data Analytics">Data Analytics & Visualization</option>
+                <option value="Java Development">Java 17 Enterprise Masterclass</option>
+                <option value="AI & Machine Learning">Python AI & Machine Learning</option>
+                <option value="Cloud & DevOps">Docker & Kubernetes Cloud</option>
+                <option value="Digital Marketing">Digital Marketing & Growth Analytics</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="eq-message">Message</label>
+              <textarea id="eq-message" class="form-control" rows="4" placeholder="Tell us about your learning goals or background..." required></textarea>
+            </div>
+
+            <button type="submit" id="eq-btn" class="btn btn-primary btn-block" style="padding: 0.95rem; font-size: 1rem;">Send Enquiry →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: var(--midnight-plum); color: var(--off-white); padding: 4.5rem 0 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; margin-bottom: 3.5rem;">
+        
+        <div>
+          <a th:href="@{/}" class="brand-logo" style="color: var(--off-white); margin-bottom: 1rem; display: flex;">
+            <div class="brand-icon">S</div>
+            <span style="color: var(--off-white);">Skilvorae</span>
+          </a>
+          <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 320px; line-height: 1.6; margin-bottom: 1.5rem;">
+            Next-generation learning portal delivering industry-grade engineering and technology skills for real-world careers.
+          </p>
+          <div style="display: flex; gap: 1rem; font-size: 1.2rem;">
+            <a href="#" style="color: var(--neon-lime);">🌐</a>
+            <a href="#" style="color: var(--neon-lime);">💼</a>
+            <a href="#" style="color: var(--neon-lime);">💻</a>
+            <a href="#" style="color: var(--neon-lime);">🐦</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="color: var(--off-white); font-size: 1rem; margin-bottom: 1.25rem;">Quick Links</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <li><a href="#home" style="color: var(--text-muted);">Home</a></li>
+            <li><a href="#about" style="color: var(--text-muted);">About Us</a></li>
+            <li><a href="#courses" style="color: var(--text-muted);">All Courses</a></li>
+            <li><a href="#why-us" style="color: var(--text-muted);">Why Skilvorae</a></li>
+            <li><a th:href="@{/login}" style="color: var(--text-muted);">Sign In</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: var(--off-white); font-size: 1rem; margin-bottom: 1.25rem;">Popular Courses</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Full Stack Engineering</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Data Analytics</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Java 17 Masterclass</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Cloud & DevOps</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">AI & Machine Learning</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: var(--off-white); font-size: 1rem; margin-bottom: 1.25rem;">Contact & Support</h4>
+          <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1rem;">
+            Have inquiries or enterprise partnership questions?
+          </p>
+          <div style="font-size: 0.875rem; color: var(--neon-lime); font-weight: 700;">
+            ✉️ support@skilvorae.com
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap; gap: 1rem;">
+        <div>© 2026 Skilvorae Learning Platform. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#" style="color: var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="color: var(--text-muted);">Terms & Conditions</a>
+          <a href="#" style="color: var(--text-muted);">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <script th:src="@{/js/main.js}"></script>
+  <script>
+    function filterLandingCategory(cat, btn) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const items = document.querySelectorAll('.landing-course-item');
+      items.forEach(item => {
+        const itemCat = item.getAttribute('data-category') || '';
+        if (cat === 'ALL' || itemCat.toLowerCase().includes(cat.toLowerCase()) || (cat === 'Development' && (itemCat.includes('Programming') || itemCat.includes('Full Stack') || itemCat.includes('Web')))) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function handleEnquirySubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('eq-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending Enquiry... ⏳';
+
+      setTimeout(() => {
+        showToast('Enquiry sent successfully! Our career advisor will reach out shortly.', 'success');
+        document.getElementById('enquiry-form').reset();
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry →';
+      }, 1000);
+    }
+  </script>
 </body>
 </html>

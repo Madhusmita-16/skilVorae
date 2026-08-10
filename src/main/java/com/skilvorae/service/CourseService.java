@@ -39,6 +39,10 @@ public class CourseService {
             sort = Sort.by("enrollmentCount").descending();
         } else if ("newest".equalsIgnoreCase(sortBy)) {
             sort = Sort.by("createdAt").descending();
+        } else if ("priceLow".equalsIgnoreCase(sortBy)) {
+            sort = Sort.by("price").ascending();
+        } else if ("priceHigh".equalsIgnoreCase(sortBy)) {
+            sort = Sort.by("price").descending();
         } else if ("title".equalsIgnoreCase(sortBy)) {
             sort = Sort.by("title").ascending();
         }
@@ -68,7 +72,15 @@ public class CourseService {
     }
 
     public List<CourseDto> getFeaturedCourses(Long currentUserId) {
-        return courseRepository.findTop4ByOrderByRatingDesc()
+        return courseRepository.findTop6ByOrderByEnrollmentCountDesc()
+                .stream()
+                .map(c -> mapToDto(c, currentUserId, false))
+                .collect(Collectors.toList());
+    }
+
+    public List<CourseDto> getTopCourses12(Long currentUserId) {
+        return courseRepository.findAll(PageRequest.of(0, 12, Sort.by("rating").descending()))
+                .getContent()
                 .stream()
                 .map(c -> mapToDto(c, currentUserId, false))
                 .collect(Collectors.toList());
@@ -177,6 +189,11 @@ public class CourseService {
             reviewDtos = getCourseReviews(course.getId());
         }
 
+        Double price = course.getPrice() != null ? course.getPrice() : 1499.0;
+        Double originalPrice = course.getOriginalPrice() != null ? course.getOriginalPrice() : 2999.0;
+        Integer discount = course.getDiscountPercentage() != null ? course.getDiscountPercentage() : 50;
+        String formattedPrice = "₹" + String.format("%,.0f", price) + " + taxes";
+
         return CourseDto.builder()
                 .id(course.getId())
                 .title(course.getTitle())
@@ -190,6 +207,10 @@ public class CourseService {
                 .thumbnailUrl(course.getThumbnailUrl())
                 .rating(course.getRating())
                 .enrollmentCount(course.getEnrollmentCount() != null ? course.getEnrollmentCount() : 0)
+                .price(price)
+                .originalPrice(originalPrice)
+                .discountPercentage(discount)
+                .formattedPrice(formattedPrice)
                 .totalModules(totalModules)
                 .totalLessons(totalLessons)
                 .isEnrolled(isEnrolled)

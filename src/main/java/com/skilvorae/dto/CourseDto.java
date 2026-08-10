@@ -23,6 +23,10 @@ public class CourseDto {
     private String thumbnailUrl;
     private Double rating;
     private Integer enrollmentCount;
+    private Double price;
+    private Double originalPrice;
+    private Integer discountPercentage;
+    private String formattedPrice;
     private Integer totalModules;
     private Integer totalLessons;
     private Boolean isEnrolled;

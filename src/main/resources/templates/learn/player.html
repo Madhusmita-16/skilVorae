@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title th:text="${currentLesson.title + ' — SkilVorae Player'}">Learning Player — SkilVorae</title>
+  <title th:text="${(currentLesson != null ? currentLesson.title : 'Player') + ' — SkilVorae Player'}">Learning Player — SkilVorae</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/player.css}">
 </head>
@@ -45,7 +45,7 @@
         <div th:each="lesson : ${module.lessons}"
              th:id="${'lesson-item-' + lesson.id}"
              class="lesson-item"
-             th:classappend="${(currentLesson.id == lesson.id ? ' active' : '') + (lesson.isCompleted ? ' completed' : '')}"
+             th:classappend="${(currentLesson != null and currentLesson.id == lesson.id ? ' active' : '') + (lesson.isCompleted ? ' completed' : '')}"
              th:data-course-id="${course.id}"
              th:data-lesson-id="${lesson.id}">
           <div class="lesson-status-icon" th:text="${lesson.isCompleted ? '✓' : ''}"></div>
@@ -58,9 +58,9 @@
     <!-- Main Content Window -->
     <main class="player-content">
       <div class="lesson-body">
-        <h1 style="font-size: 2.25rem; margin-bottom: 1.5rem;" th:text="${currentLesson.title}">Lesson Title</h1>
+        <h1 style="font-size: 2.25rem; margin-bottom: 1.5rem;" th:text="${currentLesson != null ? currentLesson.title : 'Course Overview'}">Lesson Title</h1>
 
-        <div style="font-size: 1.05rem; line-height: 1.8; color: var(--text-primary);" th:utext="${currentLesson.content}">
+        <div style="font-size: 1.05rem; line-height: 1.8; color: var(--text-primary);" th:utext="${currentLesson != null ? currentLesson.content : 'Select a lesson from the curriculum sidebar.'}">
           Lesson content body...
         </div>
 
@@ -70,7 +70,7 @@
             <a th:href="@{/courses}" class="btn btn-outline btn-sm">← Back to Catalog</a>
           </div>
 
-          <div style="display: flex; gap: 1rem;">
+          <div style="display: flex; gap: 1rem;" th:if="${currentLesson != null and currentLesson.id != 0}">
             <button id="mark-complete-btn"
                     class="btn"
                     th:classappend="${currentLesson.isCompleted ? 'btn-outline' : 'btn-accent'}"

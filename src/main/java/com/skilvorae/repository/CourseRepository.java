@@ -25,6 +25,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
                                      @Param("minRating") Double minRating,
                                      Pageable pageable);
 
+    List<Course> findTop3ByOrderByRatingDesc();
     List<Course> findTop4ByOrderByRatingDesc();
 
     List<Course> findTop6ByOrderByEnrollmentCountDesc();

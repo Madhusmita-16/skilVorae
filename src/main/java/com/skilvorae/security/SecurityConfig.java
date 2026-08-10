@@ -60,7 +60,16 @@ public class SecurityConfig {
             .formLogin(form -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/login-process")
-                .defaultSuccessUrl("/dashboard", true)
+                .successHandler((req, resp, auth) -> {
+                    var authorities = auth.getAuthorities();
+                    String targetUrl = "/dashboard";
+                    if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                        targetUrl = "/admin/dashboard";
+                    } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_INSTRUCTOR"))) {
+                        targetUrl = "/instructor/dashboard";
+                    }
+                    resp.sendRedirect(targetUrl);
+                })
                 .failureUrl("/login?error=true")
                 .permitAll()
             )

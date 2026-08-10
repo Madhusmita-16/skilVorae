@@ -1,41 +1,67 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-  <footer style="background: var(--primary); color: #94A3B8; padding: 4rem 0 2rem 0; margin-top: 4rem;" th:fragment="footer">
+  <footer style="background: var(--midnight-plum); color: var(--off-white); padding: 4.5rem 0 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: 5rem;" th:fragment="footer">
     <div class="container">
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; margin-bottom: 3rem;">
-        <div style="max-width: 360px;">
-          <div class="brand-logo" style="color: #FFFFFF; margin-bottom: 1rem;">
-            <div class="brand-icon" style="background: #FFFFFF; color: #0F172A;">S</div>
-            <span>SkilVorae</span>
-          </div>
-          <p style="color: #94A3B8; font-size: 0.9rem;">
-            Production-grade Online Learning Platform engineered with Spring Boot 3, Oracle DB, Spring Security JWT, and Thymeleaf SSR.
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; margin-bottom: 3.5rem;">
+        
+        <div>
+          <a th:href="@{/}" class="brand-logo" style="color: var(--off-white); margin-bottom: 1rem; display: flex;">
+            <div class="brand-icon">S</div>
+            <span style="color: var(--off-white);">Skilvorae</span>
+          </a>
+          <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 320px; line-height: 1.6; margin-bottom: 1.5rem;">
+            Next-generation ed-tech platform focused on industry-ready software engineering, cloud architecture, and data analytics skills.
           </p>
+          <div style="display: flex; gap: 1rem; font-size: 1.2rem;">
+            <a href="#" style="color: var(--neon-lime);">🌐</a>
+            <a href="#" style="color: var(--neon-lime);">💼</a>
+            <a href="#" style="color: var(--neon-lime);">💻</a>
+            <a href="#" style="color: var(--neon-lime);">🐦</a>
+          </div>
         </div>
 
         <div>
-          <h4 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 1rem;">Explore</h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
-            <li><a th:href="@{/courses}" style="color: #94A3B8;">All Courses</a></li>
-            <li><a th:href="@{/courses(categoryId=1)}" style="color: #94A3B8;">Java Architecture</a></li>
-            <li><a th:href="@{/courses(categoryId=2)}" style="color: #94A3B8;">Spring Boot & JWT</a></li>
-            <li><a th:href="@{/courses(categoryId=3)}" style="color: #94A3B8;">Oracle Database</a></li>
+          <h4 style="color: var(--off-white); font-size: 1rem; margin-bottom: 1.25rem;">Quick Links</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <li><a th:href="@{/}" style="color: var(--text-muted);">Home</a></li>
+            <li><a th:href="@{/#about}" style="color: var(--text-muted);">About Us</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">All Courses</a></li>
+            <li><a th:href="@{/#why-us}" style="color: var(--text-muted);">Why Skilvorae</a></li>
+            <li><a th:href="@{/login}" style="color: var(--text-muted);">Sign In</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 style="color: #FFFFFF; margin-bottom: 1rem; font-size: 1rem;">Platform</h4>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem;">
-            <li><a th:href="@{/login}" style="color: #94A3B8;">Student Portal</a></li>
-            <li><a th:href="@{/register}" style="color: #94A3B8;">Create Account</a></li>
-            <li><a th:href="@{/h2-console}" style="color: #94A3B8;" target="_blank">Database Console</a></li>
+          <h4 style="color: var(--off-white); font-size: 1rem; margin-bottom: 1.25rem;">Courses</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Full Stack Development</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Data Analytics</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Java 17 Masterclass</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">Cloud & DevOps</a></li>
+            <li><a th:href="@{/courses}" style="color: var(--text-muted);">AI & Machine Learning</a></li>
           </ul>
         </div>
+
+        <div>
+          <h4 style="color: var(--off-white); font-size: 1rem; margin-bottom: 1.25rem;">Contact & Support</h4>
+          <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1rem;">
+            Have inquiries or career guidance questions?
+          </p>
+          <div style="font-size: 0.875rem; color: var(--neon-lime); font-weight: 700;">
+            ✉️ support@skilvorae.com
+          </div>
+        </div>
+
       </div>
 
-      <div style="border-top: 1px solid #1E293B; padding-top: 1.5rem; text-align: center; font-size: 0.85rem; color: #64748B;">
-        © 2026 SkilVorae Inc. Built with Java 17+, Spring Boot 3.x, and Oracle DB compatibility.
+      <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap; gap: 1rem;">
+        <div>© 2026 Skilvorae Learning Platform. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#" style="color: var(--text-muted);">Privacy Policy</a>
+          <a href="#" style="color: var(--text-muted);">Terms & Conditions</a>
+          <a href="#" style="color: var(--text-muted);">Security</a>
+        </div>
       </div>
     </div>
   </footer>

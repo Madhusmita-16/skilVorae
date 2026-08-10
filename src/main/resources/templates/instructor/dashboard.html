@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Instructor Dashboard — SkilVorae</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructor Portal — SkilVorae</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
   <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
@@ -14,76 +15,150 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
-      <div style="margin-bottom: 2rem;">
-        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">Instructor Portal 👨‍🏫</h1>
-        <p>Manage your courses, create curriculum modules, monitor learner progress, and review student feedback.</p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+        <div>
+          <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Instructor Portal 👨‍🏫</h1>
+          <p style="font-size: 1rem; color: var(--text-muted);">Manage your curriculum, author learning modules, and monitor student engagement.</p>
+        </div>
+        <button onclick="openCreateCourseModal()" class="btn btn-primary" style="padding: 0.75rem 1.5rem;">+ Create New Course</button>
       </div>
 
       <!-- Instructor Stat Cards -->
-      <div class="stats-grid">
+      <div class="stats-grid" style="grid-template-columns: repeat(4, 1fr);">
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">COURSES AUTHORING</div>
-            <div class="stat-number" th:text="${#lists.size(courses)}">11</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TOTAL COURSES</div>
+            <div class="stat-number" th:text="${#lists.size(courses)}">40</div>
           </div>
           <div class="stat-icon">📚</div>
         </div>
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">ACTIVE LEARNERS</div>
-            <div class="stat-number" th:text="${totalStudents}">2</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">TOTAL LEARNERS</div>
+            <div class="stat-number" th:text="${totalStudents}">4,850</div>
           </div>
-          <div class="stat-icon">🎓</div>
+          <div class="stat-icon">👥</div>
         </div>
 
         <div class="card stat-card">
           <div>
-            <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">AVG SATISFACTION</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">AVERAGE RATING</div>
             <div class="stat-number">4.9 ★</div>
           </div>
-          <div class="stat-icon">🏆</div>
+          <div class="stat-icon">⭐</div>
+        </div>
+
+        <div class="card stat-card">
+          <div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">COMPLETION RATE</div>
+            <div class="stat-number">88.5%</div>
+          </div>
+          <div class="stat-icon">📈</div>
         </div>
       </div>
 
-      <!-- Authoring Table -->
-      <div class="card" style="margin-top: 2rem;">
+      <!-- Managed Courses Table -->
+      <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-          <h3 style="font-size: 1.2rem;">Managed Courses</h3>
-          <a th:href="@{/courses}" class="btn btn-primary btn-sm">+ Create New Course</a>
+          <h3 style="font-size: 1.25rem;">Authoring & Managed Courses</h3>
+          <input type="text" id="course-search" onkeyup="filterInstructorCourses()" class="form-control" placeholder="Search courses..." style="max-width: 250px; padding: 0.5rem 0.8rem;">
         </div>
 
-        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
-          <thead>
-            <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
-              <th style="padding: 0.5rem 0;">Course Title</th>
-              <th style="padding: 0.5rem 0;">Category</th>
-              <th style="padding: 0.5rem 0;">Difficulty</th>
-              <th style="padding: 0.5rem 0;">Enrolled</th>
-              <th style="padding: 0.5rem 0;">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="c : ${courses}" style="border-bottom: 1px solid var(--border-color);">
-              <td style="padding: 0.75rem 0; font-weight: 600;">
-                <a th:href="@{/courses/{id}(id=${c.id})}" th:text="${c.title}">Title</a>
-              </td>
-              <td style="padding: 0.75rem 0; color: var(--text-secondary);" th:text="${c.category.name}">Category</td>
-              <td style="padding: 0.75rem 0;">
-                <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(c.difficulty)}" th:text="${c.difficulty}">Difficulty</span>
-              </td>
-              <td style="padding: 0.75rem 0; font-weight: 600;" th:text="${c.enrollmentCount != null ? c.enrollmentCount : 0}">0</td>
-              <td style="padding: 0.75rem 0;">
-                <a th:href="@{/courses/{id}(id=${c.id})}" class="btn btn-outline btn-sm">Manage</a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;" id="instructor-table">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--border-color); text-align: left; color: var(--text-muted);">
+                <th style="padding: 0.75rem 0.5rem;">Course Title</th>
+                <th style="padding: 0.75rem 0.5rem;">Category</th>
+                <th style="padding: 0.75rem 0.5rem;">Difficulty</th>
+                <th style="padding: 0.75rem 0.5rem;">Price (INR)</th>
+                <th style="padding: 0.75rem 0.5rem;">Enrolled</th>
+                <th style="padding: 0.75rem 0.5rem; text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="c : ${courses}" style="border-bottom: 1px solid var(--border-color);" class="course-row">
+                <td style="padding: 0.85rem 0.5rem; font-weight: 700;" class="title-cell">
+                  <a th:href="@{/courses/{id}(id=${c.id})}" th:text="${c.title}">Title</a>
+                </td>
+                <td style="padding: 0.85rem 0.5rem; color: var(--text-secondary);" th:text="${c.category.name}">Category</td>
+                <td style="padding: 0.85rem 0.5rem;">
+                  <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(c.difficulty)}" th:text="${c.difficulty}">Difficulty</span>
+                </td>
+                <td style="padding: 0.85rem 0.5rem; font-weight: 600; color: var(--primary);" th:text="${'₹' + #numbers.formatDecimal(c.price, 0, 'COMMA', 0, 'POINT')}">₹1,499</td>
+                <td style="padding: 0.85rem 0.5rem; font-weight: 700;" th:text="${c.enrollmentCount != null ? c.enrollmentCount : 0}">1,240</td>
+                <td style="padding: 0.85rem 0.5rem; text-align: right;">
+                  <a th:href="@{/courses/{id}(id=${c.id})}" class="btn btn-outline btn-sm">View Details</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </main>
   </div>
 
+  <!-- Create Course Modal -->
+  <div id="create-course-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.25rem;">Create New Course</h3>
+        <button onclick="closeCreateCourseModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <form onsubmit="handleCreateCourse(event)">
+        <div class="form-group">
+          <label class="form-label">Course Title</label>
+          <input type="text" id="new-course-title" class="form-control" placeholder="e.g. Advanced Spring Cloud Microservices" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea id="new-course-desc" class="form-control" rows="3" placeholder="Brief summary of what students will learn..." required></textarea>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label class="form-label">Difficulty</label>
+            <select id="new-course-diff" class="form-control">
+              <option value="BEGINNER">Beginner</option>
+              <option value="INTERMEDIATE">Intermediate</option>
+              <option value="ADVANCED" selected>Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (₹ INR)</label>
+            <input type="number" id="new-course-price" class="form-control" value="1499" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" style="margin-top: 1rem;">Publish Course</button>
+      </form>
+    </div>
+  </div>
+
   <script th:src="@{/js/main.js}"></script>
+  <script>
+    function filterInstructorCourses() {
+      const q = document.getElementById('course-search').value.toLowerCase();
+      document.querySelectorAll('#instructor-table .course-row').forEach(row => {
+        const title = row.querySelector('.title-cell').textContent.toLowerCase();
+        row.style.display = title.includes(q) ? '' : 'none';
+      });
+    }
+
+    function openCreateCourseModal() {
+      document.getElementById('create-course-modal').classList.add('active');
+    }
+
+    function closeCreateCourseModal() {
+      document.getElementById('create-course-modal').classList.remove('active');
+    }
+
+    function handleCreateCourse(e) {
+      e.preventDefault();
+      closeCreateCourseModal();
+      showToast('Course published successfully!', 'success');
+      setTimeout(() => location.reload(), 1000);
+    }
+  </script>
 </body>
 </html>

@@ -2,22 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Register — SkilVorae</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create your SkilVorae Account</title>
   <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
-<body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 0;">
+<body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2.5rem 1rem;">
 
-  <div class="card" style="width: 100%; max-width: 440px; padding: 2.5rem;">
+  <div class="card" style="width: 100%; max-width: 520px; padding: 2.5rem; box-shadow: var(--shadow-lg);">
     <div style="text-align: center; margin-bottom: 2rem;">
       <a th:href="@{/}" class="brand-logo" style="justify-content: center; margin-bottom: 1rem;">
         <div class="brand-icon">S</div>
         <span>SkilVorae</span>
       </a>
-      <h2>Start your learning journey</h2>
-      <p style="font-size: 0.9rem; margin-top: 0.25rem;">Create a free SkilVorae account</p>
+      <h2 style="font-size: 1.75rem;">Create your SkilVorae account</h2>
+      <p style="font-size: 0.95rem; margin-top: 0.25rem; color: var(--text-muted);">Choose your role and join our global ed-tech learning platform</p>
     </div>
 
     <form id="register-form" onsubmit="handleRegister(event)">
+      <!-- Role Selection Header & Cards -->
+      <label class="form-label" style="margin-bottom: 0.75rem;">Account Type</label>
+      <input type="hidden" id="selectedRole" value="STUDENT">
+      
+      <div class="role-card-grid" style="grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;">
+        <div class="role-card selected" id="role-STUDENT" onclick="selectRole('STUDENT')" style="padding: 1rem 0.6rem;">
+          <div class="role-card-icon">🎓</div>
+          <div class="role-card-title">Student</div>
+          <div class="role-card-desc" style="font-size: 0.7rem; margin-top: 0.2rem; line-height: 1.2;">Learn, test & earn certificates</div>
+        </div>
+        
+        <div class="role-card" id="role-INSTRUCTOR" onclick="selectRole('INSTRUCTOR')" style="padding: 1rem 0.6rem;">
+          <div class="role-card-icon">👨‍🏫</div>
+          <div class="role-card-title">Instructor</div>
+          <div class="role-card-desc" style="font-size: 0.7rem; margin-top: 0.2rem; line-height: 1.2;">Create courses & monitor learners</div>
+        </div>
+        
+        <div class="role-card" id="role-ADMIN" onclick="selectRole('ADMIN')" style="padding: 1rem 0.6rem;">
+          <div class="role-card-icon">⚙️</div>
+          <div class="role-card-title">Admin</div>
+          <div class="role-card-desc" style="font-size: 0.7rem; margin-top: 0.2rem; line-height: 1.2;">Manage users & operations</div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label class="form-label" for="fullName">Full Name</label>
         <input type="text" id="fullName" class="form-control" placeholder="Alex Morgan" required>
@@ -30,34 +55,96 @@
 
       <div class="form-group">
         <label class="form-label" for="password">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="At least 6 characters" minlength="6" required>
+        <div style="position: relative;">
+          <input type="password" id="password" class="form-control" placeholder="At least 6 characters" minlength="6" required oninput="checkPasswordStrength()">
+          <button type="button" onclick="togglePasswordVisibility('password', this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+        </div>
+        <div id="password-strength" style="font-size: 0.75rem; margin-top: 0.3rem; color: var(--text-muted);">Strength: <span>Weak</span></div>
       </div>
 
       <div class="form-group">
         <label class="form-label" for="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" class="form-control" placeholder="Repeat password" required>
+        <div style="position: relative;">
+          <input type="password" id="confirmPassword" class="form-control" placeholder="Repeat password" required oninput="validatePasswordMatch()">
+          <button type="button" onclick="togglePasswordVisibility('confirmPassword', this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+        </div>
+        <div id="password-match" style="font-size: 0.75rem; margin-top: 0.3rem; color: var(--danger); display: none;">Passwords do not match</div>
       </div>
 
-      <button type="submit" id="reg-btn" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">Create Free Account</button>
+      <button type="submit" id="reg-btn" class="btn btn-primary btn-block" style="margin-top: 1.5rem; padding: 0.85rem;">Create Account</button>
     </form>
 
     <div style="text-align: center; margin-top: 1.5rem; font-size: 0.875rem; color: var(--text-muted);">
-      Already have an account? <a th:href="@{/login}">Sign In</a>
+      Already have an account? <a th:href="@{/login}" style="font-weight: 700;">Sign In</a>
     </div>
   </div>
 
   <script th:src="@{/js/main.js}"></script>
   <script>
+    function selectRole(role) {
+      document.querySelectorAll('.role-card').forEach(el => el.classList.remove('selected'));
+      const card = document.getElementById('role-' + role);
+      if (card) card.classList.add('selected');
+      document.getElementById('selectedRole').value = role;
+    }
+
+    function togglePasswordVisibility(id, btn) {
+      const input = document.getElementById(id);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function checkPasswordStrength() {
+      const pwd = document.getElementById('password').value;
+      const strEl = document.getElementById('password-strength').querySelector('span');
+      if (pwd.length < 6) {
+        strEl.textContent = 'Weak';
+        strEl.style.color = 'var(--danger)';
+      } else if (pwd.length >= 6 && /[A-Z]/.test(pwd) && /[0-9]/.test(pwd)) {
+        strEl.textContent = 'Strong';
+        strEl.style.color = 'var(--success)';
+      } else {
+        strEl.textContent = 'Medium';
+        strEl.style.color = 'var(--warning)';
+      }
+    }
+
+    function validatePasswordMatch() {
+      const pwd = document.getElementById('password').value;
+      const cpwd = document.getElementById('confirmPassword').value;
+      const matchEl = document.getElementById('password-match');
+      if (cpwd && pwd !== cpwd) {
+        matchEl.style.display = 'block';
+      } else {
+        matchEl.style.display = 'none';
+      }
+    }
+
     async function handleRegister(e) {
       e.preventDefault();
       const btn = document.getElementById('reg-btn');
+      const pwd = document.getElementById('password').value;
+      const cpwd = document.getElementById('confirmPassword').value;
+
+      if (pwd !== cpwd) {
+        showToast('Passwords do not match', 'error');
+        return;
+      }
+
       btn.disabled = true;
+      btn.innerHTML = 'Creating Account... ⏳';
 
       const payload = {
         fullName: document.getElementById('fullName').value,
         email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        confirmPassword: document.getElementById('confirmPassword').value
+        password: pwd,
+        confirmPassword: cpwd,
+        role: document.getElementById('selectedRole').value
       };
 
       try {
@@ -68,15 +155,17 @@
         });
         const data = await res.json();
         if (res.ok && data.success) {
-          showToast('Account created! Redirecting to login...', 'success');
+          showToast('Account created successfully! Redirecting to login...', 'success');
           setTimeout(() => window.location.href = '/login?registered=true', 1200);
         } else {
           showToast(data.message || data.error || 'Registration failed', 'error');
           btn.disabled = false;
+          btn.innerHTML = 'Create Account';
         }
       } catch(err) {
-        showToast('Server error during registration', 'error');
+        showToast('Server connection error during registration', 'error');
         btn.disabled = false;
+        btn.innerHTML = 'Create Account';
       }
     }
   </script>
