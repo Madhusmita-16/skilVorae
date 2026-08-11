@@ -12,7 +12,7 @@
 
 Watch the app workflow in action:
 
-[![Navigation Demo](assets/readme-preview.png)](assets/navigation.mp4)
+[![Navigation Demo](assets/navigation.mp4)](assets/navigation.mp4)
 
 Download or open the full demo video here:
 
