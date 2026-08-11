@@ -6,11 +6,13 @@
 
 ## Navigation Demo
 
-Below is an interactive navigation clip demonstrating the application's key views and user flow:
+The navigation demo is available in the repository at `assets/navigation.gif`.
 
-![SkilVorae Application Navigation Demo](F:\skilVorae\assets\navigation.webp)
+[![SkilVorae Application Navigation Demo](assets/navigation.gif)](assets/navigation.gif)
 
-*Alternative direct path: `assets/navigation.webp`*
+*If the preview does not display in your Markdown viewer, open the file directly:* [assets/navigation.gif](assets/navigation.gif)
+
+*Raw GitHub link:* [https://raw.githubusercontent.com/Madhusmita-16/skilVorae/master/assets/navigation.gif](https://raw.githubusercontent.com/Madhusmita-16/skilVorae/master/assets/navigation.gif)
 
 ---
 
@@ -101,7 +103,7 @@ http://localhost:8080
 ```
 skilVorae/
 ├── assets/
-│   └── navigation.webp            # 10s Application Navigation Video Clip
+│   └── navigation.gif            # 10s Application Navigation Demo Clip
 ├── src/
 │   ├── main/
 │   │   ├── java/com/skilvorae/
