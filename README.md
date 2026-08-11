@@ -12,7 +12,7 @@
 
 Watch the app workflow in action:
 
-[![Navigation Demo](assets/navigation.mp4)](assets/navigation.mp4)
+[![Navigation Demo](F:\skilVorae\assets\image.png)](assets/navigation.mp4)
 
 Download or open the full demo video here:
 
