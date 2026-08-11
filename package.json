@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "gif-encoder-2": "^1.0.5",
-    "pureimage": "^0.4.20"
-  }
-}

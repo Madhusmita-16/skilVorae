@@ -4,18 +4,6 @@
 
 ---
 
-## Navigation Demo
-
-The navigation demo is available in the repository at `assets/navigation.gif`.
-
-[![SkilVorae Application Navigation Demo](assets/navigation.gif)](assets/navigation.gif)
-
-*If the preview does not display in your Markdown viewer, open the file directly:* [assets/navigation.gif](assets/navigation.gif)
-
-*Raw GitHub link:* [https://raw.githubusercontent.com/Madhusmita-16/skilVorae/master/assets/navigation.gif](https://raw.githubusercontent.com/Madhusmita-16/skilVorae/master/assets/navigation.gif)
-
----
-
 ## About The Project
 
 **SkilVorae** is an enterprise-grade Learning Management System (LMS) designed for engineering, technology, and management professionals. It provides a complete end-to-end learning experience — from exploring a 40+ course catalog with real-time filters to interactive lesson streaming, quiz assessments, verifiable certificates, student dashboard analytics, instructor course creation wizards, and administrative platform governance.
@@ -103,7 +91,6 @@ http://localhost:8080
 ```
 skilVorae/
 ├── assets/
-│   └── navigation.gif            # 10s Application Navigation Demo Clip
 ├── src/
 │   ├── main/
 │   │   ├── java/com/skilvorae/
