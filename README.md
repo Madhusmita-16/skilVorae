@@ -13,9 +13,11 @@
 Watch the app workflow in action:
 
 <video controls width="720" style="max-width:100%; border: 1px solid #ddd; border-radius: 8px;">
-  <source src="navigation.webm" type="video/webm">
-  Your browser does not support embedded videos. You can still download the demo: [Navigation Demo](navigation.webm)
+  <source src="assets/navigation.webm" type="video/webm">
+  Your browser does not support embedded videos. You can still download the demo: [Navigation Demo](assets/navigation.webm)
 </video>
+
+> Note: GitHub may not render inline WebM playback in all views, but the file link will still open the tracked video.
 
 ### Core Highlights & Design Principles
 - **Clean & Professional UI**: Completely emoji-free presentation with clean, high-contrast typography, dark/light theme switching, and custom CSS design system.
