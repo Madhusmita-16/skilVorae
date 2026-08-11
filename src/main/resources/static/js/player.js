@@ -26,7 +26,7 @@ async function markLessonComplete(courseId, lessonId) {
       if (lessonItem) {
         lessonItem.classList.add('completed');
         const icon = lessonItem.querySelector('.lesson-status-icon');
-        if (icon) icon.innerHTML = '✓';
+        if (icon) icon.innerHTML = '[Done]';
       }
 
       // Update progress bar
@@ -36,7 +36,7 @@ async function markLessonComplete(courseId, lessonId) {
       if (text) text.innerText = `${data.data}% Completed`;
 
       if (btn) {
-        btn.innerText = 'Completed ✓';
+        btn.innerText = 'Completed';
         btn.classList.remove('btn-accent');
         btn.classList.add('btn-outline');
       }

@@ -38,7 +38,7 @@ function toggleTheme() {
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('skilvorae_theme', newTheme);
-  showToast(`Switched to ${newTheme} mode 🌙`, 'info');
+  showToast(`Switched to ${newTheme} mode`, 'info');
 }
 
 // Notification Center Logic

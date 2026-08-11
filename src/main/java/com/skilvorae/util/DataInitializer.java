@@ -99,7 +99,7 @@ public class DataInitializer implements CommandLineRunner {
         createCourseCatalog(catProg, catFullStack, catWeb, catDb, catCloud, catSecurity, catIT, catMgmt, catAuto, catEmerging, catRenewable, catLang, student, instructor);
 
         // Seed Notifications
-        Notification n1 = Notification.builder().user(student).title("Welcome to SkilVorae! 🚀").message("Explore our catalog of 40+ trending tech & management courses.").type("SYSTEM").build();
+        Notification n1 = Notification.builder().user(student).title("Welcome to SkilVorae!").message("Explore our catalog of 40+ trending tech & management courses.").type("SYSTEM").build();
         Notification n2 = Notification.builder().user(student).title("Java 17 Masterclass Progress").message("You completed 2 lessons in Java 17 Enterprise Masterclass! Keep going.").type("ENROLLMENT").build();
         notificationRepository.saveAll(List.of(n1, n2));
 

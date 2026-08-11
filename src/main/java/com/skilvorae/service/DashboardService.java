@@ -74,10 +74,10 @@ public class DashboardService {
 
         // Achievements list
         List<DashboardStatsDto.AchievementDto> achievements = List.of(
-                DashboardStatsDto.AchievementDto.builder().id("1").title("First Course Enrolled").description("Enrolled in your first tech course on SkilVorae.").icon("🎯").unlocked(!allEnrollments.isEmpty()).unlockedDate("2026-08-01").build(),
-                DashboardStatsDto.AchievementDto.builder().id("2").title("10 Learning Hours").description("Completed over 10 hours of active lab practice.").icon("⏱️").unlocked(totalHours >= 10).unlockedDate("2026-08-05").build(),
-                DashboardStatsDto.AchievementDto.builder().id("3").title("Assessment Master").description("Achieved an average assessment score above 85%.").icon("⚡").unlocked(avgScore >= 85.0).unlockedDate("2026-08-08").build(),
-                DashboardStatsDto.AchievementDto.builder().id("4").title("First Certificate Earned").description("Completed a course and earned a verifiable certificate.").icon("🏆").unlocked(certCount > 0).unlockedDate("2026-08-09").build()
+                DashboardStatsDto.AchievementDto.builder().id("1").title("First Course Enrolled").description("Enrolled in your first tech course on SkilVorae.").icon("1").unlocked(!allEnrollments.isEmpty()).unlockedDate("2026-08-01").build(),
+                DashboardStatsDto.AchievementDto.builder().id("2").title("10 Learning Hours").description("Completed over 10 hours of active lab practice.").icon("2").unlocked(totalHours >= 10).unlockedDate("2026-08-05").build(),
+                DashboardStatsDto.AchievementDto.builder().id("3").title("Assessment Master").description("Achieved an average assessment score above 85%.").icon("3").unlocked(avgScore >= 85.0).unlockedDate("2026-08-08").build(),
+                DashboardStatsDto.AchievementDto.builder().id("4").title("First Certificate Earned").description("Completed a course and earned a verifiable certificate.").icon("4").unlocked(certCount > 0).unlockedDate("2026-08-09").build()
         );
 
         // Upcoming assessments
