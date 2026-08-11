@@ -8,7 +8,9 @@
 <body style="background: var(--bg-main); display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem 0;">
 
   <div class="card" style="width: 100%; max-width: 540px; padding: 3rem; text-align: center;">
-    <div style="font-size: 3.5rem; margin-bottom: 1rem;" th:text="${result.passed ? '🎉' : '⚠️'}">🎉</div>
+    <div style="margin-bottom: 1rem;">
+      <span class="badge" th:classappend="${result.passed ? 'badge-success' : 'badge-danger'}" style="font-size: 1rem; padding: 0.5rem 1.25rem;" th:text="${result.passed ? 'PASSED' : 'NOT PASSED'}">PASSED</span>
+    </div>
     
     <h1 style="font-size: 2rem; margin-bottom: 0.5rem;" th:text="${result.passed ? 'Assessment Passed!' : 'Assessment Not Passed'}">Passed!</h1>
     <p th:text="${result.courseTitle}">Course Name</p>
@@ -24,7 +26,7 @@
       <a th:href="@{/dashboard}" class="btn btn-outline">Back to Dashboard</a>
       
       <th:block th:if="${result.passed && result.certificateCode != null}">
-        <a th:href="@{/certificates/{code}(code=${result.certificateCode})}" class="btn btn-accent" target="_blank">View Certificate 🏆</a>
+        <a th:href="@{/certificates/{code}(code=${result.certificateCode})}" class="btn btn-accent" target="_blank">View Certificate</a>
       </th:block>
 
       <th:block th:if="${!result.passed}">

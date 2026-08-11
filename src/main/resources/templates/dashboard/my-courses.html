@@ -28,10 +28,9 @@
       </div>
 
       <div th:if="${#lists.isEmpty(enrollments)}" style="text-align: center; padding: 4rem 2rem; background: var(--bg-card); border-radius: var(--border-radius); border: 1px solid var(--border-color);">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
         <h3>No courses enrolled yet</h3>
         <p style="margin: 0.5rem 0 1.5rem 0;">Browse our catalog of 40+ trending engineering & management courses to get started.</p>
-        <a th:href="@{/courses}" class="btn btn-primary">Explore Course Catalog →</a>
+        <a th:href="@{/courses}" class="btn btn-primary">Explore Course Catalog</a>
       </div>
 
       <div class="course-grid" id="my-courses-grid">
@@ -61,12 +60,12 @@
           </div>
 
           <div class="course-card-footer" style="gap: 0.5rem; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
-            <a th:href="@{/courses/{id}/learn(id=${item.courseId}, lessonId=${item.lastLessonId})}" class="btn btn-primary btn-sm btn-block">Continue Learning →</a>
+            <a th:href="@{/courses/{id}/learn(id=${item.courseId}, lessonId=${item.lastLessonId})}" class="btn btn-primary btn-sm btn-block">Continue Learning</a>
             <th:block th:if="${item.progressPercentage == 100}">
-              <a th:href="@{/certificates}" class="btn btn-accent btn-sm btn-block">View Certificate 🏆</a>
+              <a th:href="@{/certificates}" class="btn btn-accent btn-sm btn-block">View Certificate</a>
             </th:block>
             <th:block th:if="${item.progressPercentage < 100}">
-              <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment 📝</a>
+              <a th:href="@{/assessments/{id}(id=${item.courseId})}" class="btn btn-outline btn-sm btn-block">Take Assessment</a>
             </th:block>
           </div>
         </div>

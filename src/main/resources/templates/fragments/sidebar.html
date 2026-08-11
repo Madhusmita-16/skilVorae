@@ -10,47 +10,47 @@
 
       <!-- STUDENT MENU -->
       <ul class="sidebar-menu" th:if="${user == null or user.role.name() == 'STUDENT'}">
-        <li><a th:href="@{/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'dashboard' ? 'active' : ''}"><span>📊</span> Dashboard</a></li>
-        <li><a th:href="@{/courses}" class="sidebar-link"><span>🔍</span> Explore Courses</a></li>
-        <li><a th:href="@{/my-courses}" class="sidebar-link" th:classappend="${activeTab == 'my-courses' ? 'active' : ''}"><span>📚</span> My Courses</a></li>
-        <li><a th:href="@{/dashboard#progress}" class="sidebar-link"><span>📈</span> Learning Progress</a></li>
-        <li><a th:href="@{/dashboard#assessments}" class="sidebar-link"><span>📝</span> Assessments</a></li>
-        <li><a th:href="@{/certificates}" class="sidebar-link" th:classappend="${activeTab == 'certificates' ? 'active' : ''}"><span>🏆</span> Certificates</a></li>
-        <li><a th:href="@{/dashboard#wishlist}" class="sidebar-link"><span>❤️</span> Wishlist</a></li>
-        <li><a th:href="@{/dashboard#notifications}" class="sidebar-link"><span>🔔</span> Notifications</a></li>
-        <li><a th:href="@{/profile}" class="sidebar-link" th:classappend="${activeTab == 'profile' ? 'active' : ''}"><span>👤</span> Profile</a></li>
-        <li><a th:href="@{/settings}" class="sidebar-link" th:classappend="${activeTab == 'settings' ? 'active' : ''}"><span>⚙️</span> Settings</a></li>
+        <li><a th:href="@{/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'dashboard' ? 'active' : ''}">Dashboard</a></li>
+        <li><a th:href="@{/courses}" class="sidebar-link">Explore Courses</a></li>
+        <li><a th:href="@{/my-courses}" class="sidebar-link" th:classappend="${activeTab == 'my-courses' ? 'active' : ''}">My Courses</a></li>
+        <li><a th:href="@{/dashboard#progress}" class="sidebar-link">Learning Progress</a></li>
+        <li><a th:href="@{/dashboard#assessments}" class="sidebar-link">Assessments</a></li>
+        <li><a th:href="@{/certificates}" class="sidebar-link" th:classappend="${activeTab == 'certificates' ? 'active' : ''}">Certificates</a></li>
+        <li><a th:href="@{/dashboard#wishlist}" class="sidebar-link">Wishlist</a></li>
+        <li><a th:href="@{/dashboard#notifications}" class="sidebar-link">Notifications</a></li>
+        <li><a th:href="@{/profile}" class="sidebar-link" th:classappend="${activeTab == 'profile' ? 'active' : ''}">Profile</a></li>
+        <li><a th:href="@{/settings}" class="sidebar-link" th:classappend="${activeTab == 'settings' ? 'active' : ''}">Settings</a></li>
       </ul>
 
       <!-- INSTRUCTOR MENU -->
       <ul class="sidebar-menu" th:if="${user != null and user.role.name() == 'INSTRUCTOR'}">
-        <li><a th:href="@{/instructor/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'instructor' ? 'active' : ''}"><span>📊</span> Dashboard</a></li>
-        <li><a th:href="@{/instructor/courses}" class="sidebar-link"><span>📚</span> My Courses</a></li>
-        <li><a href="javascript:void(0)" onclick="openCreateCourseModal()" class="sidebar-link"><span>➕</span> Create Course</a></li>
-        <li><a th:href="@{/instructor/students}" class="sidebar-link"><span>👥</span> Students</a></li>
-        <li><a th:href="@{/instructor/dashboard#assessments}" class="sidebar-link"><span>📝</span> Assessments</a></li>
-        <li><a th:href="@{/instructor/dashboard#assignments}" class="sidebar-link"><span>📋</span> Assignments</a></li>
-        <li><a th:href="@{/instructor/dashboard#reviews}" class="sidebar-link"><span>⭐</span> Reviews</a></li>
-        <li><a th:href="@{/instructor/dashboard#analytics}" class="sidebar-link"><span>📈</span> Analytics</a></li>
-        <li><a th:href="@{/instructor/dashboard#earnings}" class="sidebar-link"><span>💰</span> Earnings</a></li>
-        <li><a th:href="@{/profile}" class="sidebar-link"><span>👤</span> Profile</a></li>
-        <li><a th:href="@{/settings}" class="sidebar-link"><span>⚙️</span> Settings</a></li>
+        <li><a th:href="@{/instructor/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'instructor' ? 'active' : ''}">Dashboard</a></li>
+        <li><a th:href="@{/instructor/courses}" class="sidebar-link">My Courses</a></li>
+        <li><a href="javascript:void(0)" onclick="openCreateCourseModal()" class="sidebar-link">Create Course</a></li>
+        <li><a th:href="@{/instructor/students}" class="sidebar-link">Students</a></li>
+        <li><a th:href="@{/instructor/dashboard#assessments}" class="sidebar-link">Assessments</a></li>
+        <li><a th:href="@{/instructor/dashboard#assignments}" class="sidebar-link">Assignments</a></li>
+        <li><a th:href="@{/instructor/dashboard#reviews}" class="sidebar-link">Reviews</a></li>
+        <li><a th:href="@{/instructor/dashboard#analytics}" class="sidebar-link">Analytics</a></li>
+        <li><a th:href="@{/instructor/dashboard#earnings}" class="sidebar-link">Earnings</a></li>
+        <li><a th:href="@{/profile}" class="sidebar-link">Profile</a></li>
+        <li><a th:href="@{/settings}" class="sidebar-link">Settings</a></li>
       </ul>
 
       <!-- ADMIN MENU -->
       <ul class="sidebar-menu" th:if="${user != null and user.role.name() == 'ADMIN'}">
-        <li><a th:href="@{/admin/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'admin' ? 'active' : ''}"><span>📊</span> Dashboard</a></li>
-        <li><a th:href="@{/admin/users}" class="sidebar-link"><span>👥</span> Users</a></li>
-        <li><a th:href="@{/admin/dashboard#students}" class="sidebar-link"><span>🎓</span> Students</a></li>
-        <li><a th:href="@{/admin/dashboard#instructors}" class="sidebar-link"><span>👨‍🏫</span> Instructors</a></li>
-        <li><a th:href="@{/admin/courses}" class="sidebar-link"><span>📚</span> Courses</a></li>
-        <li><a th:href="@{/admin/dashboard#categories}" class="sidebar-link"><span>🏷️</span> Categories</a></li>
-        <li><a th:href="@{/admin/dashboard#enrollments}" class="sidebar-link"><span>📄</span> Enrollments</a></li>
-        <li><a th:href="@{/admin/certificates}" class="sidebar-link"><span>🏆</span> Certificates</a></li>
-        <li><a th:href="@{/admin/dashboard#moderation}" class="sidebar-link"><span>⭐</span> Reviews & Moderation</a></li>
-        <li><a th:href="@{/admin/dashboard#analytics}" class="sidebar-link"><span>📈</span> Platform Analytics</a></li>
-        <li><a th:href="@{/admin/audit-logs}" class="sidebar-link"><span>🛡️</span> Audit Logs</a></li>
-        <li><a th:href="@{/profile}" class="sidebar-link"><span>👤</span> Profile</a></li>
+        <li><a th:href="@{/admin/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'admin' ? 'active' : ''}">Dashboard</a></li>
+        <li><a th:href="@{/admin/users}" class="sidebar-link">Users</a></li>
+        <li><a th:href="@{/admin/dashboard#students}" class="sidebar-link">Students</a></li>
+        <li><a th:href="@{/admin/dashboard#instructors}" class="sidebar-link">Instructors</a></li>
+        <li><a th:href="@{/admin/courses}" class="sidebar-link">Courses</a></li>
+        <li><a th:href="@{/admin/dashboard#categories}" class="sidebar-link">Categories</a></li>
+        <li><a th:href="@{/admin/dashboard#enrollments}" class="sidebar-link">Enrollments</a></li>
+        <li><a th:href="@{/admin/certificates}" class="sidebar-link">Certificates</a></li>
+        <li><a th:href="@{/admin/dashboard#moderation}" class="sidebar-link">Reviews & Moderation</a></li>
+        <li><a th:href="@{/admin/dashboard#analytics}" class="sidebar-link">Platform Analytics</a></li>
+        <li><a th:href="@{/admin/audit-logs}" class="sidebar-link">Audit Logs</a></li>
+        <li><a th:href="@{/profile}" class="sidebar-link">Profile</a></li>
       </ul>
     </div>
 

@@ -21,9 +21,9 @@
           <h1 th:text="${course.title}">Course Title</h1>
           <p th:text="${course.description}" style="margin-bottom: 1.5rem;">Course Description</p>
           <div style="display: flex; gap: 2rem; font-size: 0.9rem; color: #CBD5E1;">
-            <span th:text="${'👨‍🏫 ' + course.instructorName}">Instructor</span>
-            <span th:text="${'⏱️ ' + course.durationHours + ' Hours'}">14.5 Hours</span>
-            <span th:text="${'★ ' + course.rating + ' Rating'}">★ 4.9</span>
+            <span th:text="${'Instructor: ' + course.instructorName}">Instructor</span>
+            <span th:text="${course.durationHours + ' Hours'}">14.5 Hours</span>
+            <span th:text="${'Rating: ' + course.rating}">Rating: 4.9</span>
           </div>
         </div>
 
@@ -41,7 +41,7 @@
           </div>
 
           <th:block th:if="${course.isEnrolled}">
-            <a th:href="@{/courses/{id}/learn(id=${course.id})}" class="btn btn-accent btn-block" style="font-size: 1.05rem;">Continue Learning →</a>
+            <a th:href="@{/courses/{id}/learn(id=${course.id})}" class="btn btn-accent btn-block" style="font-size: 1.05rem;">Continue Learning</a>
           </th:block>
 
           <th:block th:if="${!course.isEnrolled}">
@@ -86,10 +86,10 @@
       </div>
 
       <div style="font-size: 0.8rem; color: var(--electric-violet); margin-bottom: 1.25rem; background: rgba(124, 58, 237, 0.08); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(124, 58, 237, 0.15); line-height: 1.45;">
-        💡 <strong>Portfolio Demo Notice:</strong> Clicking below will enroll your account immediately without charging real payment.
+        <strong>Portfolio Demo Notice:</strong> Clicking below will enroll your account immediately without charging real payment.
       </div>
 
-      <button type="button" onclick="confirmDemoCheckout()" id="confirm-checkout-btn" class="btn btn-primary btn-block" style="padding: 0.85rem; font-size: 1rem; font-weight: 700;">Continue to Enrollment →</button>
+      <button type="button" onclick="confirmDemoCheckout()" id="confirm-checkout-btn" class="btn btn-primary btn-block" style="padding: 0.85rem; font-size: 1rem; font-weight: 700;">Continue to Enrollment</button>
     </div>
   </div>
 
@@ -122,11 +122,11 @@
         <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
           <label style="font-weight: 600; font-size: 0.9rem;">Rating:</label>
           <select id="review-rating" class="form-control" style="width: auto;">
-            <option value="5">5 ★★★★★ Excellent</option>
-            <option value="4">4 ★★★★☆ Good</option>
-            <option value="3">3 ★★★☆☆ Average</option>
-            <option value="2">2 ★★☆☆☆ Needs Work</option>
-            <option value="1">1 ★☆☆☆☆ Poor</option>
+            <option value="5">5/5 Excellent</option>
+            <option value="4">4/5 Good</option>
+            <option value="3">3/5 Average</option>
+            <option value="2">2/5 Needs Work</option>
+            <option value="1">1/5 Poor</option>
           </select>
         </div>
 
@@ -147,7 +147,7 @@
       <div class="card" th:each="rev : ${course.reviews}" style="padding: 1.2rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <span style="font-weight: 700; font-size: 0.95rem;" th:text="${rev.userName}">Learner Name</span>
-          <span style="color: var(--warning); font-weight: 700;" th:text="${'★ ' + rev.rating}">★ 5</span>
+          <span style="color: var(--warning); font-weight: 700;" th:text="${'Rating: ' + rev.rating}">Rating: 5</span>
         </div>
         <p style="font-size: 0.9rem; color: var(--text-secondary);" th:text="${rev.comment}">Review comment...</p>
       </div>

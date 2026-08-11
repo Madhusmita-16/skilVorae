@@ -47,7 +47,7 @@
           </div>
           <div style="position: relative;">
             <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
-            <button type="button" onclick="toggleLoginPassword(this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1rem;">👁️</button>
+            <button type="button" onclick="toggleLoginPassword(this)" style="position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 0.8rem; font-weight: 600;">Show</button>
           </div>
         </div>
 
@@ -90,10 +90,10 @@
       const input = document.getElementById('password');
       if (input.type === 'password') {
         input.type = 'text';
-        btn.textContent = '🙈';
+        btn.textContent = 'Hide';
       } else {
         input.type = 'password';
-        btn.textContent = '👁️';
+        btn.textContent = 'Show';
       }
     }
   </script>

@@ -18,7 +18,7 @@
     <main class="dashboard-main">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
         <div>
-          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'Welcome, ' + user.fullName + ' 👨‍🏫'}">Instructor Portal 👨‍🏫</h1>
+          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'Welcome, ' + user.fullName}">Instructor Portal</h1>
           <p style="font-size: 1.05rem; color: var(--text-muted);">Create courses, manage modules, track learner progress, and analyze performance metrics.</p>
         </div>
         <button onclick="openCreateCourseModal()" class="btn btn-primary" style="padding: 0.85rem 1.6rem; font-weight: 700; font-size: 0.95rem;">+ Create New Course</button>
@@ -31,7 +31,6 @@
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COURSES</div>
             <div class="stat-number" th:text="${stats.totalCoursesCount}">40</div>
           </div>
-          <div class="stat-icon">📚</div>
         </div>
 
         <div class="stat-card">
@@ -39,7 +38,6 @@
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">LEARNERS</div>
             <div class="stat-number" th:text="${stats.totalStudentsCount}">4,850</div>
           </div>
-          <div class="stat-icon">👥</div>
         </div>
 
         <div class="stat-card">
@@ -47,7 +45,6 @@
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ACTIVE</div>
             <div class="stat-number" th:text="${stats.activeLearnersCount}">3,120</div>
           </div>
-          <div class="stat-icon">⚡</div>
         </div>
 
         <div class="stat-card">
@@ -55,15 +52,13 @@
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETION</div>
             <div class="stat-number" th:text="${stats.courseCompletionRate + '%'}">88.5%</div>
           </div>
-          <div class="stat-icon">📈</div>
         </div>
 
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">RATING</div>
-            <div class="stat-number" th:text="${stats.averageRating + ' ★'}">4.9 ★</div>
+            <div class="stat-number" th:text="${stats.averageRating}">4.9</div>
           </div>
-          <div class="stat-icon">⭐</div>
         </div>
 
         <div class="stat-card">
@@ -71,7 +66,6 @@
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">DEMO EARNINGS</div>
             <div class="stat-number" th:text="${'₹' + #numbers.formatDecimal(stats.totalEarnings, 0, 'COMMA', 0, 'POINT')}">₹1.8L</div>
           </div>
-          <div class="stat-icon">💰</div>
         </div>
       </div>
 
@@ -289,7 +283,7 @@
           </div>
           <div style="display: flex; justify-content: space-between;">
             <button type="button" onclick="goToStep(3)" class="btn btn-outline">← Back</button>
-            <button type="submit" class="btn btn-primary" style="font-weight: 700; padding: 0.75rem 1.75rem;">🚀 Publish Course Live</button>
+            <button type="submit" class="btn btn-primary" style="font-weight: 700; padding: 0.75rem 1.75rem;">Publish Course Live</button>
           </div>
         </div>
       </form>

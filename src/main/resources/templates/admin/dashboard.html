@@ -18,7 +18,7 @@
     <main class="dashboard-main">
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
         <div>
-          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'System Administration Portal 🛡️'}">System Administration Portal 🛡️</h1>
+          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'System Administration Portal'}">System Administration Portal</h1>
           <p style="font-size: 1.05rem; color: var(--text-muted);">Manage platform governance, user authorizations, course operations, certificate verifications, and audit activity.</p>
         </div>
       </div>
@@ -30,7 +30,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">USERS</div>
             <div class="stat-number" th:text="${stats.totalUsersCount}">3</div>
           </div>
-          <div class="stat-icon">👥</div>
         </div>
 
         <div class="stat-card">
@@ -38,7 +37,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">STUDENTS</div>
             <div class="stat-number" th:text="${stats.totalStudentsCount}">1</div>
           </div>
-          <div class="stat-icon">🎓</div>
         </div>
 
         <div class="stat-card">
@@ -46,7 +44,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">INSTRUCTORS</div>
             <div class="stat-number" th:text="${stats.totalInstructorsCount}">1</div>
           </div>
-          <div class="stat-icon">👨‍🏫</div>
         </div>
 
         <div class="stat-card">
@@ -54,7 +51,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COURSES</div>
             <div class="stat-number" th:text="${stats.totalCoursesCount}">40</div>
           </div>
-          <div class="stat-icon">📖</div>
         </div>
 
         <div class="stat-card">
@@ -62,7 +58,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ENROLLMENTS</div>
             <div class="stat-number" th:text="${stats.activeEnrollmentsCount}">2</div>
           </div>
-          <div class="stat-icon">📄</div>
         </div>
 
         <div class="stat-card">
@@ -70,7 +65,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETED</div>
             <div class="stat-number" th:text="${stats.completedCoursesCount}">0</div>
           </div>
-          <div class="stat-icon">✅</div>
         </div>
 
         <div class="stat-card">
@@ -78,7 +72,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">CERTS ISSUED</div>
             <div class="stat-number" th:text="${stats.certificatesIssuedCount}">0</div>
           </div>
-          <div class="stat-icon">🏆</div>
         </div>
 
         <div class="stat-card">
@@ -86,7 +79,6 @@
             <div style="font-size: 0.65rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">PLATFORM METRICS</div>
             <div class="stat-number" style="font-size: 1.4rem;" th:text="${'₹' + #numbers.formatDecimal(stats.platformRevenue, 0, 'COMMA', 0, 'POINT')}">₹1.4L</div>
           </div>
-          <div class="stat-icon">💰</div>
         </div>
       </div>
 
@@ -218,11 +210,11 @@
         const box = document.getElementById('cert-result-box');
         if (data.success) {
           box.style.display = 'block';
-          document.getElementById('cert-res-title').textContent = '✅ Authentic Certificate: ' + data.data.certificateNumber;
+          document.getElementById('cert-res-title').textContent = 'Authentic Certificate: ' + data.data.certificateNumber;
           document.getElementById('cert-res-details').textContent = 'Issued to ' + data.data.studentName + ' for ' + data.data.courseTitle + ' (Grade: ' + data.data.grade + ')';
         } else {
           box.style.display = 'block';
-          document.getElementById('cert-res-title').textContent = '❌ Unverified Certificate';
+          document.getElementById('cert-res-title').textContent = 'Unverified Certificate';
           document.getElementById('cert-res-details').textContent = data.message || 'No matching certificate record found in database.';
         }
       } catch(err) {

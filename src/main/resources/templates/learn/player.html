@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <a th:href="@{/assessments/{id}(id=${course.id})}" class="btn btn-accent btn-sm">Course Quiz 🏆</a>
+      <a th:href="@{/assessments/{id}(id=${course.id})}" class="btn btn-accent btn-sm">Course Quiz</a>
       <a th:href="@{/dashboard}" class="btn btn-outline btn-sm" style="color: #FFFFFF; border-color: #334155;">Exit Player</a>
     </div>
   </header>
@@ -48,7 +48,7 @@
              th:classappend="${(currentLesson != null and currentLesson.id == lesson.id ? ' active' : '') + (lesson.isCompleted ? ' completed' : '')}"
              th:data-course-id="${course.id}"
              th:data-lesson-id="${lesson.id}">
-          <div class="lesson-status-icon" th:text="${lesson.isCompleted ? '✓' : ''}"></div>
+          <div class="lesson-status-icon" th:text="${lesson.isCompleted ? '[Done]' : ''}"></div>
           <div style="flex: 1;" th:text="${lesson.title}">Lesson Title</div>
           <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${lesson.durationMinutes + 'm'}">30m</div>
         </div>
@@ -67,7 +67,7 @@
         <!-- Navigation Controls -->
         <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
           <div>
-            <a th:href="@{/courses}" class="btn btn-outline btn-sm">← Back to Catalog</a>
+            <a th:href="@{/courses}" class="btn btn-outline btn-sm">Back to Catalog</a>
           </div>
 
           <div style="display: flex; gap: 1rem;" th:if="${currentLesson != null and currentLesson.id != 0}">
@@ -76,7 +76,7 @@
                     th:classappend="${currentLesson.isCompleted ? 'btn-outline' : 'btn-accent'}"
                     th:data-course-id="${course.id}"
                     th:data-lesson-id="${currentLesson.id}">
-              <span th:text="${currentLesson.isCompleted ? 'Completed ✓' : 'Mark as Complete'}">Mark as Complete</span>
+              <span th:text="${currentLesson.isCompleted ? 'Completed' : 'Mark as Complete'}">Mark as Complete</span>
             </button>
           </div>
         </div>
