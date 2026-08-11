@@ -8,6 +8,15 @@
 
 **SkilVorae** is an enterprise-grade Learning Management System (LMS) designed for engineering, technology, and management professionals. It provides a complete end-to-end learning experience — from exploring a 40+ course catalog with real-time filters to interactive lesson streaming, quiz assessments, verifiable certificates, student dashboard analytics, instructor course creation wizards, and administrative platform governance.
 
+## Navigation Demo
+
+Watch the app workflow in action:
+
+<video controls width="720" style="max-width:100%; border: 1px solid #ddd; border-radius: 8px;">
+  <source src="navigation.webm" type="video/webm">
+  Your browser does not support embedded videos. You can still download the demo: [Navigation Demo](navigation.webm)
+</video>
+
 ### Core Highlights & Design Principles
 - **Clean & Professional UI**: Completely emoji-free presentation with clean, high-contrast typography, dark/light theme switching, and custom CSS design system.
 - **100% Functional Buttons & Workflows**: All form submissions, course checkout modals, theme toggles, filters, quiz timers, profile edits, certificate downloads, and admin tools are fully implemented and functional.
