@@ -8,7 +8,7 @@
 
 Below is an interactive navigation clip demonstrating the application's key views and user flow:
 
-![SkilVorae Application Navigation Demo](file:///C:/Users/HP/.gemini/antigravity-ide/brain/0e29d483-4d0a-4443-9ab7-f2464f741357/skilvorae_navigation_1786442753388.webp)
+![SkilVorae Application Navigation Demo](F:\skilVorae\assets\navigation.webp)
 
 *Alternative direct path: `assets/navigation.webp`*
 
