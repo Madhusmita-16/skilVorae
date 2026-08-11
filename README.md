@@ -14,11 +14,12 @@ Watch the app workflow in action:
 
 [![Navigation Demo](assets/readme-preview.png)](assets/navigation.mp4)
 
-<video controls width="720" style="max-width:100%; border: 1px solid #ddd; border-radius: 8px;">
-  <source src="assets/navigation.mp4" type="video/mp4">
-  <source src="assets/navigation.webm" type="video/webm">
-  Your browser does not support embedded videos. You can still download the demo: [Navigation Demo](assets/navigation.mp4)
-</video>
+Download or open the full demo video here:
+
+- [Download Navigation Demo (MP4)](assets/navigation.mp4)
+- [Download Navigation Demo (WebM)](assets/navigation.webm)
+
+> Note: GitHub README does not support raw HTML video playback, so the preview image above links directly to the demo file.
 
 ### Core Highlights & Design Principles
 - **Clean & Professional UI**: Completely emoji-free presentation with clean, high-contrast typography, dark/light theme switching, and custom CSS design system.
