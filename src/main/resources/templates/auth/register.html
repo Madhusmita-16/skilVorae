@@ -165,30 +165,32 @@
       currentSelectedRole = role;
       document.getElementById('selectedRole').value = role;
 
-      // Update Active Role Status Bar in Step 2
+      // Update Active Role Status Bar in Step 2 if the elements are present
       const badgeIcon = document.getElementById('role-badge-icon');
       const badgeText = document.getElementById('role-badge-text');
       const emailLabel = document.getElementById('email-label');
 
       if (role === 'STUDENT') {
-        badgeIcon.textContent = '🎓';
-        badgeText.textContent = 'Creating a Student Account';
-        emailLabel.innerHTML = 'Email Address <span style="color:var(--danger)">*</span>';
+        if (badgeIcon) badgeIcon.textContent = '🎓';
+        if (badgeText) badgeText.textContent = 'Creating a Student Account';
+        if (emailLabel) emailLabel.innerHTML = 'Email Address <span style="color:var(--danger)">*</span>';
       } else if (role === 'INSTRUCTOR') {
-        badgeIcon.textContent = '👨‍🏫';
-        badgeText.textContent = 'Creating an Instructor Account';
-        emailLabel.innerHTML = 'Email Address <span style="color:var(--danger)">*</span>';
+        if (badgeIcon) badgeIcon.textContent = '👨‍🏫';
+        if (badgeText) badgeText.textContent = 'Creating an Instructor Account';
+        if (emailLabel) emailLabel.innerHTML = 'Email Address <span style="color:var(--danger)">*</span>';
       } else if (role === 'ADMIN') {
-        badgeIcon.textContent = '🛡️';
-        badgeText.textContent = 'Creating an Admin Account';
-        emailLabel.innerHTML = 'Official Email Address <span style="color:var(--danger)">*</span>';
+        if (badgeIcon) badgeIcon.textContent = '🛡️';
+        if (badgeText) badgeText.textContent = 'Creating an Admin Account';
+        if (emailLabel) emailLabel.innerHTML = 'Official Email Address <span style="color:var(--danger)">*</span>';
       }
 
       renderRoleSpecificFields(role);
 
       // Transition to Step 2
-      document.getElementById('step-role-selection').style.display = 'none';
-      document.getElementById('step-registration-form').style.display = 'block';
+      const step1 = document.getElementById('step-role-selection');
+      const step2 = document.getElementById('step-registration-form');
+      if (step1) step1.style.display = 'none';
+      if (step2) step2.style.display = 'block';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
