@@ -12,6 +12,8 @@
 
 Watch the app workflow in action:
 
+[![Navigation Demo](assets/readme-preview.png)](assets/navigation.mp4)
+
 <video controls width="720" style="max-width:100%; border: 1px solid #ddd; border-radius: 8px;">
   <source src="assets/navigation.mp4" type="video/mp4">
   <source src="assets/navigation.webm" type="video/webm">
