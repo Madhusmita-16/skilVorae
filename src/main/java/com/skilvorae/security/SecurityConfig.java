@@ -54,7 +54,8 @@ public class SecurityConfig {
                     "/favicon.ico",
                     "/api/auth/**",
                     "/api/courses",
-                    "/api/notifications/unread-count"
+                    "/api/notifications/unread-count",
+                    "/api/recommendations/**"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/instructor/**").hasAnyRole("INSTRUCTOR", "ADMIN")
