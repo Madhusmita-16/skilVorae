@@ -38,6 +38,8 @@ function selectOption(questionId, optionId, element) {
   if (navBtn) {
     navBtn.classList.add('answered');
   }
+}
+
 function scrollToQuestion(questionId) {
   const card = document.getElementById(`q-card-${questionId}`);
   if (card) {

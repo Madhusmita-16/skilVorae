@@ -18,19 +18,16 @@ The application comes pre-seeded with 3 user personas for testing:
 
 ## Navigation Demo & Interactive Video Walkthrough
 
-Watch the complete application workflow and navigation in action:
+Watch the full application walkthrough, navigation, and interactive features in action:
 
 <p align="center">
-  <video src="assets/navigation.mp4" width="100%" controls poster="assets/image.png">
-    Your browser does not support HTML5 video playback. <a href="assets/navigation.mp4">Click here to watch the Navigation Demo MP4</a>.
-  </video>
+  <img src="assets/navigation.webp" alt="SkilVorae Interactive Navigation Demo" width="100%" style="border-radius: 12px; border: 1px solid #7C3AED;" />
 </p>
 
-[![Navigation Demo Preview](assets/image.png)](assets/navigation.mp4)
-
-### Direct Demo Video Downloads:
-- **MP4 Video**: [Download Navigation Demo (MP4)](assets/navigation.mp4)
-- **WebM Video**: [Download Navigation Demo (WebM)](assets/navigation.webm)
+### Live Demo Assets:
+- **Interactive Animated Walkthrough**: [`assets/navigation.webp`](assets/navigation.webp)
+- **Application Dashboard Screenshot**: [`assets/image.png`](assets/image.png)
+- **Video Download**: [`assets/navigation.mp4`](assets/navigation.mp4)
 
 ### Step-by-Step Navigation Guide:
 1. **Landing Page (`/`)**: Explore 3-cards-per-row featured courses, view top categories, or click **View More Courses →**.
