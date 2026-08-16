@@ -1,7 +1,8 @@
-# Multi-stage Dockerfile for SkilVorae
+# Multi-stage Dockerfile for SkilVorae on Render
 FROM openjdk:17-jdk-slim AS build
 WORKDIR /app
 COPY . .
+RUN chmod +x ./maven/apache-maven-3.9.6/bin/mvn
 RUN ./maven/apache-maven-3.9.6/bin/mvn clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
