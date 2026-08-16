@@ -1,6 +1,6 @@
 [build]
-  publish = "src/main/resources/static"
-  command = "echo 'Static assets ready for Netlify deployment'"
+  publish = "public"
+  command = "echo 'Netlify build ready'"
 
 [[redirects]]
   from = "/api/*"
