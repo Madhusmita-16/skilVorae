@@ -29,13 +29,31 @@ Test credentials for all 3 user roles implemented in Spring Security:
 
 ---
 
+## Navigation Video Demo
+
+Watch the complete application workflow and navigation demo in action:
+
+<p align="center">
+  <a href="assets/navigation.mp4">
+    <img src="assets/navigation.gif" alt="SkilVorae Navigation Demo Video" width="100%" style="border-radius: 10px; border: 1px solid #7C3AED;" />
+  </a>
+</p>
+
+### Navigation Video Links:
+- [Watch / Download Navigation Video (MP4)](assets/navigation.mp4)
+- [Watch / Download Navigation Video (WebM)](assets/navigation.webm)
+- [Watch / Download Navigation Video (GIF)](assets/navigation.gif)
+
+---
+
 ## Application Screenshot & Demo Assets
 
 ![SkilVorae Student Dashboard Preview](assets/image.png)
 
 ### Asset References:
 - **Dashboard Preview**: [`assets/image.png`](assets/image.png)
-- **Navigation Recording**: [`assets/navigation.webp`](assets/navigation.webp)
+- **Navigation Recording**: [`assets/navigation.gif`](assets/navigation.gif)
+- **Navigation MP4 Video**: [`assets/navigation.mp4`](assets/navigation.mp4)
 
 ---
 
