@@ -162,24 +162,14 @@
         <span class="badge badge-lime" style="margin-bottom: 0.75rem;">Comprehensive Catalog</span>
         <h2>Explore All Courses</h2>
         <p style="margin-top: 0.5rem; font-size: 1.1rem;">Master in-demand technologies through practical labs, real-world case studies, and industry mentorship.</p>
-      <!-- Category Filter Pills -->
-      <div class="filter-pills">
-        <button type="button" class="filter-pill active" onclick="filterLandingCategory('ALL', this)">All Track Courses</button>
-        <button type="button" class="filter-pill" onclick="filterLandingCategory('Development', this)">Full Stack & Dev</button>
-        <button type="button" class="filter-pill" onclick="filterLandingCategory('Cloud', this)">Cloud & DevOps</button>
-        <button type="button" class="filter-pill" onclick="filterLandingCategory('Cybersecurity', this)">Cybersecurity</button>
-        <button type="button" class="filter-pill" onclick="filterLandingCategory('Automation', this)">Automation & Hardware</button>
-        <button type="button" class="filter-pill" onclick="filterLandingCategory('Data', this)">Data & Analytics</button>
-        <button type="button" class="filter-pill" onclick="filterLandingCategory('Management', this)">Management</button>
       </div>
 
-      <!-- Course Grid -->
+      <!-- 3 Cards Per Row Grid (Row 1: 3 cards, Row 2: 3 cards) -->
       <div class="course-grid" id="all-courses-grid">
 
         <!-- Dynamic Course Cards from Backend -->
         <div class="card card-interactive landing-course-item"
              th:each="course : ${allCourses}"
-             th:data-category="${course.categoryName}"
              style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
           
           <div>
@@ -487,21 +477,6 @@
 
   <script th:src="@{/js/main.js}"></script>
   <script>
-    function filterLandingCategory(cat, btn) {
-      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-
-      const items = document.querySelectorAll('.landing-course-item');
-      items.forEach(item => {
-        const itemCat = item.getAttribute('data-category') || '';
-        if (cat === 'ALL' || itemCat.toLowerCase().includes(cat.toLowerCase()) || (cat === 'Development' && (itemCat.includes('Programming') || itemCat.includes('Full Stack') || itemCat.includes('Web')))) {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    }
-
     function handleEnquirySubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('eq-btn');

@@ -8,18 +8,37 @@
 
 **SkilVorae** is an enterprise-grade Learning Management System (LMS) designed for engineering, technology, and management professionals. It provides a complete end-to-end learning experience — from exploring a 40+ course catalog with real-time filters to interactive lesson streaming, quiz assessments, verifiable certificates, student dashboard analytics, instructor course creation wizards, and administrative platform governance.
 
-## Navigation Demo
+## Navigation Demo & Interactive Walkthrough
 
-Watch the app workflow in action:
+Experience the end-to-end application workflow and navigation in action:
 
-[![Navigation Demo](assets/image.png)](assets/navigation.mp4)
+<p align="center">
+  <video src="assets/navigation.mp4" width="100%" controls poster="assets/image.png">
+    Your browser does not support HTML5 video playback. <a href="assets/navigation.mp4">Click here to watch the Navigation Demo MP4</a>.
+  </video>
+</p>
 
-Download or open the full demo video here:
+[![Navigation Demo Preview](assets/image.png)](assets/navigation.mp4)
 
-- [Download Navigation Demo (MP4)](assets/navigation.mp4)
-- [Download Navigation Demo (WebM)](assets/navigation.webm)
+### Direct Demo Video Downloads & Playback:
+- **MP4 Format**: [Download Navigation Demo (MP4)](assets/navigation.mp4)
+- **WebM Format**: [Download Navigation Demo (WebM)](assets/navigation.webm)
 
-> Note: GitHub README does not support raw HTML video playback, so the preview image above links directly to the demo file.
+### Step-by-Step Navigation Guide:
+1. **Landing Page (`/`)**: Explore 3-cards-per-row featured courses, navigate through header sections, or click **View More Courses →**.
+2. **Course Catalog (`/courses`)**: Search by title/instructor, filter by category, difficulty level, min rating, and paginate through course listings.
+3. **Student Learning Journey**:
+   - **Login**: `student@skilvorae.com` / `password123`
+   - **Enrolled Courses & Player**: View active progress on `/my-courses`, watch lessons on `/courses/{id}/learn`, toggle module completion.
+   - **Quiz Engine**: Take timed assessments on `/assessments/{id}`, submit answers, and view instant score breakdown on `/assessments/result/{id}`.
+   - **Certificates**: Generate and print official completion certificates on `/certificates/{id}`.
+4. **Instructor Portal**:
+   - **Login**: `instructor@skilvorae.com` / `password123`
+   - **Dashboard**: Track enrollment metrics, student rosters, and earnings on `/instructor/dashboard`.
+   - **Course Wizard**: Launch the 4-step course authoring modal via `/instructor/dashboard?create=true`.
+5. **Admin Governance**:
+   - **Login**: `admin@skilvorae.com` / `password123`
+   - **User Security & Logs**: Inspect user permissions, search account rosters, review real-time audit logs, and verify certificate codes.
 
 ### Core Highlights & Design Principles
 - **Clean & Professional UI**: Completely emoji-free presentation with clean, high-contrast typography, dark/light theme switching, and custom CSS design system.
