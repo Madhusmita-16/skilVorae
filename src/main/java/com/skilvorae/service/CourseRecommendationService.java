@@ -31,12 +31,12 @@ public class CourseRecommendationService {
         // Fetch top rated courses in same category excluding current course
         List<Course> related = courseRepository.findByCategoryIdOrderByRatingDesc(
                 currentCourse.getCategory().getId(), PageRequest.of(0, limit + 1)
-        ).getContent();
+        );
 
         return related.stream()
                 .filter(c -> !c.getId().equals(courseId))
                 .limit(limit)
-                .map(c -> courseService.getCourseById(c.getId(), userId))
+                .map(c -> courseService.getCourseDetails(c.getId(), userId))
                 .collect(Collectors.toList());
     }
 
@@ -47,7 +47,7 @@ public class CourseRecommendationService {
         }
 
         // Find user's enrolled categories
-        var enrollments = enrollmentRepository.findByUserIdOrderByEnrolledAtDesc(userId);
+        var enrollments = enrollmentRepository.findByUserId(userId);
         if (enrollments.isEmpty()) {
             return getTopTrendingCourses(limit, userId);
         }
@@ -55,10 +55,10 @@ public class CourseRecommendationService {
         Long topCategoryId = enrollments.get(0).getCourse().getCategory().getId();
         List<Course> recommended = courseRepository.findByCategoryIdOrderByRatingDesc(
                 topCategoryId, PageRequest.of(0, limit)
-        ).getContent();
+        );
 
         return recommended.stream()
-                .map(c -> courseService.getCourseById(c.getId(), userId))
+                .map(c -> courseService.getCourseDetails(c.getId(), userId))
                 .collect(Collectors.toList());
     }
 
@@ -67,7 +67,7 @@ public class CourseRecommendationService {
         return courseRepository.findAllByOrderByEnrollmentCountDesc(PageRequest.of(0, limit))
                 .getContent()
                 .stream()
-                .map(c -> courseService.getCourseById(c.getId(), userId))
+                .map(c -> courseService.getCourseDetails(c.getId(), userId))
                 .collect(Collectors.toList());
     }
 }

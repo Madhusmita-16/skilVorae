@@ -56,7 +56,7 @@ public class WishlistService {
     public List<CourseDto> getUserWishlist(Long userId) {
         List<Wishlist> wishlists = wishlistRepository.findByUserIdOrderByCreatedAtDesc(userId);
         return wishlists.stream()
-                .map(w -> courseService.getCourseById(w.getCourse().getId(), userId))
+                .map(w -> courseService.getCourseDetails(w.getCourse().getId(), userId))
                 .collect(Collectors.toList());
     }
 
