@@ -64,13 +64,6 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <!-- H2 Database for Zero-Setup Out-of-the-Box Execution -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
         <!-- MySQL Database Connector -->
         <dependency>
             <groupId>com.mysql</groupId>
