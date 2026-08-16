@@ -142,6 +142,27 @@ skilVorae/
 
 ---
 
+## Cloud Hosting & Deployment Guide
+
+### Option 1: Render.com (Recommended for Java Spring Boot)
+1. Sign up at [Render.com](https://render.com).
+2. Create a new **Web Service** and connect your GitHub repository `Madhusmita-16/skilVorae`.
+3. Set **Runtime** to `Docker` (it will use the project's [`Dockerfile`](file:///f:/skilVorae/Dockerfile)).
+4. Click **Create Web Service**. Render will automatically compile and host the live Spring Boot application.
+
+### Option 2: Netlify Deployment
+1. Connect your repository `Madhusmita-16/skilVorae` to [Netlify](https://netlify.com).
+2. The project contains a pre-configured [`netlify.toml`](file:///f:/skilVorae/netlify.toml) file:
+   - **Publish directory**: `src/main/resources/static`
+   - **API Proxy**: Redirects `/api/*` requests to your deployed Java backend service.
+3. Click **Deploy Site**.
+
+### Option 3: Railway.app (1-Click Deployment)
+1. Import `Madhusmita-16/skilVorae` into [Railway.app](https://railway.app).
+2. Railway detects Maven `pom.xml` automatically and executes `mvn clean package` and `java -jar target/*.jar`.
+
+---
+
 ## License
 
 This project is released under the **MIT License**.
