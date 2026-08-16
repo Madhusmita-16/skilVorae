@@ -22,19 +22,6 @@
 
 ---
 
-## Application Screenshots
-
-| Page | Preview |
-| :--- | :--- |
-| 🏠 **Home — Featured Courses Grid** | ![Home Page](assets/screenshot_home.png) |
-| 📚 **Course Catalog — Browse & Filter** | ![Course Catalog](assets/screenshot_courses.png) |
-| 🎓 **Student Dashboard** | ![Student Dashboard](assets/screenshot_dashboard.png) |
-| ▶️ **Course Player** | ![Course Player](assets/screenshot_player.png) |
-| 🧑‍🏫 **Instructor Dashboard** | ![Instructor Dashboard](assets/screenshot_instructor.png) |
-| 🛡️ **Admin Dashboard** | ![Admin Dashboard](assets/screenshot_admin.png) |
-
----
-
 ## Implemented Features
 
 ### Student
