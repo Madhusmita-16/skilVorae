@@ -1,117 +1,107 @@
 # SkilVorae — Online Learning & Career Skills Platform
 
-> Enterprise-grade Learning Management System (LMS) built with **Java 17 / Spring Boot 3**, **MySQL Database**, **Spring Security 6**, **Spring Data JPA**, **Thymeleaf**, and **Vanilla CSS**.
+> Enterprise-grade Learning Management System (LMS) built with **Java 17 / Spring Boot 3**, **Spring Security 6 (JWT)**, **Spring Data JPA / Hibernate**, **MySQL (production) / H2 (dev)**, **Thymeleaf**, and **Vanilla CSS**.
 
 ---
 
-## Database Architecture: MySQL
+## Demo Login Accounts
 
-The application connects to **MySQL Database** as its primary persistence engine:
-
-- **Database Name**: `skilvoraedb`
-- **Connection URL**: `jdbc:mysql://localhost:3306/skilvoraedb?createDatabaseIfNotExist=true&useSSL=false`
-- **Driver**: `com.mysql.cj.jdbc.Driver`
-- **Dialect**: `org.hibernate.dialect.MySQLDialect`
-- **ORM & DDL**: Spring Data JPA / Hibernate (`ddl-auto=update`)
-- **Seeder**: Automatically seeds 40+ courses, modules, lessons, quizzes, demo users, enrollments, and reviews on startup via `DataInitializer.java`.
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| 🎓 **Student** | `student@skilvorae.com` | `password123` |
+| 🧑‍🏫 **Instructor** | `instructor@skilvorae.com` | `password123` |
+| 🛡️ **Admin** | `admin@skilvorae.com` | `password123` |
 
 ---
 
-## Pre-Configured Demo Login Accounts
+## Navigation Demo
 
-Test credentials for all 3 user roles implemented in Spring Security:
+> Click the preview below to download and watch the full navigation clip.
 
-| Role | Email | Password | Implemented Features & Access |
-| :--- | :--- | :--- | :--- |
-| **Student** | `student@skilvorae.com` | `password123` | Enrolled Courses, Curriculum Player, Timed Quizzes, Digital Certificates, Wishlist, Dashboard |
-| **Instructor** | `instructor@skilvorae.com` | `password123` | Authoring Dashboard, 4-Step Course Creation Wizard, Roster Management, CSV Data Export |
-| **Admin** | `admin@skilvorae.com` | `password123` | Platform Metrics, User Role Controls, Certificate Authenticity Verifier, Audit Logs Export |
+[![SkilVorae Navigation Demo](assets/screenshot_home.png)](assets/navigation.webp)
 
 ---
 
-## Application Screenshots & Navigation Walkthrough
+## Application Screenshots
 
-> **Live navigation screenshots captured from a running instance of the application.**
-
-### 🏠 Home Page — Featured Courses Grid (3-per-row)
-![Home Page Hero & Featured Courses](assets/screenshot_home.png)
-
-### 📚 Course Catalog — Browse, Filter & Search
-![Course Catalog Grid](assets/screenshot_courses.png)
-
-### 🎓 Student Dashboard — Learning Progress & Streak Tracker
-![Student Dashboard](assets/screenshot_dashboard.png)
-
-### ▶️ Course Player — Lesson Viewer with Sidebar
-![Course Player](assets/screenshot_player.png)
-
-### 📥 Navigation Video Download
-- [Download Full Navigation Recording (WebP video)](assets/navigation.webp)
+| Page | Preview |
+| :--- | :--- |
+| 🏠 **Home — Featured Courses Grid** | ![Home Page](assets/screenshot_home.png) |
+| 📚 **Course Catalog — Browse & Filter** | ![Course Catalog](assets/screenshot_courses.png) |
+| 🎓 **Student Dashboard** | ![Student Dashboard](assets/screenshot_dashboard.png) |
+| ▶️ **Course Player** | ![Course Player](assets/screenshot_player.png) |
+| 🧑‍🏫 **Instructor Dashboard** | ![Instructor Dashboard](assets/screenshot_instructor.png) |
+| 🛡️ **Admin Dashboard** | ![Admin Dashboard](assets/screenshot_admin.png) |
 
 ---
 
-## Implemented Features List
+## Implemented Features
 
-### 1. Landing Page & Course Catalog
-- **3-Cards-per-Row Featured Grid**: Displays 6 top-rated courses formatted in a 3-column responsive grid (`display: grid; grid-template-columns: repeat(3, 1fr)`).
-- **Course Catalog (`/courses`)**: Dynamic search bar (title/instructor), category dropdown filter, difficulty filter, min rating filter, price sorting, and paginated navigation.
-- **Interactive Checkout Modal**: Order summary modal with price breakdown and 18% GST calculation.
+### Student
+- **Landing Page**: 3-cards-per-row featured course grid, search, category filters, pagination
+- **Course Catalog (`/courses`)**: Keyword search, category / difficulty / rating filters, price sort
+- **Enrollment & Course Player (`/courses/{id}/learn`)**: Video lesson viewer, module sidebar, "Mark as Complete" progress tracking
+- **Timed Quiz Engine (`/assessments/{id}`)**: Auto countdown timer, question navigator grid, score reports
+- **Digital Certificates (`/certificates/{id}`)**: Printable certificates with unique serial codes
+- **Course Wishlist API (`/api/wishlist`)**: Bookmark and un-bookmark courses
+- **Recommendation Engine (`/api/recommendations`)**: Category-based course suggestions
 
-### 2. Student Learning & Assessment Engine
-- **Curriculum Lesson Player (`/courses/{id}/learn`)**: Video lesson viewer with module sidebar, lesson switching, and real-time "Mark as Complete" progress updates.
-- **Timed Quiz Engine (`/assessments/{id}`)**: Automated countdown timer, question navigator grid, option selection, and score reports (`/assessments/result/{id}`).
-- **Digital Certificates (`/certificates/{id}`)**: Printable completion certificates with unique serial numbers.
-- **Course Wishlist API (`/api/wishlist`)**: Bookmark and un-bookmark courses to user wishlist.
-- **Recommendation Engine (`/api/recommendations`)**: Category and rating-based related course suggestions.
+### Instructor
+- **Instructor Dashboard (`/instructor/dashboard`)**: Active learners, completion rates, rating averages, earnings stats
+- **4-Step Course Creation Wizard**: Title, category, difficulty, pricing, modules, and lessons
+- **Student Roster & CSV Export (`/api/exports/instructor/enrollments`)**: Download roster CSV
 
-### 3. Instructor Portal
-- **Instructor Dashboard (`/instructor/dashboard`)**: Stat cards for active learners, completion rates, rating averages, and demo earnings.
-- **4-Step Course Creation Wizard (`/instructor/dashboard?create=true`)**: Author courses with title, category, difficulty, pricing, modules, and lessons.
-- **Roster & CSV Export (`/api/exports/instructor/enrollments`)**: Downloadable CSV report of student rosters and completion statuses.
-
-### 4. Admin Governance & Security
-- **Admin Dashboard (`/admin/dashboard`)**: Revenue analytics, user growth visualizer, category distribution charts, and user list.
-- **User Permissions Controls**: Manage account status and role permissions.
-- **Certificate Verification Tool**: Verify certificate authenticity by serial code against database registry.
-- **System Audit Logs & CSV Export (`/api/exports/admin/audit-logs`)**: Real-time audit activity log viewer and CSV export.
+### Admin
+- **Admin Dashboard (`/admin/dashboard`)**: Revenue analytics, user growth chart, category distribution, user list
+- **User Role Controls**: Manage account status and permissions
+- **Certificate Verification Tool**: Verify certificate authenticity by serial code
+- **Audit Logs & CSV Export (`/api/exports/admin/audit-logs`)**: Audit log viewer and CSV export
 
 ---
 
 ## Technology Stack
 
-- **Backend**: Java 17 / 21, Spring Boot 3.2.4
-- **Database**: MySQL 8.x (`mysql-connector-j`), Spring Data JPA, Hibernate
-- **Security**: Spring Security 6, JWT Cookie Sync (`SKILVORAE_JWT`), BCrypt
-- **Templating & UI**: Thymeleaf Engine, Vanilla CSS Design System, JavaScript (ES6+)
-- **Charts**: Chart.js 4.4.1
-- **Build Tool**: Maven 3.9+
+| Layer | Technology |
+| :--- | :--- |
+| Backend | Java 17, Spring Boot 3.2.4 |
+| Database (Dev) | H2 In-Memory (MySQL compatibility mode) |
+| Database (Prod) | MySQL 8.x, Spring Data JPA, Hibernate |
+| Security | Spring Security 6, JWT Cookie (`SKILVORAE_JWT`), BCrypt |
+| UI | Thymeleaf, Vanilla CSS, JavaScript ES6+ |
+| Charts | Chart.js 4.4.1 |
+| Build | Apache Maven 3.9+ |
 
 ---
 
-## Local Execution Instructions
+## Local Setup
 
 ### Prerequisites
-1. Installed **Java 17** or **Java 21**
-2. Running **MySQL** server on port `3306` with database `skilvoraedb` (or update credentials in `application.properties`)
+- Java 17+ installed
 
-### Commands
+### Run (Zero-Setup — uses H2 in-memory database)
 
 ```bash
-# 1. Clone repository
 git clone https://github.com/Madhusmita-16/skilVorae.git
 cd skilVorae
-
-# 2. Run Spring Boot application
 mvn spring-boot:run
 ```
 
-Access the application in your browser at:
-```
-http://localhost:8080
+Open in browser: `http://localhost:8080`
+
+### Switch to MySQL (Production)
+
+Edit `src/main/resources/application.properties`, uncomment the MySQL block and comment out the H2 block:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/skilvoraedb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
 ```
 
 ---
 
 ## License
 
-MIT License.
+MIT License
