@@ -123,7 +123,7 @@
           </div>
 
           <!-- Chart.js Learning Velocity -->
-          <div class="card" style="margin-bottom: 2rem;">
+          <div class="card" id="progress" style="margin-bottom: 2rem;">
             <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Weekly Learning Activity</h3>
             <div style="height: 240px; position: relative;">
               <canvas id="activityChart"></canvas>
@@ -131,7 +131,7 @@
           </div>
 
           <!-- Achievements Section -->
-          <div class="card">
+          <div class="card" id="achievements">
             <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Achievements & Milestones</h3>
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
               <div th:each="ach : ${stats.achievements}" style="display: flex; gap: 0.85rem; padding: 1rem; background: var(--bg-subtle); border-radius: 10px; border: 1px solid var(--border-color); opacity: 1;" th:style="${ach.unlocked ? 'opacity: 1; border-color: rgba(124, 58, 237, 0.3);' : 'opacity: 0.5;'}">
@@ -148,7 +148,7 @@
         <!-- Sidebar Right Column -->
         <div style="display: flex; flex-direction: column; gap: 2rem;">
           <!-- Upcoming Assessments -->
-          <div class="card">
+          <div class="card" id="assessments">
             <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Upcoming Assessments</h3>
             <div style="display: flex; flex-direction: column; gap: 1rem;">
               <div th:each="ass : ${stats.upcomingAssessments}" style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px; border: 1px solid var(--border-color);">
@@ -159,8 +159,8 @@
             </div>
           </div>
 
-          <!-- Recent Activity -->
-          <div class="card">
+          <!-- Recent Activity / Notifications -->
+          <div class="card" id="notifications">
             <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Recent Activity</h3>
             <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
               <li th:each="act : ${stats.recentActivities}" style="display: flex; gap: 0.75rem; font-size: 0.875rem;">

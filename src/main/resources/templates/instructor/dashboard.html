@@ -25,7 +25,7 @@
       </div>
 
       <!-- Instructor 6 Stat Cards -->
-      <div class="stats-grid" style="grid-template-columns: repeat(6, 1fr);">
+      <div class="stats-grid" id="earnings" style="grid-template-columns: repeat(6, 1fr);">
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COURSES</div>
@@ -72,7 +72,7 @@
       <!-- Main Section: Course Management & Enrollment Graph -->
       <div class="dashboard-grid-2" style="margin-bottom: 2.5rem;">
         <!-- Course Management -->
-        <div class="card">
+        <div class="card" id="courses">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
             <h3 style="font-size: 1.25rem;">Authoring & Course Catalog</h3>
             <input type="text" id="course-search" onkeyup="filterInstructorCourses()" class="form-control" placeholder="Search course titles..." style="max-width: 220px; padding: 0.45rem 0.8rem; font-size: 0.85rem;">
@@ -114,7 +114,7 @@
         </div>
 
         <!-- Monthly Enrollment Analytics -->
-        <div class="card">
+        <div class="card" id="analytics">
           <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Enrollment Trends</h3>
           <div style="height: 260px; position: relative;">
             <canvas id="instructorEnrollmentChart"></canvas>
@@ -123,7 +123,7 @@
       </div>
 
       <!-- Enrolled Students Roster -->
-      <div class="card">
+      <div class="card" id="students">
         <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Enrolled Students & Activity</h3>
         <div style="overflow-x: auto;">
           <table class="dashboard-table">
@@ -296,6 +296,13 @@
     var monthlyEnrollment = [[${stats.monthlyEnrollmentData}]];
     var monthlyLabels = [[${stats.monthlyLabels}]];
     initInstructorChart(monthlyEnrollment, monthlyLabels);
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('create') === 'true') {
+        openCreateCourseModal();
+      }
+    });
 
     function filterInstructorCourses() {
       const q = document.getElementById('course-search').value.toLowerCase();

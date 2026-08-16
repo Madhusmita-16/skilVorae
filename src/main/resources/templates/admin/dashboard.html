@@ -83,7 +83,7 @@
       </div>
 
       <!-- Platform Analytics Row -->
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2.5rem;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2.5rem;" id="analytics">
         <div class="card">
           <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">User Growth & Registration Velocity</h3>
           <div style="height: 240px; position: relative;">
@@ -91,7 +91,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" id="categories">
           <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Category Distribution</h3>
           <div style="height: 240px; position: relative;">
             <canvas id="adminCategoryChart"></canvas>
@@ -100,7 +100,7 @@
       </div>
 
       <!-- User Management Table -->
-      <div class="card" style="margin-bottom: 2.5rem;">
+      <div class="card" id="users" style="margin-bottom: 2.5rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
           <div>
             <h3 style="font-size: 1.25rem;">User Administration & Security Controls</h3>
@@ -146,7 +146,7 @@
       <!-- Certificate Verification & Audit Logs Grid -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
         <!-- Certificate Verification Tool -->
-        <div class="card">
+        <div class="card" id="certificates">
           <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Certificate Verification Tool</h3>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">Enter a Certificate ID to verify authenticity against the database registry.</p>
           <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem;">
@@ -160,7 +160,7 @@
         </div>
 
         <!-- System Audit Logs -->
-        <div class="card">
+        <div class="card" id="audit-logs">
           <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">System Audit Activity Logs</h3>
           <div style="display: flex; flex-direction: column; gap: 0.85rem; max-height: 280px; overflow-y: auto;">
             <div th:if="${#lists.isEmpty(stats.recentAuditLogs)}" style="color: var(--text-muted); font-size: 0.85rem;">

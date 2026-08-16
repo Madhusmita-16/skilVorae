@@ -162,9 +162,16 @@
         <span class="badge badge-lime" style="margin-bottom: 0.75rem;">Comprehensive Catalog</span>
         <h2>Explore All Courses</h2>
         <p style="margin-top: 0.5rem; font-size: 1.1rem;">Master in-demand technologies through practical labs, real-world case studies, and industry mentorship.</p>
+      <!-- Category Filter Pills -->
+      <div class="filter-pills">
+        <button type="button" class="filter-pill active" onclick="filterLandingCategory('ALL', this)">All Track Courses</button>
+        <button type="button" class="filter-pill" onclick="filterLandingCategory('Development', this)">Full Stack & Dev</button>
+        <button type="button" class="filter-pill" onclick="filterLandingCategory('Cloud', this)">Cloud & DevOps</button>
+        <button type="button" class="filter-pill" onclick="filterLandingCategory('Cybersecurity', this)">Cybersecurity</button>
+        <button type="button" class="filter-pill" onclick="filterLandingCategory('Automation', this)">Automation & Hardware</button>
+        <button type="button" class="filter-pill" onclick="filterLandingCategory('Data', this)">Data & Analytics</button>
+        <button type="button" class="filter-pill" onclick="filterLandingCategory('Management', this)">Management</button>
       </div>
-
-
 
       <!-- Course Grid -->
       <div class="course-grid" id="all-courses-grid">

@@ -38,6 +38,11 @@ function selectOption(questionId, optionId, element) {
   if (navBtn) {
     navBtn.classList.add('answered');
   }
+function scrollToQuestion(questionId) {
+  const card = document.getElementById(`q-card-${questionId}`);
+  if (card) {
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
 }
 
 async function submitQuiz(assessmentId, courseId) {

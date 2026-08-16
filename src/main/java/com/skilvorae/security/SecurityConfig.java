@@ -1,5 +1,6 @@
 package com.skilvorae.security;
 
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -26,6 +28,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService userDetailsService;
+    private final JwtUtils jwtUtils;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -61,6 +64,14 @@ public class SecurityConfig {
                 .loginPage("/login")
                 .loginProcessingUrl("/login-process")
                 .successHandler((req, resp, auth) -> {
+                    if (auth.getPrincipal() instanceof UserDetails userDetails) {
+                        String token = jwtUtils.generateToken(userDetails);
+                        Cookie cookie = new Cookie("SKILVORAE_JWT", token);
+                        cookie.setPath("/");
+                        cookie.setHttpOnly(true);
+                        cookie.setMaxAge(7 * 24 * 60 * 60);
+                        resp.addCookie(cookie);
+                    }
                     var authorities = auth.getAuthorities();
                     String targetUrl = "/dashboard";
                     if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
