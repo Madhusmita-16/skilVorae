@@ -11,7 +11,15 @@ public class AuthController {
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,
                             @RequestParam(required = false) String logout,
+                            @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
                             Model model) {
+        if (userDetails != null) {
+            boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+            boolean isInstructor = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_INSTRUCTOR"));
+            if (isAdmin) return "redirect:/admin/dashboard";
+            if (isInstructor) return "redirect:/instructor/dashboard";
+            return "redirect:/dashboard";
+        }
         if (error != null) {
             model.addAttribute("errorMessage", "Invalid email or password. Please try again.");
         }
@@ -22,7 +30,14 @@ public class AuthController {
     }
 
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage(@org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
+        if (userDetails != null) {
+            boolean isAdmin = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+            boolean isInstructor = userDetails.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_INSTRUCTOR"));
+            if (isAdmin) return "redirect:/admin/dashboard";
+            if (isInstructor) return "redirect:/instructor/dashboard";
+            return "redirect:/dashboard";
+        }
         return "auth/register";
     }
 
