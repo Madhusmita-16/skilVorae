@@ -85,7 +85,7 @@ The application comes seeded with pre-configured accounts for testing each user 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/skilvorae/skilvorae.git
+git clone https://github.com/Madhusmita-16/skilVorae.git
 cd skilVorae
 
 # 2. Compile and run using Maven
