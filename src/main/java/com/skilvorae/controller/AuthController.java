@@ -1,12 +1,19 @@
 package com.skilvorae.controller;
 
+import com.skilvorae.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@lombok.RequiredArgsConstructor
 public class AuthController {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
     public String loginPage(@RequestParam(required = false) String error,
@@ -59,5 +66,34 @@ public class AuthController {
         model.addAttribute("email", email);
         model.addAttribute("otp", otp);
         return "auth/reset-password";
+    }
+
+    @GetMapping("/auth/force-password-change")
+    public String forcePasswordChangePage(@org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails) {
+        if (userDetails == null) return "redirect:/login";
+        return "auth/force-password-change";
+    }
+
+    @PostMapping("/auth/update-forced-password")
+    public String updateForcedPassword(
+            @RequestParam String newPassword,
+            @RequestParam String confirmPassword,
+            @org.springframework.security.core.annotation.AuthenticationPrincipal org.springframework.security.core.userdetails.UserDetails userDetails,
+            Model model) {
+            
+        if (userDetails == null) return "redirect:/login";
+        
+        if (!newPassword.equals(confirmPassword)) {
+            model.addAttribute("errorMessage", "Passwords do not match");
+            return "auth/force-password-change";
+        }
+        com.skilvorae.entity.User dbUser = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+        if (dbUser != null) {
+            dbUser.setPassword(passwordEncoder.encode(newPassword));
+            dbUser.setForcePasswordChange(false);
+            userRepository.save(dbUser);
+        }
+        
+        return "redirect:/dashboard"; 
     }
 }

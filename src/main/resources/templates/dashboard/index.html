@@ -15,14 +15,12 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
+      <div th:replace="~{fragments/dashboard-header :: header}"></div>
+
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
         <div>
           <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'Good morning, ' + user.fullName}">Good morning, Student</h1>
           <p style="font-size: 1.05rem; color: var(--text-muted);">Continue your learning journey and build your skills.</p>
-        </div>
-
-        <div style="display: flex; align-items: center; gap: 1rem;">
-          <div style="width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--electric-violet), var(--midnight-plum)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: #FFFFFF; border: 2px solid var(--border-color);" th:text="${#strings.substring(user.fullName, 0, 1)}">S</div>
         </div>
       </div>
 

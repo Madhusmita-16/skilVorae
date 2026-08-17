@@ -42,11 +42,9 @@ public class InstructorWebController {
 
     @GetMapping("/courses")
     public String instructorCourses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        return instructorDashboard(model, userDetails);
-    }
-
-    @GetMapping("/students")
-    public String instructorStudents(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        return instructorDashboard(model, userDetails);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        model.addAttribute("user", user);
+        // Will be fleshed out with actual course list from courseRepository
+        return "instructor/my-courses";
     }
 }

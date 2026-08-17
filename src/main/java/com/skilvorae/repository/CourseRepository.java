@@ -13,6 +13,7 @@ import java.util.Optional;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
     Optional<Course> findBySlug(String slug);
+    List<Course> findByInstructorId(Long instructorId);
 
     @Query("SELECT c FROM Course c WHERE " +
            "(:search IS NULL OR LOWER(c.title) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(c.description) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(c.instructorName) LIKE LOWER(CONCAT('%', :search, '%'))) AND " +

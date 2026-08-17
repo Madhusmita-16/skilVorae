@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Builder - SkilVorae Instructor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .builder-layout {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .builder-nav {
+            width: 250px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            height: fit-content;
+        }
+        .builder-nav button {
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        .builder-nav button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        .builder-content {
+            flex: 1;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-body);
+            color: var(--text-color);
+        }
+        .module-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-body);
+        }
+        .lesson-item {
+            padding: 0.75rem;
+            border-left: 3px solid var(--primary-color);
+            background: var(--bg-card);
+            margin-top: 0.5rem;
+            border-radius: 0 4px 4px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid var(--border-color);
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar('instructor')}"></div>
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            
+            <div class="dashboard-content">
+                <div class="header-actions">
+                    <h2>Course Builder: <span th:text="${course.title}"></span></h2>
+                </div>
+
+                <div class="builder-layout">
+                    <div class="builder-nav">
+                        <button class="tab-btn active" onclick="switchTab('details')">Course Details</button>
+                        <button class="tab-btn" onclick="switchTab('modules')">Modules & Lessons</button>
+                        <button class="tab-btn" onclick="switchTab('assignments')">Assignments</button>
+                        <button class="tab-btn" onclick="switchTab('assessment')">Assessment</button>
+                    </div>
+
+                    <div class="builder-content">
+                        
+                        <!-- DETAILS TAB -->
+                        <div id="tab-details" class="tab-content active">
+                            <h3>Edit Course Details</h3>
+                            <form th:action="@{/instructor/course/create}" th:object="${course}" method="post">
+                                <input type="hidden" th:field="*{id}">
+                                <div class="form-group">
+                                    <label>Course Title</label>
+                                    <input type="text" th:field="*{title}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea th:field="*{description}" rows="4" required></textarea>
+                                </div>
+                                <div class="form-group" style="display: flex; gap: 1rem;">
+                                    <div style="flex: 1;">
+                                        <label>Difficulty</label>
+                                        <select th:field="*{difficulty}">
+                                            <option value="BEGINNER">Beginner</option>
+                                            <option value="INTERMEDIATE">Intermediate</option>
+                                            <option value="ADVANCED">Advanced</option>
+                                        </select>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <label>Price ($)</label>
+                                        <input type="number" step="0.01" th:field="*{price}" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Details</button>
+                            </form>
+                        </div>
+
+                        <!-- MODULES TAB -->
+                        <div id="tab-modules" class="tab-content">
+                            <h3>Course Modules</h3>
+                            <div th:each="module : ${course.modules}" class="module-card">
+                                <h4>Module <span th:text="${module.moduleOrder}"></span>: <span th:text="${module.title}"></span></h4>
+                                
+                                <div th:each="lesson : ${module.lessons}" class="lesson-item">
+                                    <span th:text="'Lesson ' + ${lesson.lessonOrder} + ': ' + ${lesson.title}"></span>
+                                    <span th:if="${lesson.videoUrl != null and !lesson.videoUrl.isEmpty()}" class="badge" style="background:var(--primary-color);color:white;padding:2px 8px;border-radius:12px;font-size:12px;">Video</span>
+                                </div>
+
+                                <button class="btn btn-secondary btn-sm" style="margin-top:1rem;" th:onclick="'toggleLessonForm(' + ${module.id} + ')'">+ Add Lesson</button>
+                                
+                                <form th:id="'lesson-form-' + ${module.id}" th:action="@{/instructor/course/{cId}/modules/{mId}/lessons(cId=${course.id}, mId=${module.id})}" method="post" style="display:none; margin-top:1rem; padding:1rem; background:var(--bg-card); border:1px solid var(--border-color); border-radius:8px;">
+                                    <div class="form-group">
+                                        <label>Lesson Title</label>
+                                        <input type="text" name="title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Order</label>
+                                        <input type="number" name="order" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Content / Notes</label>
+                                        <textarea name="content" rows="3"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Video URL (Optional)</label>
+                                        <input type="text" name="videoUrl" placeholder="https://youtube.com/...">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm">Save Lesson</button>
+                                </form>
+                            </div>
+
+                            <hr>
+                            <h4>Add New Module</h4>
+                            <form th:action="@{/instructor/course/{id}/modules(id=${course.id})}" method="post">
+                                <div class="form-group">
+                                    <label>Module Title</label>
+                                    <input type="text" name="title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Order</label>
+                                    <input type="number" name="order" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Module</button>
+                            </form>
+                        </div>
+
+                        <!-- ASSIGNMENTS TAB -->
+                        <div id="tab-assignments" class="tab-content">
+                            <h3>Assignments</h3>
+                            <p>Select a module to add an assignment to.</p>
+                            <form th:if="${!#lists.isEmpty(course.modules)}" id="assignment-form" method="post" onsubmit="submitAssignmentForm(event, this)">
+                                <div class="form-group">
+                                    <label>Target Module</label>
+                                    <select id="assignment-module-select" required>
+                                        <option th:each="m : ${course.modules}" th:value="${m.id}" th:text="${m.title}"></option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Assignment Title</label>
+                                    <input type="text" name="title" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea name="description" rows="3" required></textarea>
+                                </div>
+                                <div class="form-group" style="display:flex;gap:1rem;">
+                                    <div style="flex:1;">
+                                        <label>Total Marks</label>
+                                        <input type="number" name="totalMarks" required>
+                                    </div>
+                                    <div style="flex:1;">
+                                        <label>Attachment URL (Optional)</label>
+                                        <input type="text" name="attachmentUrl">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Assignment</button>
+                            </form>
+                            <p th:if="${#lists.isEmpty(course.modules)}">Please create a module first before adding assignments.</p>
+                        </div>
+
+                        <!-- ASSESSMENT TAB -->
+                        <div id="tab-assessment" class="tab-content">
+                            <h3>Course Final Assessment</h3>
+                            <form th:action="@{/instructor/course/{id}/assessment(id=${course.id})}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Assessment Title</label>
+                                    <input type="text" name="title" required>
+                                </div>
+                                <div class="form-group" style="display:flex;gap:1rem;">
+                                    <div style="flex:1;">
+                                        <label>Passing Score (%)</label>
+                                        <input type="number" name="passingScore" required>
+                                    </div>
+                                    <div style="flex:1;">
+                                        <label>Time Limit (Minutes)</label>
+                                        <input type="number" name="timeLimitMinutes" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Upload PDF Questions (Optional)</label>
+                                    <input type="file" name="pdfFile" accept="application/pdf">
+                                    <small class="text-muted">Use PDF questions format: "1. Question? A) Option1 B) Option2"</small>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Assessment</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function toggleLessonForm(moduleId) {
+            const form = document.getElementById('lesson-form-' + moduleId);
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function submitAssignmentForm(e, form) {
+            e.preventDefault();
+            const moduleId = document.getElementById('assignment-module-select').value;
+            const courseId = '[[${course.id}]]';
+            form.action = `/instructor/course/${courseId}/modules/${moduleId}/assignments`;
+            form.submit();
+        }
+    </script>
+</body>
+</html>

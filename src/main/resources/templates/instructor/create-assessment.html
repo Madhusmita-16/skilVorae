@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Assessment - SkilVorae</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .pdf-upload-zone {
+            border: 2px dashed var(--primary-color);
+            padding: 3rem;
+            text-align: center;
+            border-radius: 12px;
+            background: rgba(139, 92, 246, 0.05);
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+        .question-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .question-header {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        .correct-option {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar('instructor')}"></div>
+        
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            
+            <div class="dashboard-content">
+                <div class="header-actions" style="margin-bottom: 2rem;">
+                    <h2>Create Assessment</h2>
+                </div>
+
+                <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+                <form th:action="@{/instructor/assessment/parse-pdf}" method="post" enctype="multipart/form-data">
+                    <div class="pdf-upload-zone" onclick="document.getElementById('pdfFile').click()">
+                        <svg width="48" height="48" fill="none" stroke="var(--primary-color)" viewBox="0 0 24 24" style="margin-bottom: 1rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <h3>Upload PDF Question Paper</h3>
+                        <p class="text-muted">We will attempt to automatically extract questions and options.</p>
+                        <input type="file" id="pdfFile" name="file" accept="application/pdf" style="display: none;" onchange="this.form.submit()">
+                    </div>
+                </form>
+
+                <div th:if="${parsedQuestions != null and !#lists.isEmpty(parsedQuestions)}">
+                    <h3>Review Parsed Questions</h3>
+                    <p class="text-muted" style="margin-bottom: 1.5rem;">Please review and manually adjust the questions extracted from the PDF.</p>
+                    
+                    <form th:action="@{/instructor/assessment/save}" method="post">
+                        <div th:each="q, stat : ${parsedQuestions}" class="question-card">
+                            <div class="form-group">
+                                <label th:text="'Question ' + (${stat.index} + 1)"></label>
+                                <textarea th:name="'questions[' + ${stat.index} + '].content'" th:text="${q.content}" rows="2" style="width: 100%;"></textarea>
+                            </div>
+                            
+                            <div class="options-container" style="margin-top: 1rem;">
+                                <div th:each="opt, optStat : ${q.options}" class="option-item" th:classappend="${opt.isCorrect} ? 'correct-option' : ''">
+                                    <input type="radio" th:name="'questions[' + ${stat.index} + '].correctOption'" th:value="${optStat.index}" th:checked="${opt.isCorrect}">
+                                    <input type="text" th:name="'questions[' + ${stat.index} + '].options[' + ${optStat.index} + '].content'" th:value="${opt.content}" style="width: 100%; border: none; background: transparent;">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-4">Save Assessment</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

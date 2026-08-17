@@ -1,18 +1,18 @@
 package com.skilvorae.entity;
 
-import com.skilvorae.enums.Role;
+import com.skilvorae.enums.ApplicationStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "instructor_applications")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class InstructorApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,32 +25,21 @@ public class User {
     private String email;
 
     @Column(nullable = false)
-    private String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;
-
-    @Column(nullable = false)
-    @Builder.Default
-    private Boolean forcePasswordChange = false;
-
-    private String resetOtp;
-
-    private LocalDateTime otpExpiry;
-
     private String phone;
 
+    @Column(nullable = false)
     private String qualification;
 
-    private String areaOfInterest;
-
-    private String expertise;
-
+    @Column(nullable = false)
     private Integer yearsOfExperience;
 
     @Column(length = 1000)
     private String bio;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private ApplicationStatus status = ApplicationStatus.PENDING;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -58,8 +47,8 @@ public class User {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.role == null) {
-            this.role = Role.STUDENT;
+        if (this.status == null) {
+            this.status = ApplicationStatus.PENDING;
         }
     }
 }

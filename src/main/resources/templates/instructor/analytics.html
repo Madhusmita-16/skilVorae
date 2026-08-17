@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Analytics - SkilVorae</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .progress-bar-container {
+            width: 100%;
+            background-color: var(--border-color);
+            border-radius: 9999px;
+            height: 12px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+        .course-stat-row {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar(activeTab='instructor')}"></div>
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div class="dashboard-content">
+                <div class="header-actions" style="margin-bottom: 2rem;">
+                    <h2>Performance Analytics</h2>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Learners</h3>
+                        <p th:text="${analytics.totalLearners}"></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Courses</h3>
+                        <p th:text="${analytics.activeCourses}"></p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Average Rating</h3>
+                        <p th:text="${analytics.averageRating}"></p>
+                    </div>
+                </div>
+
+                <div class="card" style="padding: 2rem; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem;">Course Completion Status</h3>
+                    
+                    <div th:if="${#lists.isEmpty(analytics.courseStats)}" style="text-align: center;">
+                        <p class="text-muted">No course data available to display completion rates.</p>
+                    </div>
+                    
+                    <div th:if="${!#lists.isEmpty(analytics.courseStats)}">
+                        <div th:each="stat : ${analytics.courseStats}" class="course-stat-row">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
+                                <span style="font-weight: 600;" th:text="${stat.courseName}"></span>
+                                <span class="text-muted" th:text="${stat.completionRate + '% (' + stat.completed + ' / ' + stat.enrolled + ')'}"></span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" th:style="'width: ' + ${stat.completionRate} + '%'"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

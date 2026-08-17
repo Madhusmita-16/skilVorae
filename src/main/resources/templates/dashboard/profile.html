@@ -12,6 +12,8 @@
     <div th:replace="~{fragments/sidebar :: sidebar('profile')}"></div>
 
     <main class="dashboard-main">
+      <div th:replace="~{fragments/dashboard-header :: header}"></div>
+
       <div style="margin-bottom: 2rem;">
         <h1 style="font-size: 2rem; margin-bottom: 0.5rem;">User Profile & Earned Certificates</h1>
         <p>Manage your account settings and download earned course certificates.</p>
@@ -22,6 +24,19 @@
         <div class="card">
           <h3 style="margin-bottom: 1.5rem; font-size: 1.2rem;">Personal Details</h3>
           <form onsubmit="handleUpdateProfile(event)">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--electric-violet), var(--midnight-plum)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 2rem; color: #FFFFFF; border: 3px solid var(--border-color); overflow: hidden;" id="profile-avatar-preview">
+                <span th:text="${user != null ? #strings.substring(user.fullName, 0, 1) : 'U'}">U</span>
+              </div>
+              <div>
+                <label class="btn btn-outline btn-sm" style="cursor: pointer;">
+                  Change Picture
+                  <input type="file" id="profileImage" accept="image/*" style="display: none;" onchange="previewProfileImage(event)">
+                </label>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.4rem;">JPG, GIF or PNG. Max size of 800K</div>
+              </div>
+            </div>
+
             <div class="form-group">
               <label class="form-label" for="fullName">Full Name</label>
               <input type="text" id="fullName" class="form-control" th:value="${user.fullName}" required>
@@ -69,6 +84,18 @@
 
   <script th:src="@{/js/main.js}"></script>
   <script>
+    function previewProfileImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.getElementById('profile-avatar-preview');
+          preview.innerHTML = `<img src="${e.target.result}" style="width: 100%; height: 100%; object-fit: cover;">`;
+        }
+        reader.readAsDataURL(file);
+      }
+    }
+
     async function handleUpdateProfile(e) {
       e.preventDefault();
       const btn = document.getElementById('save-profile-btn');

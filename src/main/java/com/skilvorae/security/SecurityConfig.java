@@ -29,6 +29,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService userDetailsService;
     private final JwtUtils jwtUtils;
+    private final com.skilvorae.repository.UserRepository userRepository;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -55,7 +56,9 @@ public class SecurityConfig {
                     "/api/auth/**",
                     "/api/courses",
                     "/api/notifications/unread-count",
-                    "/api/recommendations/**"
+                    "/api/notifications/unread-count",
+                    "/api/recommendations/**",
+                    "/instructor/apply"
                 ).permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/instructor/**").hasAnyRole("INSTRUCTOR", "ADMIN")
@@ -75,7 +78,11 @@ public class SecurityConfig {
                     }
                     var authorities = auth.getAuthorities();
                     String targetUrl = "/dashboard";
-                    if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                    
+                    com.skilvorae.entity.User dbUser = userRepository.findByEmail(((UserDetails)auth.getPrincipal()).getUsername()).orElse(null);
+                    if (dbUser != null && dbUser.getForcePasswordChange()) {
+                        targetUrl = "/auth/force-password-change";
+                    } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
                         targetUrl = "/admin/dashboard";
                     } else if (authorities.stream().anyMatch(a -> a.getAuthority().equals("ROLE_INSTRUCTOR"))) {
                         targetUrl = "/instructor/dashboard";

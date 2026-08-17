@@ -16,6 +16,8 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
+      <div th:replace="~{fragments/dashboard-header :: header}"></div>
+
       <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
         <div>
           <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'Welcome, ' + user.fullName}">Instructor Portal</h1>

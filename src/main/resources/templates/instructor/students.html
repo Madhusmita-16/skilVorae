@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Students - SkilVorae Instructor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            background-color: var(--bg-body);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+        .badge-completed {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary-color);
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: var(--border-color);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 0.25rem;
+        }
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar(activeTab='instructor')}"></div>
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div class="dashboard-content">
+                <div class="header-actions" style="margin-bottom: 2rem;">
+                    <h2>Students Roster</h2>
+                    <div>
+                        <select class="form-control" style="display: inline-block; width: auto;">
+                            <option>All Courses</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="card" style="padding: 1rem;">
+                    <div th:if="${#lists.isEmpty(enrollments)}" style="text-align: center; padding: 2rem;">
+                        <p class="text-muted">No students are currently enrolled in your courses.</p>
+                    </div>
+                    
+                    <div class="table-responsive" th:if="${!#lists.isEmpty(enrollments)}">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Course</th>
+                                    <th>Batch</th>
+                                    <th>Enrollment Date</th>
+                                    <th>Status</th>
+                                    <th>Progress</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="enrollment : ${enrollments}">
+                                    <td>
+                                        <div style="font-weight: 500;" th:text="${enrollment.user.fullName}"></div>
+                                        <div style="font-size: 0.75rem; color: var(--text-muted);" th:text="${enrollment.user.email}"></div>
+                                    </td>
+                                    <td th:text="${enrollment.course.title}"></td>
+                                    <td th:text="${enrollment.courseBatch != null ? enrollment.courseBatch.name : 'Self-Paced'}"></td>
+                                    <td th:text="${#temporals.format(enrollment.enrolledAt, 'MMM dd, yyyy')}"></td>
+                                    <td>
+                                        <span class="badge" th:classappend="${enrollment.status.name() == 'COMPLETED' ? 'badge-completed' : 'badge-active'}" th:text="${enrollment.status}"></span>
+                                    </td>
+                                    <td style="min-width: 150px;">
+                                        <div style="font-size: 0.875rem; font-weight: 500;" th:text="${enrollment.status.name() == 'COMPLETED' ? '100%' : 'In Progress'}"></div>
+                                        <div class="progress-bar-container">
+                                            <div class="progress-bar" th:style="'width: ' + (${enrollment.status.name() == 'COMPLETED' ? '100' : '45'}) + '%'"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

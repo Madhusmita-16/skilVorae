@@ -19,22 +19,20 @@
         <li><a th:href="@{/dashboard#wishlist}" class="sidebar-link">Wishlist</a></li>
         <li><a th:href="@{/dashboard#notifications}" class="sidebar-link">Notifications</a></li>
         <li><a th:href="@{/profile}" class="sidebar-link" th:classappend="${activeTab == 'profile' ? 'active' : ''}">Profile</a></li>
-        <li><a th:href="@{/settings}" class="sidebar-link" th:classappend="${activeTab == 'settings' ? 'active' : ''}">Settings</a></li>
       </ul>
 
       <!-- INSTRUCTOR MENU -->
       <ul class="sidebar-menu" th:if="${user != null and user.role.name() == 'INSTRUCTOR'}">
         <li><a th:href="@{/instructor/dashboard}" class="sidebar-link" th:classappend="${activeTab == 'instructor' ? 'active' : ''}">Dashboard</a></li>
         <li><a th:href="@{/instructor/courses}" class="sidebar-link">My Courses</a></li>
-        <li><a th:href="@{/instructor/dashboard(create='true')}" class="sidebar-link">Create Course</a></li>
+        <li><a th:href="@{/instructor/calendar}" class="sidebar-link">Calendar</a></li>
+        <li><a th:href="@{/instructor/course/create}" class="sidebar-link">Create Course</a></li>
+        <li><a th:href="@{/instructor/assessment/create}" class="sidebar-link">Create Assessment</a></li>
         <li><a th:href="@{/instructor/students}" class="sidebar-link">Students</a></li>
-        <li><a th:href="@{/instructor/dashboard#assessments}" class="sidebar-link">Assessments</a></li>
-        <li><a th:href="@{/instructor/dashboard#assignments}" class="sidebar-link">Assignments</a></li>
-        <li><a th:href="@{/instructor/dashboard#reviews}" class="sidebar-link">Reviews</a></li>
-        <li><a th:href="@{/instructor/dashboard#analytics}" class="sidebar-link">Analytics</a></li>
-        <li><a th:href="@{/instructor/dashboard#earnings}" class="sidebar-link">Earnings</a></li>
+        <li><a th:href="@{/instructor/reviews}" class="sidebar-link">Reviews</a></li>
+        <li><a th:href="@{/instructor/analytics}" class="sidebar-link">Analytics</a></li>
+        <li><a th:href="@{/instructor/earnings}" class="sidebar-link">Earnings</a></li>
         <li><a th:href="@{/profile}" class="sidebar-link">Profile</a></li>
-        <li><a th:href="@{/settings}" class="sidebar-link">Settings</a></li>
       </ul>
 
       <!-- ADMIN MENU -->
@@ -54,16 +52,6 @@
       </ul>
     </div>
 
-    <div>
-      <div style="padding: 1rem; background: var(--bg-subtle); border-radius: var(--border-radius-sm); margin-bottom: 1rem;">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem;">
-          <div style="font-weight: 700; font-size: 0.9rem;" th:text="${user != null ? user.fullName : 'Guest'}">User Name</div>
-          <span class="badge badge-lime" style="font-size: 0.65rem;" th:text="${user != null ? user.role.name() : 'STUDENT'}">ROLE</span>
-        </div>
-        <div style="font-size: 0.8rem; color: var(--text-muted);" th:text="${user != null ? user.email : 'user@skilvorae.com'}">user@skilvorae.com</div>
-      </div>
-      <a th:href="@{/logout}" class="btn btn-outline btn-sm btn-block">Logout</a>
-    </div>
   </aside>
 </body>
 </html>

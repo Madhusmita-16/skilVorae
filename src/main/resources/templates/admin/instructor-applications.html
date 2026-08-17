@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instructor Applications - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .application-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .application-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar('admin')}"></div>
+        
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            
+            <div class="dashboard-content">
+                <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+                <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+                <div class="header-actions" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                    <h2>Pending Instructor Applications</h2>
+                </div>
+
+                <div th:if="${#lists.isEmpty(applications)}" class="empty-state">
+                    <p>No pending applications at the moment.</p>
+                </div>
+
+                <div class="applications-grid">
+                    <div th:each="app : ${applications}" class="application-card">
+                        <div class="application-header">
+                            <div>
+                                <h3 th:text="${app.fullName}"></h3>
+                                <p class="text-muted" th:text="${app.email} + ' | ' + ${app.phone}"></p>
+                            </div>
+                            <div class="application-actions">
+                                <form th:action="@{/admin/instructor-applications/{id}/approve(id=${app.id})}" method="post">
+                                    <button type="submit" class="btn btn-primary btn-sm">Approve</button>
+                                </form>
+                                <form th:action="@{/admin/instructor-applications/{id}/reject(id=${app.id})}" method="post">
+                                    <button type="submit" class="btn btn-secondary btn-sm">Reject</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="application-details">
+                            <p><strong>Qualification:</strong> <span th:text="${app.qualification}"></span></p>
+                            <p><strong>Experience:</strong> <span th:text="${app.yearsOfExperience} + ' years'"></span></p>
+                            <p><strong>Bio:</strong></p>
+                            <p class="text-muted" th:text="${app.bio}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

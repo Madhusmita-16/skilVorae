@@ -28,6 +28,10 @@ public class Enrollment {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_batch_id")
+    private CourseBatch courseBatch;
+
     @Column(nullable = false)
     private LocalDateTime enrolledAt;
 

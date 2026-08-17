@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Reviews & Q&A - SkilVorae</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .review-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .stars {
+            color: #fbbf24;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar(activeTab='instructor')}"></div>
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div class="dashboard-content">
+                <div class="header-actions" style="margin-bottom: 2rem;">
+                    <h2>Course Reviews</h2>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(reviews)}" class="card" style="padding: 2rem; text-align: center; margin-bottom: 2rem;">
+                    <p class="text-muted">You have no reviews yet.</p>
+                </div>
+
+                <div th:if="${!#lists.isEmpty(reviews)}" style="margin-bottom: 2rem;">
+                    <div th:each="review : ${reviews}" class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <span style="font-weight: 600;" th:text="${review.user.fullName}"></span>
+                                <span class="text-muted" style="margin-left: 0.5rem; font-size: 0.875rem;" th:text="${'on ' + review.course.title}"></span>
+                            </div>
+                            <div class="stars">
+                                <span th:each="i : ${#numbers.sequence(1, 5)}" th:text="${i <= review.rating ? '★' : '☆'}"></span>
+                            </div>
+                        </div>
+                        <p th:text="${review.comment}"></p>
+                    </div>
+                </div>
+
+                <div class="header-actions" style="margin-bottom: 2rem;">
+                    <h2>Student Q&A</h2>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(qas)}" class="card" style="padding: 2rem; text-align: center;">
+                    <p class="text-muted">No student questions pending.</p>
+                </div>
+                
+                <div th:if="${!#lists.isEmpty(qas)}">
+                    <div th:each="qa : ${qas}" class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <span style="font-weight: 600;" th:text="${qa.student.fullName}"></span>
+                                <span class="text-muted" style="margin-left: 0.5rem; font-size: 0.875rem;" th:text="${'asked in ' + qa.course.title}"></span>
+                            </div>
+                            <span class="text-muted" style="font-size: 0.75rem;" th:text="${#temporals.format(qa.askedAt, 'MMM dd, yyyy')}"></span>
+                        </div>
+                        <p style="font-weight: 500; margin-bottom: 1rem;" th:text="${qa.questionText}"></p>
+                        
+                        <div th:if="${qa.answerText != null}" style="background: var(--bg-body); padding: 1rem; border-radius: 8px;">
+                            <strong>Your Answer:</strong>
+                            <p th:text="${qa.answerText}" style="margin-top: 0.5rem;"></p>
+                        </div>
+                        
+                        <div th:if="${qa.answerText == null}" style="margin-top: 1rem;">
+                            <form>
+                                <textarea class="form-control" rows="2" placeholder="Write your response..."></textarea>
+                                <button type="button" class="btn btn-primary btn-sm" style="margin-top: 0.5rem;">Submit Answer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule & Calendar - SkilVorae Instructor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+    <style>
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .schedule-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .schedule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+        .schedule-date {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .schedule-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .schedule-meta {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <div th:replace="~{fragments/sidebar :: sidebar(activeTab='instructor')}"></div>
+        <main class="dashboard-main">
+            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div class="dashboard-content">
+                <div class="header-actions" style="margin-bottom: 2rem;">
+                    <h2>Upcoming Schedules</h2>
+                    <button class="btn btn-primary">+ Add Event</button>
+                </div>
+                
+                <div th:if="${#lists.isEmpty(schedules)}" class="card" style="padding: 2rem; text-align: center;">
+                    <p class="text-muted">You have no upcoming schedules or live sessions.</p>
+                </div>
+
+                <div class="schedule-grid" th:if="${!#lists.isEmpty(schedules)}">
+                    <div th:each="schedule : ${schedules}" class="schedule-card">
+                        <div class="schedule-date" th:text="${#temporals.format(schedule.startTime, 'MMM dd, yyyy - hh:mm a')}"></div>
+                        <div class="schedule-title" th:text="${schedule.courseBatch.name + ' Live Session'}"></div>
+                        <div class="schedule-meta" th:text="${'Duration: ' + schedule.durationMinutes + ' mins'}"></div>
+                        <a th:href="${schedule.meetingLink}" target="_blank" class="btn btn-primary btn-sm" th:if="${schedule.meetingLink != null}">Join Session</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
