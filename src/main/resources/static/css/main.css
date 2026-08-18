@@ -26,9 +26,9 @@
   --bg-dark-card: #202020;
   --bg-subtle: #E9E2FF;
 
-  --text-primary: #171225;
-  --text-secondary: #4A4556;
-  --text-muted: #6E6879;
+  --text-primary: #000000;
+  --text-secondary: #000000;
+  --text-muted: #000000;
   --text-on-dark: #FAF9F6;
 
   --primary: #7C3AED;
@@ -103,6 +103,11 @@ a {
 
 a:hover {
   color: var(--primary-hover);
+}
+
+::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
 }
 
 /* Container */
