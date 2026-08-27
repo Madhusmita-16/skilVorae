@@ -1,100 +1,139 @@
-# SkilVorae — Online Learning & Career Skills Platform
+# SkilVorae — Learning Management System
 
-> Full-stack Learning Management System built with **Java 17 / Spring Boot 3**, **MySQL**, **Spring Security 6 (JWT)**, **Spring Data JPA**, **Thymeleaf**, and **Vanilla CSS**.
+A full-stack LMS built with Spring Boot 3, MySQL, and Thymeleaf. Three separate portals for students, instructors, and admins. No frontend frameworks — just server-side rendering with a custom CSS design system.
 
 ---
 
-## Demo Login Accounts
+## Demo
+
+https://github.com/user-attachments/assets/skilvorae-demo.mp4
+
+> Full walkthrough: landing page → student dashboard → course catalog → instructor course builder → admin panel.
+
+---
+
+## Try it out
 
 | Role | Email | Password |
-| :--- | :--- | :--- |
-| 🎓 **Student** | `student@skilvorae.com` | `password123` |
-| 🧑‍🏫 **Instructor** | `instructor@skilvorae.com` | `password123` |
-| 🛡️ **Admin** | `admin@skilvorae.com` | `password123` |
+| --- | --- | --- |
+| Student | `student@skilvorae.com` | `password123` |
+| Instructor | `instructor@skilvorae.com` | `password123` |
+| Admin | `admin@skilvorae.com` | `password123` |
+
+On first run the app seeds 40+ courses, demo users, and sample enrollments automatically — nothing to configure.
 
 ---
 
-## Navigation Demo
+## What's inside
 
-> Click the preview to watch the full navigation clip.
+**Student side**
+- Course catalog with search, category, difficulty, and price filters
+- Video lesson player with module/lesson sidebar
+- Per-lesson progress tracking ("Mark as Complete")
+- Timed quiz engine with question navigator and score report
+- Downloadable certificates with unique serial codes
+- Course wishlist
+- Dashboard showing real stats only — new users see zeros, not fake numbers
 
-[![SkilVorae Navigation Demo](assets/screenshot_home.png)](assets/navigation.webp)
+**Instructor side**
+- Course builder with tabs for details, modules/lessons, assignments, and final assessment
+- Upload video, PDF, PPT, or book references per lesson individually
+- Inline edit/delete for every module and lesson
+- Create quizzes manually or by uploading a structured PDF
+- Student roster with CSV export
 
----
-
-## Implemented Features
-
-### 🎓 Student
-- 3-cards-per-row featured course grid on landing page
-- Course catalog with keyword search, category, difficulty, rating filters, and pagination
-- Course enrollment, video lesson player with module sidebar
-- "Mark as Complete" progress tracking per lesson
-- Timed quiz engine with auto countdown, question navigator, and score report
-- Downloadable digital certificates with unique serial codes
-- Course wishlist (bookmark / un-bookmark via API)
-- Category-based course recommendation engine
-
-### 🧑‍🏫 Instructor
-- Instructor dashboard with learner count, completion rate, average rating, and earnings stats
-- 4-step course creation wizard (title, category, difficulty, pricing, modules, lessons)
-- Student roster view and CSV export (`/api/exports/instructor/enrollments`)
-
-### 🛡️ Admin
-- Admin dashboard with revenue chart, user growth, category distribution, and user list
-- User role and account status management
-- Certificate authenticity verifier by serial code
-- Audit log viewer and CSV export (`/api/exports/admin/audit-logs`)
+**Admin side**
+- Platform stats: users, courses, enrollments, certificates, revenue
+- Full user list with roles and enrollment counts (live data, no placeholders)
+- Audit log for the last 20 system actions
+- Course catalog view across all instructors
 
 ---
 
-## Technology Stack
+## Stack
 
-| Layer | Technology |
-| :--- | :--- |
+| | |
+| --- | --- |
 | Backend | Java 17, Spring Boot 3.2.4 |
-| Database | MySQL 8.x, Spring Data JPA, Hibernate (`ddl-auto=update`) |
-| Security | Spring Security 6, JWT Cookie (`SKILVORAE_JWT`), BCrypt |
-| UI | Thymeleaf, Vanilla CSS, JavaScript ES6+ |
-| Charts | Chart.js 4.4.1 |
-| Build | Apache Maven 3.9+ |
+| Database | MySQL 8.x + Spring Data JPA (Hibernate, `ddl-auto=update`) |
+| Security | Spring Security 6, JWT via HttpOnly cookie, BCrypt |
+| Templates | Thymeleaf 3 |
+| Frontend | Vanilla CSS + JavaScript ES6+ |
+| Charts | Chart.js |
+| Build | Maven 3.9 (bundled in the repo under `maven/`) |
+| Deploy | Docker / Docker Compose, Render.yaml |
 
 ---
 
-## Setup
+## Running locally
 
-### Prerequisites
-- Java 17+
-- MySQL 8.x running on port `3306`
+You need Java 17+ and MySQL 8 on port 3306.
 
-### 1. Create the database
+```bash
+git clone https://github.com/Madhusmita-16/skilVorae.git
+cd skilVorae
+```
 
+Create the database:
 ```sql
 CREATE DATABASE skilvoraedb;
 ```
 
-### 2. Configure credentials
-
-Edit `src/main/resources/application.properties`:
-
+Update your credentials in `src/main/resources/application.properties`:
 ```properties
 spring.datasource.username=root
 spring.datasource.password=your_password
 ```
 
-### 3. Run
-
+Start the app:
 ```bash
-git clone https://github.com/Madhusmita-16/skilVorae.git
-cd skilVorae
-mvn spring-boot:run
+# bundled Maven — no install needed
+./maven/apache-maven-3.9.6/bin/mvn spring-boot:run
 ```
 
-Open: `http://localhost:8080`
+Then open `http://localhost:8080`.
 
-> Tables and seed data (40+ courses, demo users, enrollments) are created automatically on first run via Hibernate DDL and `DataInitializer.java`.
+---
+
+## Docker
+
+```bash
+docker-compose up --build
+```
+
+Starts the Spring Boot app and a MySQL 8.0 container together with a persistent volume.
+
+---
+
+## Project layout
+
+```
+src/main/java/com/skilvorae/
+├── controller/       # MVC page controllers + api/ REST controllers
+├── service/          # Business logic
+├── repository/       # Spring Data repositories
+├── entity/           # 23 JPA domain models
+├── dto/              # View and API data objects
+├── security/         # JWT filter, SecurityConfig
+└── util/             # DataInitializer (seed on first boot)
+
+src/main/resources/
+├── templates/        # Thymeleaf templates (dashboard, instructor, admin, course, fragments)
+├── static/css/       # main.css + dashboard.css
+├── static/js/        # chart init, helpers
+└── application.properties
+```
+
+---
+
+## Notes
+
+- All dashboard data is fetched live from the database. A brand-new account sees `0` everywhere, not placeholder values.
+- File uploads (video, PDF, PPT, book, thumbnails) are stored locally under `uploads/` and served as static resources.
+- Each role is restricted to its own routes. Instructors can only edit their own courses; admins have full visibility.
 
 ---
 
 ## License
 
-MIT License
+MIT
