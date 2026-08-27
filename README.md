@@ -6,9 +6,8 @@ A full-stack LMS built with Spring Boot 3, MySQL, and Thymeleaf. Three separate 
 
 ## Demo
 
-https://github.com/user-attachments/assets/skilvorae-demo.mp4
-
-> Full walkthrough: landing page → student dashboard → course catalog → instructor course builder → admin panel.
+<!-- Add demo video or GIF here once recorded -->
+> Walkthrough covers: landing page → student dashboard → course catalog → instructor course builder → admin panel.
 
 ---
 
