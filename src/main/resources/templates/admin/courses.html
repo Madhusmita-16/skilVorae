@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Catalog — SkilVorae Admin</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <div th:replace="~{fragments/sidebar :: sidebar('courses')}"></div>
+
+    <main class="dashboard-main">
+      <div th:replace="~{fragments/dashboard-header :: header('Course Catalog')}"></div>
+
+      <div class="courses-list-header" style="margin-bottom: 1.5rem;">
+        <h2 class="section-title">Course Catalog</h2>
+      </div>
+
+      <div class="card" style="padding: 0; overflow: hidden;">
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Category</th>
+              <th>Difficulty</th>
+              <th>Price</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="course : ${courses}">
+              <td th:text="${course.id}" style="font-weight: 700;">1</td>
+              <td th:text="${course.title}" style="font-weight: 600; color: var(--text-primary);">Course Title</td>
+              <td th:text="${course.category.name}">Category</td>
+              <td><span class="badge badge-lavender" th:text="${course.difficulty.name()}">DIFFICULTY</span></td>
+              <td th:text="${'$' + course.price}" style="font-weight: 800; color: var(--electric-violet);">$0.00</td>
+              <td><span class="badge badge-lime">Published</span></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(courses)}">
+              <td colspan="6" style="text-align: center; padding: 2rem;">No courses found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

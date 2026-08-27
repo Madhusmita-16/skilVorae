@@ -24,7 +24,7 @@ public class Lesson {
     private String title;
 
     @Lob
-    @Column(nullable = false, columnDefinition = "CLOB")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     private Integer durationMinutes;
@@ -33,4 +33,8 @@ public class Lesson {
     private Integer lessonOrder;
 
     private String videoUrl;
+    
+    private String pdfUrl;
+    private String pptUrl;
+    private String bookUrl;
 }

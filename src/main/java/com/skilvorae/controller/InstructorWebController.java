@@ -22,6 +22,7 @@ public class InstructorWebController {
     private final UserRepository userRepository;
     private final DashboardService dashboardService;
     private final CategoryRepository categoryRepository;
+    private final com.skilvorae.repository.CourseRepository courseRepository;
 
     @GetMapping("/dashboard")
     public String instructorDashboard(Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -44,7 +45,7 @@ public class InstructorWebController {
     public String instructorCourses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
         model.addAttribute("user", user);
-        // Will be fleshed out with actual course list from courseRepository
+        model.addAttribute("courses", courseRepository.findByInstructorId(user.getId()));
         return "instructor/my-courses";
     }
 }

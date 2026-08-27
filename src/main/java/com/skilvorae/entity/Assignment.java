@@ -25,7 +25,7 @@ public class Assignment {
     private String title;
 
     @Lob
-    @Column(columnDefinition = "CLOB")
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
     private String attachmentUrl;

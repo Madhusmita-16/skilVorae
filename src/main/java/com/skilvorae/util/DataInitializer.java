@@ -35,6 +35,10 @@ public class DataInitializer implements CommandLineRunner {
     private final CourseReviewRepository courseReviewRepository;
     private final NotificationRepository notificationRepository;
     private final PasswordEncoder passwordEncoder;
+    private final InstructorEarningsRepository instructorEarningsRepository;
+    private final CourseQARepository courseQARepository;
+    private final CourseBatchRepository courseBatchRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Override
     @Transactional
@@ -263,6 +267,24 @@ public class DataInitializer implements CommandLineRunner {
         CourseReview r1 = CourseReview.builder().course(c1).user(student).rating(5).comment("Exceptional course! Clear explanation of Java 17 Records and JVM internals.").build();
         CourseReview r2 = CourseReview.builder().course(cFS).user(student).rating(5).comment("The Spring Boot & JWT security sections are top notch! Highly recommended.").build();
         courseReviewRepository.saveAll(List.of(r1, r2));
+
+        // Course Q&A
+        CourseQA qa1 = CourseQA.builder().course(c1).student(student).questionText("Will there be any project on Spring Boot 3 in this course?").answerText("Yes, the final capstone is a full Spring Boot 3 microservice.").askedAt(LocalDateTime.now().minusDays(2)).answeredAt(LocalDateTime.now().minusDays(1)).build();
+        CourseQA qa2 = CourseQA.builder().course(cFS).student(student).questionText("How is the frontend integrated?").askedAt(LocalDateTime.now().minusHours(5)).build();
+        courseQARepository.saveAll(List.of(qa1, qa2));
+
+        // Earnings
+        InstructorEarnings ie1 = InstructorEarnings.builder().instructor(instructor).course(c1).enrollment(e1).amount(1499.0 * 0.7).description("Enrollment royalty").earnedAt(LocalDateTime.now().minusDays(5)).build();
+        InstructorEarnings ie2 = InstructorEarnings.builder().instructor(instructor).course(cFS).enrollment(e2).amount(1999.0 * 0.7).description("Enrollment royalty").earnedAt(LocalDateTime.now().minusDays(2)).build();
+        instructorEarningsRepository.saveAll(List.of(ie1, ie2));
+
+        // Course Batches & Schedules
+        CourseBatch cb1 = CourseBatch.builder().course(c1).name("August Batch 2026").startDate(java.time.LocalDate.now().minusDays(10)).endDate(java.time.LocalDate.now().plusDays(50)).build();
+        courseBatchRepository.save(cb1);
+
+        Schedule sch1 = Schedule.builder().courseBatch(cb1).title("Live Q&A Session").description("Discussing JVM internals").startTime(LocalDateTime.now().plusDays(1).withHour(18).withMinute(0)).endTime(LocalDateTime.now().plusDays(1).withHour(19).withMinute(0)).meetingLink("https://meet.google.com/abc-defg-hij").build();
+        Schedule sch2 = Schedule.builder().courseBatch(cb1).title("Weekly Sync").description("Project reviews").startTime(LocalDateTime.now().plusDays(3).withHour(10).withMinute(0)).endTime(LocalDateTime.now().plusDays(3).withHour(11).withMinute(30)).meetingLink("https://zoom.us/j/123456").build();
+        scheduleRepository.saveAll(List.of(sch1, sch2));
     }
 
     private Course addCourse(String title, String slug, String desc, String instructor, Category cat, Difficulty diff, Double hours, String thumb, Double rating, Double price, Double origPrice, Integer discount, Integer enrolled) {

@@ -15,12 +15,23 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
-      <div th:replace="~{fragments/dashboard-header :: header}"></div>
+      <div th:replace="~{fragments/dashboard-header :: header('Learning Dashboard')}"></div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-        <div>
-          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'Good morning, ' + user.fullName}">Good morning, Student</h1>
-          <p style="font-size: 1.05rem; color: var(--text-muted);">Continue your learning journey and build your skills.</p>
+      <!-- LMS Premium Banner (Welcome Section) -->
+      <div class="lms-banner">
+        <div class="lms-banner-content">
+          <h2 th:text="${'Good morning, ' + (user != null ? user.fullName : 'Student')}">Good morning, Student</h2>
+          <p>Today is <span th:text="${#dates.format(#dates.createNow(), 'EEEE, MMMM dd, yyyy')}">Monday, August 27, 2026</span>. Continue your learning journey and build your skills with the latest modules.</p>
+          <a th:href="@{/my-courses}" class="btn" style="background: #FFF; color: var(--midnight-plum); font-weight: 800; padding: 0.75rem 1.5rem; border-radius: var(--border-radius-sm); border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">Resume Learning</a>
+        </div>
+        
+        <div style="text-align: right; margin-right: 2rem;">
+          <div style="font-size: 0.85rem; font-weight: 700; opacity: 0.9; margin-bottom: 0.5rem; letter-spacing: 0.05em; text-transform: uppercase;">Overall Progress</div>
+          <div class="progress-ring-container" th:with="prog=${stats != null and stats.enrolledCoursesCount > 0 ? (stats.completedCoursesCount * 100 / stats.enrolledCoursesCount) : 0}">
+            <div class="progress-ring" th:style="'--progress: ' + ${prog} + '; width: 80px; height: 80px;'">
+              <span style="font-size: 1.15rem;" th:text="${prog + '%'}">0%</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -29,144 +40,209 @@
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ENROLLED</div>
-            <div class="stat-number" th:text="${stats.enrolledCoursesCount}">2</div>
+            <div class="stat-number" th:text="${stats != null ? stats.enrolledCoursesCount : '0'}">0</div>
           </div>
-        </div>
-
-        <div class="stat-card">
-          <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">IN PROGRESS</div>
-            <div class="stat-number" th:text="${stats.inProgressCoursesCount}">1</div>
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETED</div>
-            <div class="stat-number" th:text="${stats.completedCoursesCount}">0</div>
+            <div class="stat-number" th:text="${stats != null ? stats.completedCoursesCount : '0'}">0</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">LEARNING HOURS</div>
-            <div class="stat-number" th:text="${stats.totalLearningHours}">14.5</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">HOURS</div>
+            <div class="stat-number" th:text="${stats != null ? stats.totalLearningHours : '0'}">0</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">AVG SCORE</div>
-            <div class="stat-number" th:text="${stats.averageAssessmentScore + '%'}">88.5%</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">AVG. SCORE</div>
+            <div class="stat-number" th:text="${stats != null ? stats.averageAssessmentScore + '%' : '0%'}">0%</div>
+          </div>
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">STREAK</div>
+            <div class="stat-number" th:text="${stats != null ? stats.learningStreakDays + ' Days' : '0 Days'}">0 Days</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">CERTIFICATES</div>
-            <div class="stat-number" th:text="${stats.certificatesCount}">0</div>
+            <div class="stat-number" th:text="${stats != null ? stats.certificatesCount : '0'}">0</div>
           </div>
-        </div>
-      </div>
-
-      <!-- 7-Day Learning Streak Banner -->
-      <div class="streak-box">
-        <div>
-          <div style="font-weight: 800; font-size: 1.15rem; color: var(--electric-violet);" th:text="${stats.learningStreakDays + ' Day Learning Streak'}">7 Day Learning Streak</div>
-          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.2rem;">Consistent practice builds mastery. Keep your streak alive today!</div>
-        </div>
-        <div class="streak-dots">
-          <div class="streak-dot-col"><span>M</span><div class="streak-dot active"></div></div>
-          <div class="streak-dot-col"><span>T</span><div class="streak-dot active"></div></div>
-          <div class="streak-dot-col"><span>W</span><div class="streak-dot active"></div></div>
-          <div class="streak-dot-col"><span>T</span><div class="streak-dot active"></div></div>
-          <div class="streak-dot-col"><span>F</span><div class="streak-dot active"></div></div>
-          <div class="streak-dot-col"><span>S</span><div class="streak-dot"></div></div>
-          <div class="streak-dot-col"><span>S</span><div class="streak-dot active"></div></div>
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+          </div>
         </div>
       </div>
 
       <!-- Main Dashboard Grid -->
-      <div class="dashboard-grid-2">
+      <div class="dashboard-grid">
+        <!-- Main Area: Continue Learning, Analytics, Activity -->
         <div>
-          <!-- Continue Learning Banner -->
+          <!-- Continue Learning Card -->
           <div class="card" style="margin-bottom: 2rem;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
               <h3 style="font-size: 1.25rem;">Continue Learning</h3>
-              <a th:href="@{/my-courses}" style="font-size: 0.875rem; font-weight: 700; color: var(--electric-violet);">View All Courses</a>
+              <a th:href="@{/my-courses}" style="font-size: 0.875rem; font-weight: 700; color: var(--electric-violet);">View All Courses →</a>
             </div>
 
-            <div th:if="${#lists.isEmpty(stats.activeCourses)}" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+            <div th:if="${stats == null or #lists.isEmpty(stats.activeCourses)}" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
               You have no active courses yet. <a th:href="@{/courses}" style="font-weight: 700; color: var(--electric-violet);">Explore course catalog</a>
             </div>
 
-            <div th:each="course : ${stats.activeCourses}" style="display: flex; align-items: center; gap: 1.25rem; padding: 1.25rem; background: var(--bg-subtle); border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-bottom: 1rem;">
-              <img th:src="${course.courseThumbnailUrl}" style="width: 100px; height: 75px; object-fit: cover; border-radius: 8px;" alt="Course thumb">
-              <div style="flex: 1;">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
-                  <h4 style="font-size: 1.05rem; font-weight: 700;">
-                    <a th:href="@{/courses/{id}/learn(id=${course.courseId})}" th:text="${course.courseTitle}" style="color: var(--off-white);">Java Full Stack Development</a>
-                  </h4>
-                  <span style="font-size: 0.85rem; font-weight: 800; color: var(--electric-violet);" th:text="${course.progressPercentage + '% Complete'}">78% Complete</span>
-                </div>
-                <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;" th:text="${'Instructor: ' + course.instructorName + ' • Module 2 of 3 completed'}">Instructor: Prof. Sarah Jenkins</div>
-                
-                <div class="progress-bar-wrap" style="height: 8px;">
-                  <div class="progress-bar-fill" th:style="${'width: ' + course.progressPercentage + '%;'}"></div>
-                </div>
-              </div>
-              
-              <a th:href="@{/courses/{id}/learn(id=${course.courseId}, lessonId=${course.lastLessonId})}" class="btn btn-primary btn-sm" style="white-space: nowrap; padding: 0.65rem 1.25rem; font-weight: 700;">Continue Learning</a>
-            </div>
-          </div>
-
-          <!-- Chart.js Learning Velocity -->
-          <div class="card" id="progress" style="margin-bottom: 2rem;">
-            <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Weekly Learning Activity</h3>
-            <div style="height: 240px; position: relative;">
-              <canvas id="activityChart"></canvas>
-            </div>
-          </div>
-
-          <!-- Achievements Section -->
-          <div class="card" id="achievements">
-            <h3 style="font-size: 1.25rem; margin-bottom: 1.25rem;">Achievements & Milestones</h3>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
-              <div th:each="ach : ${stats.achievements}" style="display: flex; gap: 0.85rem; padding: 1rem; background: var(--bg-subtle); border-radius: 10px; border: 1px solid var(--border-color); opacity: 1;" th:style="${ach.unlocked ? 'opacity: 1; border-color: rgba(124, 58, 237, 0.3);' : 'opacity: 0.5;'}">
-                <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--electric-violet); color: #FFF; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.75rem; flex-shrink: 0;" th:text="${ach.id}">1</div>
+            <div th:if="${stats != null}" th:each="course : ${stats.activeCourses}" style="display: flex; align-items: stretch; gap: 1.25rem; padding: 1.25rem; background: var(--bg-main); border-radius: var(--border-radius-sm); border: 1px solid var(--border-color); margin-bottom: 1rem; transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform='translateY(-2px)'; this.style.borderColor='rgba(124,58,237,0.3)';" onmouseout="this.style.transform='none'; this.style.borderColor='var(--border-color)';">
+              <img th:src="${course.courseThumbnailUrl}" style="width: 140px; object-fit: cover; border-radius: 8px; flex-shrink: 0;" alt="Course thumb">
+              <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
                 <div>
-                  <div style="font-weight: 700; font-size: 0.95rem; color: var(--off-white);" th:text="${ach.title}">Title</div>
-                  <div style="font-size: 0.8rem; color: var(--text-muted);" th:text="${ach.description}">Description</div>
+                  <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem;">
+                    <a th:href="@{/courses/{id}/learn(id=${course.courseId})}" th:text="${course.courseTitle}" style="color: var(--text-primary); text-decoration: none;">Java Full Stack Development</a>
+                  </h4>
+                  <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.2rem;" th:text="${'Instructor: ' + course.instructorName}">Instructor: Prof. Sarah Jenkins</div>
+                  <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;" th:text="${'Current: ' + course.lastLessonTitle}">Current: Module 2 Introduction</div>
+                </div>
+                
+                <div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; font-size: 0.8rem; font-weight: 700;">
+                    <span style="color: var(--text-secondary);">Course Progress</span>
+                    <span style="color: var(--electric-violet);" th:text="${course.progressPercentage + '%'}">78%</span>
+                  </div>
+                  <div class="progress-bar-wrap" style="height: 6px;">
+                    <div class="progress-bar-fill" th:style="${'width: ' + course.progressPercentage + '%;'}"></div>
+                  </div>
                 </div>
               </div>
+              <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 0.5rem; padding-left: 1rem; border-left: 1px solid var(--border-color);">
+                <a th:href="@{/courses/{id}/learn(id=${course.courseId}, lessonId=${course.lastLessonId})}" class="btn btn-primary" style="white-space: nowrap; padding: 0.65rem 1.25rem; font-weight: 700;">Continue</a>
+                <span style="font-size: 0.7rem; color: var(--text-muted);">Accessed Today</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart.js Learning Analytics -->
+          <div class="card" id="progress" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <h3 style="font-size: 1.25rem;">Learning Analytics</h3>
+              <select class="form-control" style="width: auto; padding: 0.4rem 2rem 0.4rem 0.8rem; font-size: 0.85rem; height: auto;">
+                <option>Weekly</option>
+                <option>Monthly</option>
+                <option>Yearly</option>
+              </select>
+            </div>
+
+            <!-- Empty state for new users -->
+            <div th:if="${stats == null or stats.enrolledCoursesCount == 0}" style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity: 0.3; margin-bottom: 1rem;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              <p style="font-weight: 600; color: var(--text-secondary);">No analytics yet</p>
+              <p style="font-size: 0.875rem;">Enroll in a course and start learning to see your progress here.</p>
+              <a th:href="@{/courses}" class="btn btn-primary" style="margin-top: 1rem; padding: 0.55rem 1.25rem;">Explore Courses</a>
+            </div>
+
+            <!-- Chart for users with enrolled courses -->
+            <div th:if="${stats != null and stats.enrolledCoursesCount > 0}" style="display: grid; grid-template-columns: 1fr 3fr; gap: 1rem;">
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px;">
+                  <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Total Learning</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);" th:text="${stats != null ? stats.totalLearningHours + 'h' : '0h'}">0h</div>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px;" th:with="compRate=${stats != null and stats.enrolledCoursesCount > 0 ? (stats.completedCoursesCount * 100 / stats.enrolledCoursesCount) : 0}">
+                  <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Completion Rate</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: var(--neon-lime);" th:text="${compRate + '%'}">0%</div>
+                </div>
+                <div style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px;">
+                  <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Quiz Performance</div>
+                  <div style="font-size: 1.1rem; font-weight: 800; color: var(--electric-violet);" th:text="${stats != null ? stats.averageAssessmentScore + '%' : '0%'}">0%</div>
+                </div>
+              </div>
+              <div style="height: 240px; position: relative;">
+                <canvas id="activityChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="card" id="activity">
+            <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Recent Activity</h3>
+            <div th:if="${stats == null or #lists.isEmpty(stats.recentActivities)}" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+              No recent activity found. Jump into a course to start learning!
+            </div>
+            <div th:if="${stats != null and not #lists.isEmpty(stats.recentActivities)}" style="overflow-x: auto;">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Activity</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="act : ${stats.recentActivities}">
+                    <td style="font-weight: 600; color: var(--text-primary);" th:text="${act}">Activity text</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
 
-        <!-- Sidebar Right Column -->
+        <!-- Right Sidebar Area: Events & Deadlines -->
         <div style="display: flex; flex-direction: column; gap: 2rem;">
-          <!-- Upcoming Assessments -->
-          <div class="card" id="assessments">
-            <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Upcoming Assessments</h3>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-              <div th:each="ass : ${stats.upcomingAssessments}" style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px; border: 1px solid var(--border-color);">
-                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.25rem;" th:text="${ass.title}">Quiz Title</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.75rem;" th:text="${ass.courseTitle + ' • ' + ass.totalQuestions + ' Qs (' + ass.durationMinutes + ' mins)'}">Course Title</div>
-                <a th:href="@{/assessments/{id}(id=${ass.assessmentId})}" class="btn btn-outline btn-sm btn-block" style="font-size: 0.8rem;">Start Assessment</a>
+          
+          <!-- Upcoming Events -->
+          <div class="card" id="events">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem;">Upcoming Events</h3>
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text-primary);">No upcoming events</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">Check back later for live sessions and webinars!</div>
               </div>
             </div>
           </div>
 
-          <!-- Recent Activity / Notifications -->
-          <div class="card" id="notifications">
-            <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Recent Activity</h3>
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-              <li th:each="act : ${stats.recentActivities}" style="display: flex; gap: 0.75rem; font-size: 0.875rem;">
-                <span style="color: var(--electric-violet); font-weight: 800;">•</span>
-                <span th:text="${act}" style="color: var(--text-secondary);">Activity item</span>
-              </li>
-            </ul>
+          <!-- Upcoming Deadlines -->
+          <div class="card" id="deadlines">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem;">Upcoming Deadlines</h3>
+            <div class="timeline">
+              
+              <!-- Map upcoming assessments to timeline -->
+              <div th:if="${stats != null}" th:each="ass, iterStat : ${stats.upcomingAssessments}" class="timeline-item" th:classappend="${iterStat.index == 0 ? 'completed' : ''}">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem;">
+                  <span style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary);" th:text="${ass.title}">Quiz Title</span>
+                  <span style="font-size: 0.7rem; color: #EF4444; font-weight: 700;">High Priority</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.2rem;" th:text="${ass.courseTitle}">Course Title</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem;" th:text="${ass.dueDate}">Due date</div>
+                <a th:href="@{/assessments/{id}(id=${ass.assessmentId})}" class="btn btn-outline btn-sm" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;">Start Task</a>
+              </div>
+
+              <!-- Dummy items for empty state if needed -->
+              <div th:if="${stats == null or #lists.isEmpty(stats.upcomingAssessments)}" class="timeline-item completed">
+                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text-primary);">No tasks due soon</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">You're all caught up!</div>
+              </div>
+            </div>
           </div>
+          
         </div>
       </div>
 
@@ -176,8 +252,13 @@
   <script th:src="@{/js/main.js}"></script>
   <script th:src="@{/js/dashboard-charts.js}"></script>
   <script th:inline="javascript">
-    var weeklyData = [[${stats.weeklyActivityData}]];
-    initActivityChart(weeklyData);
+    /*<![CDATA[*/
+    var weeklyData = /*[[${stats != null ? stats.weeklyActivityData : '[0,0,0,0,0,0,0]'}]]*/ [0,0,0,0,0,0,0];
+    var hasEnrollments = /*[[${stats != null and stats.enrolledCoursesCount > 0}]]*/ false;
+    if (hasEnrollments) {
+      initActivityChart(weeklyData);
+    }
+    /*]]>*/
   </script>
 </body>
 </html>

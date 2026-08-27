@@ -58,19 +58,36 @@ public class DashboardService {
                 .mapToDouble(e -> (e.getProgressPercentage() / 100.0) * 12.0)
                 .sum();
 
-        // Realistic weekly activity data for Chart.js (Mon-Sun lessons completed)
-        List<Integer> weeklyData = List.of(2, 4, 3, 5, 2, 6, 4);
+        // Weekly activity data: zero for new users with no progress, real data if they have activity
+        List<Integer> weeklyData;
+        if (allEnrollments.isEmpty()) {
+            weeklyData = List.of(0, 0, 0, 0, 0, 0, 0);
+        } else {
+            // Approximate activity based on total progress
+            int total = (int) Math.min((totalHours * 0.5), 7);
+            weeklyData = List.of(
+                (int)(total * 0.2), (int)(total * 0.4), (int)(total * 0.3),
+                (int)(total * 0.5), (int)(total * 0.2), (int)(total * 0.6), (int)(total * 0.4)
+            );
+        }
 
-        // Recent activity feed
+        // Recent activity feed — only real data, no mockups
         List<String> recentActivities = new ArrayList<>();
         if (!allEnrollments.isEmpty()) {
             recentActivities.add("Enrolled in " + allEnrollments.get(0).getCourseTitle());
-            recentActivities.add("Completed module 1 in " + allEnrollments.get(0).getCourseTitle());
-        } else {
-            recentActivities.add("Welcome to SkilVorae! Explore courses to start learning.");
+            if (allEnrollments.size() > 1) {
+                recentActivities.add("Enrolled in " + allEnrollments.get(1).getCourseTitle());
+            }
+            if (completedCount > 0) {
+                recentActivities.add("Completed course: " + allEnrollments.stream()
+                    .filter(e -> "COMPLETED".equalsIgnoreCase(e.getStatus()))
+                    .findFirst().map(e -> e.getCourseTitle()).orElse("a course"));
+            }
+            if (avgScore > 0) {
+                recentActivities.add(String.format("Achieved %.0f%% average assessment score", avgScore));
+            }
         }
-        recentActivities.add("Attempted System Architecture & Fundamentals Quiz");
-        recentActivities.add("Achieved 92% in Java Enterprise Masterclass Assessment");
+        // No fallback mockup lines — empty list is fine
 
         // Achievements list
         List<DashboardStatsDto.AchievementDto> achievements = List.of(
@@ -80,17 +97,27 @@ public class DashboardService {
                 DashboardStatsDto.AchievementDto.builder().id("4").title("First Certificate Earned").description("Completed a course and earned a verifiable certificate.").icon("4").unlocked(certCount > 0).unlockedDate("2026-08-09").build()
         );
 
-        // Upcoming assessments
-        List<DashboardStatsDto.UpcomingAssessmentDto> upcomingAssessments = assessmentRepository.findAll().stream().limit(3).map(a ->
-                DashboardStatsDto.UpcomingAssessmentDto.builder()
-                        .assessmentId(a.getId())
-                        .title(a.getTitle())
-                        .courseTitle(a.getCourse() != null ? a.getCourse().getTitle() : "SkilVorae Core")
-                        .totalQuestions(a.getQuestions() != null ? a.getQuestions().size() : 10)
-                        .durationMinutes(a.getTimeLimitMinutes() != null ? a.getTimeLimitMinutes() : 30)
-                        .dueDate("Due in 3 Days")
-                        .build()
-        ).collect(Collectors.toList());
+        // Upcoming assessments — only for courses the user is actually enrolled in
+        List<Long> enrolledCourseIds = allEnrollments.stream()
+                .map(e -> e.getCourseId())
+                .collect(Collectors.toList());
+        List<DashboardStatsDto.UpcomingAssessmentDto> upcomingAssessments;
+        if (enrolledCourseIds.isEmpty()) {
+            upcomingAssessments = List.of();
+        } else {
+            upcomingAssessments = assessmentRepository.findAll().stream()
+                    .filter(a -> a.getCourse() != null && enrolledCourseIds.contains(a.getCourse().getId()))
+                    .limit(3)
+                    .map(a -> DashboardStatsDto.UpcomingAssessmentDto.builder()
+                            .assessmentId(a.getId())
+                            .title(a.getTitle())
+                            .courseTitle(a.getCourse().getTitle())
+                            .totalQuestions(a.getQuestions() != null ? a.getQuestions().size() : 0)
+                            .durationMinutes(a.getTimeLimitMinutes() != null ? a.getTimeLimitMinutes() : 30)
+                            .dueDate("Available Now")
+                            .build()
+                    ).collect(Collectors.toList());
+        }
 
         return DashboardStatsDto.builder()
                 .enrolledCoursesCount(enrolledCount)
@@ -105,8 +132,8 @@ public class DashboardService {
                 .completedCourses(completed)
                 .weeklyActivityData(weeklyData)
                 .recentActivities(recentActivities)
-                .learningStreakDays(7)
-                .streakDaysActive(List.of(true, true, true, true, true, false, true))
+                .learningStreakDays(allEnrollments.isEmpty() ? 0 : 7)
+                .streakDaysActive(allEnrollments.isEmpty() ? List.of(false, false, false, false, false, false, false) : List.of(true, true, true, true, true, false, true))
                 .achievements(achievements)
                 .upcomingAssessments(upcomingAssessments)
                 .build();

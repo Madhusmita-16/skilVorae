@@ -32,4 +32,9 @@ public class Module {
     @OrderBy("lessonOrder ASC")
     @Builder.Default
     private List<Lesson> lessons = new ArrayList<>();
+
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdAt ASC")
+    @Builder.Default
+    private List<Assignment> assignments = new ArrayList<>();
 }

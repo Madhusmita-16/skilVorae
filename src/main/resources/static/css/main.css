@@ -26,9 +26,9 @@
   --bg-dark-card: #202020;
   --bg-subtle: #E9E2FF;
 
-  --text-primary: #000000;
-  --text-secondary: #000000;
-  --text-muted: #000000;
+  --text-primary: #111827; /* Darker black/gray for high contrast pop */
+  --text-secondary: #374151; /* Medium dark */
+  --text-muted: #6B7280; /* Stronger gray */
   --text-on-dark: #FAF9F6;
 
   --primary: #7C3AED;

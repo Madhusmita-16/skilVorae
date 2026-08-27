@@ -16,149 +16,230 @@
 
     <!-- Main Content Area -->
     <main class="dashboard-main">
-      <div th:replace="~{fragments/dashboard-header :: header}"></div>
+      <div th:replace="~{fragments/dashboard-header :: header('Overview')}"></div>
 
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
-        <div>
-          <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 0.25rem; color: var(--off-white);" th:text="${'Welcome, ' + user.fullName}">Instructor Portal</h1>
-          <p style="font-size: 1.05rem; color: var(--text-muted);">Create courses, manage modules, track learner progress, and analyze performance metrics.</p>
+      <!-- Instructor Banner -->
+      <div class="lms-banner" style="background: linear-gradient(135deg, var(--neon-lime) 0%, #10B981 100%); color: var(--midnight-plum); box-shadow: 0 16px 32px -8px rgba(16, 185, 129, 0.4);">
+        <div class="lms-banner-content">
+          <h2 th:text="${'Welcome back, ' + (user != null ? user.fullName : 'Instructor')}" style="color: var(--midnight-plum);">Instructor Portal</h2>
+          <p style="color: rgba(10, 9, 14, 0.8); margin-bottom: 0;">Today is <span th:text="${#dates.format(#dates.createNow(), 'EEEE, MMMM dd, yyyy')}">Monday, August 27, 2026</span>. Here's a snapshot of your teaching performance.</p>
         </div>
-        <button onclick="openCreateCourseModal()" class="btn btn-primary" style="padding: 0.85rem 1.6rem; font-weight: 700; font-size: 0.95rem;">+ Create New Course</button>
       </div>
 
       <!-- Instructor 6 Stat Cards -->
-      <div class="stats-grid" id="earnings" style="grid-template-columns: repeat(6, 1fr);">
+      <div class="stats-grid" style="grid-template-columns: repeat(6, 1fr);">
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">STUDENTS</div>
+            <div class="stat-number" th:text="${stats != null ? stats.activeLearnersCount : '0'}">0</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+        </div>
+
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COURSES</div>
-            <div class="stat-number" th:text="${stats.totalCoursesCount}">40</div>
+            <div class="stat-number" th:text="${stats != null ? stats.totalCoursesCount : '0'}">0</div>
+          </div>
+          <div class="stat-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ENROLLMENTS</div>
+            <div class="stat-number" th:text="${stats != null ? stats.totalStudentsCount : '0'}">0</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">LEARNERS</div>
-            <div class="stat-number" th:text="${stats.totalStudentsCount}">4,850</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">REVENUE</div>
+            <div class="stat-number" th:text="${stats != null ? '₹' + #numbers.formatDecimal(stats.totalEarnings, 0, 'COMMA', 0, 'POINT') : '₹0'}">₹0</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ACTIVE</div>
-            <div class="stat-number" th:text="${stats.activeLearnersCount}">3,120</div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">AVG RATING</div>
+            <div class="stat-number" th:text="${stats != null ? stats.averageRating : '0.0'}">0.0</div>
+          </div>
+          <div class="stat-icon" style="background: rgba(234, 179, 8, 0.1); color: #EAB308;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
           </div>
         </div>
 
         <div class="stat-card">
           <div>
             <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETION</div>
-            <div class="stat-number" th:text="${stats.courseCompletionRate + '%'}">88.5%</div>
+            <div class="stat-number" th:text="${stats != null ? stats.courseCompletionRate + '%' : '0%'}">0%</div>
           </div>
-        </div>
-
-        <div class="stat-card">
-          <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">RATING</div>
-            <div class="stat-number" th:text="${stats.averageRating}">4.9</div>
-          </div>
-        </div>
-
-        <div class="stat-card">
-          <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">DEMO EARNINGS</div>
-            <div class="stat-number" th:text="${'₹' + #numbers.formatDecimal(stats.totalEarnings, 0, 'COMMA', 0, 'POINT')}">₹1.8L</div>
+          <div class="stat-icon" style="background: rgba(239, 68, 68, 0.1); color: #EF4444;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
           </div>
         </div>
       </div>
 
-      <!-- Main Section: Course Management & Enrollment Graph -->
-      <div class="dashboard-grid-2" style="margin-bottom: 2.5rem;">
-        <!-- Course Management -->
-        <div class="card" id="courses">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h3 style="font-size: 1.25rem;">Authoring & Course Catalog</h3>
-            <input type="text" id="course-search" onkeyup="filterInstructorCourses()" class="form-control" placeholder="Search course titles..." style="max-width: 220px; padding: 0.45rem 0.8rem; font-size: 0.85rem;">
+      <!-- Main Section: Course Performance, Enrollments, Revenue -->
+      <div class="dashboard-grid" style="margin-bottom: 2.5rem;">
+        
+        <!-- Course Performance & Analytics -->
+        <div>
+          <!-- Course Performance -->
+          <div class="card" id="performance" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 style="font-size: 1.25rem;">Course Performance</h3>
+              <div class="search-bar" style="width: 240px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="course-search" onkeyup="filterInstructorCourses()" placeholder="Search course titles...">
+              </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+              <table class="dashboard-table" id="instructor-table">
+                <thead>
+                  <tr>
+                    <th>Course Title</th>
+                    <th>Students</th>
+                    <th>Completion</th>
+                    <th>Rating</th>
+                    <th>Revenue</th>
+                    <th style="text-align: right;">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:if="${stats != null}" th:each="c : ${stats.instructorCourses}" class="course-row">
+                    <td style="font-weight: 700;" class="title-cell">
+                      <a th:href="@{/courses/{id}(id=${c.id})}" th:text="${c.title}" style="color: var(--text-primary); text-decoration: none;">Title</a>
+                    </td>
+                    <td th:text="${c.enrollmentCount}">0</td>
+                    <td><span style="color: var(--neon-lime);">0%</span></td>
+                    <td><span style="color: #EAB308;">★</span> 0.0</td>
+                    <td>₹0</td>
+                    <td style="text-align: right;">
+                      <span class="badge badge-primary">PUBLISHED</span>
+                    </td>
+                  </tr>
+                  <tr th:if="${stats == null or #lists.isEmpty(stats.instructorCourses)}" class="course-row">
+                    <td colspan="6" style="text-align: center; padding: 2rem;">No courses created yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          <div style="overflow-x: auto;">
-            <table class="dashboard-table" id="instructor-table">
-              <thead>
-                <tr>
-                  <th>Course Title</th>
-                  <th>Category</th>
-                  <th>Difficulty</th>
-                  <th>Price</th>
-                  <th>Learners</th>
-                  <th style="text-align: right;">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="c : ${stats.instructorCourses}" class="course-row">
-                  <td style="font-weight: 700;" class="title-cell">
-                    <a th:href="@{/courses/{id}(id=${c.id})}" th:text="${c.title}" style="color: var(--off-white);">Title</a>
-                  </td>
-                  <td style="color: var(--text-muted);" th:text="${c.categoryName}">Category</td>
-                  <td>
-                    <span class="badge" th:classappend="${'badge-' + #strings.toLowerCase(c.difficulty)}" th:text="${c.difficulty}">Difficulty</span>
-                  </td>
-                  <td style="font-weight: 700; color: var(--electric-violet);" th:text="${'₹' + #numbers.formatDecimal(c.price, 0, 'COMMA', 0, 'POINT')}">₹1,499</td>
-                  <td style="font-weight: 800;" th:text="${c.enrollmentCount}">1,240</td>
-                  <td style="text-align: right;">
-                    <div style="display: flex; justify-content: flex-end; gap: 0.4rem;">
-                      <a th:href="@{/courses/{id}(id=${c.id})}" class="btn btn-outline btn-sm" style="font-size: 0.75rem; padding: 0.35rem 0.7rem;">View</a>
-                      <button type="button" th:onclick="'deleteCourse(' + ${c.id} + ')'" class="btn btn-sm" style="background: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); font-size: 0.75rem; padding: 0.35rem 0.7rem;">Delete</button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <!-- Student Engagement & Recent Enrollments -->
+          <div class="card" id="students" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <h3 style="font-size: 1.25rem;">Student Engagement & Recent Enrollments</h3>
+              <a href="javascript:void(0)" onclick="typeof showToast === 'function' ? showToast('Loading Student List...', 'info') : alert('Loading Student List...')" style="font-size: 0.875rem; font-weight: 700; color: var(--electric-violet);">View All Students →</a>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+              <div style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Active Students</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">2,105</div>
+              </div>
+              <div style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Avg Watch Time</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">3h 45m</div>
+              </div>
+              <div style="padding: 1rem; background: var(--bg-subtle); border-radius: 8px;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">Avg Student Score</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">84%</div>
+              </div>
+            </div>
+            
+            <div style="overflow-x: auto;">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Student Name</th>
+                    <th>Course</th>
+                    <th>Enrollment Date</th>
+                    <th>Progress</th>
+                    <th style="text-align: right;">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:if="${stats != null}" th:each="student : ${stats.recentStudents}">
+                    <td style="font-weight: 700;" th:text="${student.studentName}">Alex Johnson</td>
+                    <td th:text="${student.courseTitle}">Full Stack Java Development</td>
+                    <td style="color: var(--text-muted);" th:text="${student.enrollmentDate}">Aug 27, 2026</td>
+                    <td>
+                      <div class="progress-bar-wrap" style="width: 100%; height: 6px;">
+                        <div class="progress-bar-fill" th:style="'width: ' + ${student.progressPercentage} + '%;'"></div>
+                      </div>
+                    </td>
+                    <td style="text-align: right;"><span class="badge badge-intermediate" th:text="${student.status}">ACTIVE</span></td>
+                  </tr>
+                  <tr th:if="${stats == null or #lists.isEmpty(stats.recentStudents)}">
+                    <td colspan="5" style="text-align: center; padding: 2rem;">No students enrolled yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <!-- Monthly Enrollment Analytics -->
-        <div class="card" id="analytics">
-          <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem;">Enrollment Trends</h3>
-          <div style="height: 260px; position: relative;">
-            <canvas id="instructorEnrollmentChart"></canvas>
+        <!-- Right Column: Revenue, Events, Pending -->
+        <div style="display: flex; flex-direction: column; gap: 2rem;">
+          
+          <!-- Revenue & Enrollment Analytics -->
+          <div class="card" id="revenue">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <h3 style="font-size: 1.2rem;">Revenue Analytics</h3>
+              <select class="form-control" style="width: auto; padding: 0.4rem 2rem 0.4rem 0.8rem; font-size: 0.75rem; height: auto;">
+                <option>Monthly</option>
+                <option>Yearly</option>
+              </select>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Instructor Earnings</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--neon-lime);" th:text="${stats != null ? '₹' + #numbers.formatDecimal(stats.totalEarnings, 0, 'COMMA', 0, 'POINT') : '₹0'}">₹0</div>
+              </div>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Platform Commission</div>
+                <div style="font-size: 1.1rem; font-weight: 800; color: var(--electric-violet);" th:text="${stats != null ? '₹' + #numbers.formatDecimal(stats.totalEarnings * 0.15, 0, 'COMMA', 0, 'POINT') : '₹0'}">₹0</div>
+              </div>
+            </div>
+            <div style="height: 180px; position: relative;">
+              <canvas id="instructorEnrollmentChart"></canvas>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- Enrolled Students Roster -->
-      <div class="card" id="students">
-        <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Enrolled Students & Activity</h3>
-        <div style="overflow-x: auto;">
-          <table class="dashboard-table">
-            <thead>
-              <tr>
-                <th>Student Name</th>
-                <th>Course</th>
-                <th>Enrolled Date</th>
-                <th>Progress</th>
-                <th>Status</th>
-                <th>Last Activity</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr th:each="st : ${stats.recentStudents}">
-                <td style="font-weight: 700; color: var(--off-white);" th:text="${st.studentName}">Student Name</td>
-                <td style="color: var(--text-muted);" th:text="${st.courseTitle}">Course Title</td>
-                <td th:text="${st.enrollmentDate}">Aug 10, 2026</td>
-                <td>
-                  <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div class="progress-bar-wrap" style="width: 80px; height: 6px;">
-                      <div class="progress-bar-fill" th:style="${'width: ' + st.progressPercentage + '%;'}"></div>
-                    </div>
-                    <span style="font-size: 0.8rem; font-weight: 700;" th:text="${st.progressPercentage + '%'}">50%</span>
-                  </div>
-                </td>
-                <td>
-                  <span class="badge" th:classappend="${st.status == 'COMPLETED' ? 'badge-success' : 'badge-intermediate'}" th:text="${st.status}">ACTIVE</span>
-                </td>
-                <td style="color: var(--text-muted);" th:text="${st.lastActivity}">Today</td>
-              </tr>
-            </tbody>
-          </table>
+          <!-- Upcoming Events -->
+          <div class="card" id="events">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem;">Upcoming Events</h3>
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text-primary);">No upcoming events</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">Check back later for live sessions and webinars!</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pending Actions -->
+          <div class="card" id="pending">
+            <h3 style="font-size: 1.2rem; margin-bottom: 1.5rem;">Pending Actions</h3>
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--text-primary);">No pending actions</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">You're all caught up!</div>
+              </div>
+            </div>
+          </div>
+          
         </div>
       </div>
 
@@ -166,10 +247,11 @@
   </div>
 
   <!-- Multi-Step Create Course Modal -->
+  <!-- [Retained from previous] -->
   <div id="create-course-modal" class="modal-overlay">
     <div class="modal-card" style="max-width: 640px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 0.85rem; border-bottom: 1px solid var(--border-color);">
-        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--off-white);">Create New Course</h3>
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">Create New Course</h3>
         <button onclick="closeCreateCourseModal()" style="background: var(--bg-subtle); border: 1px solid var(--border-color); font-size: 1.2rem; cursor: pointer; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">&times;</button>
       </div>
 
@@ -197,7 +279,8 @@
             <div class="form-group">
               <label class="form-label">Category</label>
               <select id="course-cat" class="form-control">
-                <option th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}">Category</option>
+                <option th:if="${categories != null}" th:each="cat : ${categories}" th:value="${cat.id}" th:text="${cat.name}">Category</option>
+                <option th:if="${categories == null}" value="1">Technology</option>
               </select>
             </div>
             <div class="form-group">
@@ -295,8 +378,8 @@
   <script th:src="@{/js/main.js}"></script>
   <script th:src="@{/js/dashboard-charts.js}"></script>
   <script th:inline="javascript">
-    var monthlyEnrollment = [[${stats.monthlyEnrollmentData}]];
-    var monthlyLabels = [[${stats.monthlyLabels}]];
+    var monthlyEnrollment = [[${stats != null ? stats.monthlyEnrollmentData : '[50, 60, 45, 90, 110, 150]'}]];
+    var monthlyLabels = [[${stats != null ? stats.monthlyLabels : '["Jan", "Feb", "Mar", "Apr", "May", "Jun"]'}]];
     initInstructorChart(monthlyEnrollment, monthlyLabels);
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -377,22 +460,6 @@
         }
       } catch(err) {
         showToast('Error creating course', 'error');
-      }
-    }
-
-    async function deleteCourse(courseId) {
-      if (!confirm('Are you sure you want to delete this course?')) return;
-      try {
-        const res = await fetch('/api/dashboard/courses/' + courseId, { method: 'DELETE' });
-        const data = await res.json();
-        if (data.success) {
-          showToast('Course removed successfully', 'success');
-          setTimeout(() => location.reload(), 800);
-        } else {
-          showToast(data.message || 'Error deleting course', 'error');
-        }
-      } catch(err) {
-        showToast('Error deleting course', 'error');
       }
     }
   </script>

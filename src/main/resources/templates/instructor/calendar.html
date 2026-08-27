@@ -52,7 +52,7 @@
     <div class="dashboard-wrapper">
         <div th:replace="~{fragments/sidebar :: sidebar(activeTab='instructor')}"></div>
         <main class="dashboard-main">
-            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div th:replace="~{fragments/dashboard-header :: header('Calendar')}"></div>
             <div class="dashboard-content">
                 <div class="header-actions" style="margin-bottom: 2rem;">
                     <h2>Upcoming Schedules</h2>

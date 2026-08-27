@@ -58,6 +58,9 @@ public class Course {
     private Double originalPrice;
     private Integer discountPercentage;
 
+    @Builder.Default
+    private Boolean isArchived = false;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("moduleOrder ASC")
     @Builder.Default
@@ -80,5 +83,9 @@ public class Course {
         if (this.enrollmentCount == null) {
             this.enrollmentCount = 0;
         }
+    }
+
+    public Boolean getIsArchived() {
+        return isArchived != null ? isArchived : false;
     }
 }

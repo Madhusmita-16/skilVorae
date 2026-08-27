@@ -32,7 +32,7 @@
         <div th:replace="~{fragments/sidebar :: sidebar('admin')}"></div>
         
         <main class="dashboard-main">
-            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div th:replace="~{fragments/dashboard-header :: header('Applications')}"></div>
             
             <div class="dashboard-content">
                 <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>

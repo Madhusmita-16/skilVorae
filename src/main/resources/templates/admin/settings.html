@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Settings — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <div th:replace="~{fragments/sidebar :: sidebar('admin')}"></div>
+
+    <main class="dashboard-main">
+      <div th:replace="~{fragments/dashboard-header :: header('Platform Settings')}"></div>
+
+      <div class="courses-list-header">
+        <h2 class="section-title">Platform Configuration</h2>
+        <button class="btn btn-primary">Save Changes</button>
+      </div>
+
+      <div class="courses-grid" style="grid-template-columns: 1fr; gap: 2rem;">
+        
+        <div class="course-card" style="padding: 2rem;">
+          <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">General Settings</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <label style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Site Name</label>
+              <input type="text" value="SkilVorae LMS" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+            </div>
+            <div>
+              <label style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Support Email</label>
+              <input type="email" value="support@skilvorae.com" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+            </div>
+            <div>
+              <label style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Allow Public Registration</label>
+              <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+                <option value="true" selected>Yes</option>
+                <option value="false">No (Invite Only)</option>
+              </select>
+            </div>
+             <div>
+              <label style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Default Currency</label>
+              <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+                <option value="USD">USD ($)</option>
+                <option value="INR" selected>INR (₹)</option>
+                <option value="EUR">EUR (€)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" style="padding: 2rem;">
+          <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Security Settings</h3>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div>
+              <label style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Session Timeout (Minutes)</label>
+              <input type="number" value="120" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+            </div>
+            <div>
+              <label style="display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 0.5rem; color: var(--text-secondary);">Enforce Two-Factor Auth (Admin)</label>
+              <select style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+                <option value="true" selected>Enabled</option>
+                <option value="false">Disabled</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

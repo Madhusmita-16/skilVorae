@@ -5,6 +5,7 @@ import com.skilvorae.entity.User;
 import com.skilvorae.enums.Role;
 import com.skilvorae.repository.CategoryRepository;
 import com.skilvorae.repository.UserRepository;
+import com.skilvorae.repository.CourseRepository;
 import com.skilvorae.service.DashboardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +23,7 @@ public class AdminWebController {
     private final UserRepository userRepository;
     private final DashboardService dashboardService;
     private final CategoryRepository categoryRepository;
+    private final CourseRepository courseRepository;
     private final com.skilvorae.service.InstructorRegistrationService registrationService;
 
     @GetMapping("/dashboard")
@@ -43,12 +45,22 @@ public class AdminWebController {
 
     @GetMapping("/users")
     public String adminUsers(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        return adminDashboard(model, userDetails);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        if (user.getRole() != Role.ADMIN) return "redirect:/dashboard";
+        model.addAttribute("user", user);
+        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("activeTab", "users");
+        return "admin/users";
     }
 
     @GetMapping("/courses")
     public String adminCourses(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        return adminDashboard(model, userDetails);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        if (user.getRole() != Role.ADMIN) return "redirect:/dashboard";
+        model.addAttribute("user", user);
+        model.addAttribute("courses", courseRepository.findAll());
+        model.addAttribute("activeTab", "courses");
+        return "admin/courses";
     }
 
     @GetMapping("/certificates")
@@ -58,7 +70,16 @@ public class AdminWebController {
 
     @GetMapping("/audit-logs")
     public String adminAuditLogs(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        return adminDashboard(model, userDetails);
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        model.addAttribute("user", user);
+        return "admin/audit-logs";
+    }
+
+    @GetMapping("/settings")
+    public String adminSettings(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getUsername()).orElseThrow();
+        model.addAttribute("user", user);
+        return "admin/settings";
     }
 
     @GetMapping("/instructor-applications")

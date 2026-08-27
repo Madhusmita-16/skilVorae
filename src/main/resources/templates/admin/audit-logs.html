@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Logs — SkilVorae</title>
+  <link rel="stylesheet" th:href="@{/css/main.css}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css}">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <div th:replace="~{fragments/sidebar :: sidebar('admin')}"></div>
+
+    <main class="dashboard-main">
+      <div th:replace="~{fragments/dashboard-header :: header('Audit Logs')}"></div>
+
+      <div class="courses-list-header">
+        <h2 class="section-title">System Activity Logs</h2>
+        <div style="display: flex; gap: 1rem;">
+          <input type="text" placeholder="Search logs..." class="search-input" style="padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-primary); color: var(--text-primary);">
+          <button class="btn btn-outline">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="course-card" style="padding: 0; overflow: hidden;">
+        <table class="applications-table" style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="background-color: var(--bg-secondary); border-bottom: 1px solid var(--border-color);">
+              <th style="padding: 1rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Timestamp</th>
+              <th style="padding: 1rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">User</th>
+              <th style="padding: 1rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Action</th>
+              <th style="padding: 1rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">IP Address</th>
+              <th style="padding: 1rem; text-align: left; font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-secondary);">Today, 10:45 AM</td>
+              <td style="padding: 1rem; font-size: 0.875rem; font-weight: 500;">System Administrator</td>
+              <td style="padding: 1rem; font-size: 0.875rem;">Approved Instructor Application (Sarah Jenkins)</td>
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-muted);">192.168.1.104</td>
+              <td style="padding: 1rem;"><span style="padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(34, 197, 94, 0.1); color: #22c55e;">Success</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-secondary);">Today, 09:12 AM</td>
+              <td style="padding: 1rem; font-size: 0.875rem; font-weight: 500;">Prof. Sarah Jenkins</td>
+              <td style="padding: 1rem; font-size: 0.875rem;">Published Course: Java 17 Masterclass</td>
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-muted);">10.0.0.52</td>
+              <td style="padding: 1rem;"><span style="padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(34, 197, 94, 0.1); color: #22c55e;">Success</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-color);">
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-secondary);">Yesterday, 14:30 PM</td>
+              <td style="padding: 1rem; font-size: 0.875rem; font-weight: 500;">Alex Morgan</td>
+              <td style="padding: 1rem; font-size: 0.875rem;">Failed Login Attempt (Invalid Password)</td>
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-muted);">203.0.113.42</td>
+              <td style="padding: 1rem;"><span style="padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(239, 68, 68, 0.1); color: #ef4444;">Failed</span></td>
+            </tr>
+            <tr>
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-secondary);">Yesterday, 11:20 AM</td>
+              <td style="padding: 1rem; font-size: 0.875rem; font-weight: 500;">System Administrator</td>
+              <td style="padding: 1rem; font-size: 0.875rem;">Changed System Setting: Session Timeout</td>
+              <td style="padding: 1rem; font-size: 0.875rem; color: var(--text-muted);">192.168.1.104</td>
+              <td style="padding: 1rem;"><span style="padding: 0.25rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; background: rgba(34, 197, 94, 0.1); color: #22c55e;">Success</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

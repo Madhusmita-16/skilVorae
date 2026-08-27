@@ -41,7 +41,7 @@
         <div th:replace="~{fragments/sidebar :: sidebar('instructor')}"></div>
         
         <main class="dashboard-main">
-            <div th:replace="~{fragments/dashboard-header :: header}"></div>
+            <div th:replace="~{fragments/dashboard-header :: header('Create Course')}"></div>
             
             <div class="dashboard-content">
                 <div class="header-actions" style="margin-bottom: 2rem;">
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="form-container">
-                    <form th:action="@{/instructor/course/create}" th:object="${course}" method="post">
+                    <form th:action="@{/instructor/course/create}" th:object="${course}" method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Course Title</label>
                             <input type="text" id="title" th:field="*{title}" required placeholder="e.g. Advanced Java Masterclass">
@@ -70,9 +70,14 @@
                                 </select>
                             </div>
                             <div style="flex: 1;">
-                                <label for="price">Price ($)</label>
+                                <label for="price">Price (₹)</label>
                                 <input type="number" step="0.01" id="price" th:field="*{price}" required value="0.00">
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Thumbnail Image (Optional)</label>
+                            <input type="file" name="thumbnailFile" accept="image/*">
                         </div>
 
                         <!-- We omit Category mapping here for brevity, assume default logic in controller or hidden field -->
