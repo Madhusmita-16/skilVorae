@@ -6,8 +6,11 @@ A full-stack LMS built with Spring Boot 3, MySQL, and Thymeleaf. Three separate 
 
 ## Demo
 
-<!-- Add demo video or GIF here once recorded -->
-> Walkthrough covers: landing page → student dashboard → course catalog → instructor course builder → admin panel.
+[![Demo Video](https://img.shields.io/badge/Demo-Coming%20Soon-blueviolet?style=for-the-badge&logo=youtube)](https://github.com/Madhusmita-16/skilVorae)
+
+> **Walkthrough covers:** landing page → student dashboard → course catalog → instructor course builder → admin panel.
+>
+> _Once recorded, replace the badge URL above with the actual video link (YouTube, Loom, or Vimeo)._
 
 ---
 
