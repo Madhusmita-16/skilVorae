@@ -25,38 +25,6 @@ function showToast(message, type = 'info') {
   }, 3500);
 }
 
-// Theme Toggle Logic (Light / Dark)
-function updateThemeButtons(theme) {
-  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
-    const icon = btn.querySelector('.theme-icon');
-    const label = btn.querySelector('.theme-label');
-    if (theme === 'dark') {
-      if (icon) icon.textContent = '☀️';
-      if (label) label.textContent = 'Light';
-      btn.title = 'Switch to Light Theme';
-    } else {
-      if (icon) icon.textContent = '🌙';
-      if (label) label.textContent = 'Dark';
-      btn.title = 'Switch to Dark Theme';
-    }
-  });
-}
-
-function initTheme() {
-  document.documentElement.setAttribute('data-theme', 'light');
-  localStorage.setItem('skilvorae_theme', 'light');
-  updateThemeButtons('light');
-}
-
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('skilvorae_theme', newTheme);
-  updateThemeButtons(newTheme);
-  showToast(`Switched to ${newTheme} mode`, 'info');
-}
-
 // Notification Center Logic
 async function initNotifications() {
   const badge = document.getElementById('notif-badge');

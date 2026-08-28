@@ -18,10 +18,6 @@
       </ul>
 
       <div class="nav-auth" style="position: relative;">
-        <!-- Theme Toggle -->
-        <button class="btn btn-outline btn-sm theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme" style="padding: 0.4rem 0.65rem; font-weight: 700; display: flex; align-items: center; gap: 0.3rem;">
-          <span class="theme-icon">🌙</span> <span class="theme-label" style="font-size: 0.825rem;">Dark</span>
-        </button>
 
         <th:block th:if="${user == null}">
           <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>

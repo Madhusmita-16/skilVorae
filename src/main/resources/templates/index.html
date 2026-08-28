@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skilvorae — Industry-Grade Online Learning & Career Skills Platform</title>
   <meta name="description" content="Master practical skills, build real-world projects, and advance your tech career with Skilvorae industry-aligned curriculums.">
-  <script>document.documentElement.setAttribute('data-theme', 'light');</script>
-  <link rel="stylesheet" th:href="@{/css/main.css?v=5.0}">
-  <link rel="stylesheet" th:href="@{/css/course.css?v=5.0}">
+  <link rel="stylesheet" th:href="@{/css/main.css?v=11.0}">
+  <link rel="stylesheet" th:href="@{/css/course.css?v=11.0}">
 </head>
 <body id="home">
 
@@ -28,9 +27,6 @@
       </ul>
 
       <div class="nav-auth">
-        <button class="btn btn-outline btn-sm theme-toggle-btn" onclick="toggleTheme()" title="Toggle Light/Dark Theme" style="padding: 0.4rem 0.65rem; font-weight: 700; display: flex; align-items: center; gap: 0.3rem;">
-          <span class="theme-icon">🌙</span> <span class="theme-label" style="font-size: 0.825rem;">Dark</span>
-        </button>
 
         <th:block th:if="${!isLoggedIn}">
           <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
@@ -106,30 +102,30 @@
               Java Full Stack Architecture
             </div>
 
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #4B3F6B; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #374151; margin-bottom: 1rem;">
               <span>Spring Boot 3 + Oracle DB</span>
-              <span style="color: #7C3AED; font-weight: 700;">88% Competency</span>
+              <span style="color: #111827; font-weight: 700;">88% Competency</span>
             </div>
 
-            <div class="progress-bar-wrap" style="height: 10px; background: #EDE8F5; margin-bottom: 1.5rem;">
-              <div class="progress-bar-fill" style="width: 88%; background: linear-gradient(90deg, #7C3AED 0%, #3B82F6 100%);"></div>
+            <div class="progress-bar-wrap" style="height: 10px; background: #E5E7EB; margin-bottom: 1.5rem;">
+              <div class="progress-bar-fill" style="width: 88%; background: #111827;"></div>
             </div>
 
             <!-- Code Snippet Box -->
-            <div style="background: #F4F0FD; padding: 1rem; border-radius: 12px; font-family: monospace; font-size: 0.85rem; color: #171225; border: 1px solid #E6E1F0; margin-bottom: 1.25rem; line-height: 1.5;">
-              <span style="color: #7C3AED;">@Service</span><br>
+            <div style="background: #F9FAFB; padding: 1rem; border-radius: 12px; font-family: monospace; font-size: 0.85rem; color: #111827; border: 1px solid #E5E7EB; margin-bottom: 1.25rem; line-height: 1.5;">
+              <span style="color: #111827; font-weight: 700;">@Service</span><br>
               <span style="color: #2563EB;">public class</span> <span style="color: #D97706;">CareerSkillEngine</span> {<br>
-              &nbsp;&nbsp;<span style="color: #7C3AED;">@Autowired</span> <span style="color: #2563EB;">SkillPipeline</span> pipeline;<br>
+              &nbsp;&nbsp;<span style="color: #111827; font-weight: 700;">@Autowired</span> <span style="color: #2563EB;">SkillPipeline</span> pipeline;<br>
               }
             </div>
 
-            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #6B5E87;">
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #6B7280;">
               <span>Hands-on Lab Completed</span>
               <span style="color: #10B981; font-weight: 700;">Verified</span>
             </div>
 
             <!-- Floating Pill Badge Accent -->
-            <div style="position: absolute; bottom: -20px; right: -15px; background: #7C3AED; color: #FFFFFF; padding: 0.6rem 1.2rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; box-shadow: 0 10px 24px rgba(124, 58, 237, 0.3); border: 2px solid #FFFFFF; display: flex; align-items: center; gap: 0.5rem;">
+            <div style="position: absolute; bottom: -20px; right: -15px; background: #111827; color: #FFFFFF; padding: 0.6rem 1.2rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; box-shadow: 0 10px 24px rgba(17, 24, 39, 0.2); border: 2px solid #FFFFFF; display: flex; align-items: center; gap: 0.5rem;">
               Industry Ready
             </div>
           </div>
