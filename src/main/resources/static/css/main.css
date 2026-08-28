@@ -1273,43 +1273,32 @@ p {
   }
 }
 
-footer a {
-  text-decoration: none;
-  transition: color 0.2s;
+/* ==========================================================================
+   APP FOOTER STYLING & CONTRAST ACCESSIBILITY
+   ========================================================================== */
+.app-footer {
+  background: var(--bg-dark) !important;
+  color: var(--off-white) !important;
 }
 
-footer a:hover {
+.app-footer h4 {
+  color: #FAF9F6 !important;
+  font-size: 1.05rem !important;
+  font-weight: 700;
+}
+
+.app-footer p,
+.app-footer .footer-bottom,
+.app-footer .footer-bottom-inner {
+  color: rgba(250, 249, 246, 0.8) !important;
+}
+
+.app-footer a {
+  color: rgba(250, 249, 246, 0.82) !important;
+  transition: color 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.app-footer a:hover {
   color: var(--neon-lime) !important;
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.footer-bottom-links {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-
-@media (max-width: 900px) {
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-}
-
-@media (max-width: 560px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
-  }
 }
