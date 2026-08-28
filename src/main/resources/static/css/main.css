@@ -1244,34 +1244,40 @@ p {
 }
 
 /* ==========================================================================
-   APP FOOTER STYLING — SLEEK MIDNIGHT THEME
+   APP FOOTER & ABOUT SECTION — CRISP WHITE TEXT GUARANTEE
    ========================================================================== */
-.app-footer {
-  background: linear-gradient(180deg, #171225 0%, #0E091B 100%) !important;
+#about,
+.app-footer,
+footer {
+  background-color: #171225 !important;
   color: #FAF9F6 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
-.app-footer .brand-logo span,
-.app-footer h4 {
+#about h2,
+#about h3,
+.app-footer h4,
+footer h4 {
   color: #FAF9F6 !important;
-  font-size: 1.05rem !important;
-  font-weight: 700;
 }
 
+#about p,
+#about div,
 .app-footer p,
-.app-footer .footer-bottom,
-.app-footer .footer-bottom-inner {
-  color: #D4CEE3 !important;
+.app-footer li,
+.app-footer div,
+footer p,
+footer li,
+footer div {
+  color: #E2DCF0 !important;
 }
 
-.app-footer a {
-  color: #D4CEE3 !important;
-  transition: color 0.2s ease;
-  font-size: 0.95rem;
+.app-footer a,
+footer a {
+  color: #E2DCF0 !important;
 }
 
-.app-footer a:hover {
+.app-footer a:hover,
+footer a:hover {
   color: #C7F36B !important;
 }
 
