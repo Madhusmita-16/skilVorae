@@ -44,22 +44,14 @@ function updateThemeButtons(theme) {
 
 function initTheme() {
   const savedTheme = localStorage.getItem('skilvorae_theme') || 'light';
-  if (savedTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.setAttribute('data-theme', 'light');
-  }
+  document.documentElement.setAttribute('data-theme', savedTheme);
   updateThemeButtons(savedTheme);
 }
 
 function toggleTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  if (newTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-  }
+  document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('skilvorae_theme', newTheme);
   updateThemeButtons(newTheme);
   showToast(`Switched to ${newTheme} mode`, 'info');

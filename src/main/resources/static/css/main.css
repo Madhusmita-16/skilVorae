@@ -60,6 +60,25 @@
   --glass-border: rgba(230, 225, 240, 0.8);
 }
 
+/* Light Theme Explicit Override */
+[data-theme="light"] {
+  --bg-main: #F8F6FC;
+  --bg-card: #FFFFFF;
+  --bg-dark: #171225;
+  --bg-subtle: #EDE8F5;
+
+  --text-primary: #171225;
+  --text-secondary: #4B3F6B;
+  --text-muted: #6B5E87;
+  --text-on-dark: #FAF9F6;
+
+  --primary: #7C3AED;
+  --primary-hover: #6D28D9;
+  --border-color: #E6E1F0;
+  --glass-bg: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(230, 225, 240, 0.8);
+}
+
 /* Dark Theme Override — Sleek & Blendable */
 [data-theme="dark"] {
   --bg-main: #140F21;
