@@ -2,8 +2,8 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
-RUN mvn dependency:go-offline -q
 COPY src ./src
+ENV MAVEN_OPTS="-Xmx512m"
 RUN mvn clean package -DskipTests -q
 
 # Stage 2: Run
@@ -15,4 +15,6 @@ COPY --from=build /app/target/*.jar app.jar
 RUN mkdir -p /app/uploads
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
+
+# Restrict JVM max heap to 350M to fit inside Render's 512M free tier RAM limit
+ENTRYPOINT ["java", "-Xmx350m", "-Xms128m", "-Djava.security.egd=file:/dev/./urandom", "-jar", "app.jar"]
