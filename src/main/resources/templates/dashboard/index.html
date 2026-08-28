@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Student Dashboard — SkilVorae</title>
-  <link rel="stylesheet" th:href="@{/css/main.css?v=11.0}">
-  <link rel="stylesheet" th:href="@{/css/dashboard.css?v=11.0}">
+  <link rel="stylesheet" th:href="@{/css/main.css?v=14.0}">
+  <link rel="stylesheet" th:href="@{/css/dashboard.css?v=14.0}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -22,7 +22,7 @@
         <div class="lms-banner-content">
           <h2 th:text="${'Good morning, ' + (user != null ? user.fullName : 'Student')}">Good morning, Student</h2>
           <p>Today is <span th:text="${#dates.format(#dates.createNow(), 'EEEE, MMMM dd, yyyy')}">Monday, August 27, 2026</span>. Continue your learning journey and build your skills with the latest modules.</p>
-          <a th:href="@{/my-courses}" class="btn" style="background: #FFF; color: var(--midnight-plum); font-weight: 800; padding: 0.75rem 1.5rem; border-radius: var(--border-radius-sm); border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.1);">Resume Learning</a>
+          <a th:href="@{/my-courses}" class="btn" style="background: #FFFFFF; color: #4F46E5; font-weight: 800; padding: 0.75rem 1.5rem; border-radius: var(--border-radius-sm); border: none; box-shadow: 0 4px 14px rgba(0,0,0,0.15);">Resume Learning</a>
         </div>
         
         <div style="text-align: right; margin-right: 2rem;">
@@ -250,7 +250,7 @@
   </div>
 
   <script th:src="@{/js/main.js}"></script>
-  <script th:src="@{/js/dashboard-charts.js}"></script>
+  <script th:src="@{/js/dashboard-charts.js?v=14.0}"></script>
   <script th:inline="javascript">
     /*<![CDATA[*/
     var weeklyData = /*[[${stats != null ? stats.weeklyActivityData : '[0,0,0,0,0,0,0]'}]]*/ [0,0,0,0,0,0,0];

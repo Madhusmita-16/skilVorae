@@ -58,16 +58,25 @@ public class DashboardService {
                 .mapToDouble(e -> (e.getProgressPercentage() / 100.0) * 12.0)
                 .sum();
 
-        // Weekly activity data: zero for new users with no progress, real data if they have activity
+        // Weekly activity data derived directly from student's course progress percentages
         List<Integer> weeklyData;
         if (allEnrollments.isEmpty()) {
             weeklyData = List.of(0, 0, 0, 0, 0, 0, 0);
         } else {
-            // Approximate activity based on total progress
-            int total = (int) Math.min((totalHours * 0.5), 7);
+            int avgProg = (int) Math.round(allEnrollments.stream()
+                    .mapToInt(e -> e.getProgressPercentage())
+                    .average().orElse(0));
+            if (avgProg == 0 && !allEnrollments.isEmpty()) {
+                avgProg = 25; // Default starter progress baseline if newly enrolled
+            }
             weeklyData = List.of(
-                (int)(total * 0.2), (int)(total * 0.4), (int)(total * 0.3),
-                (int)(total * 0.5), (int)(total * 0.2), (int)(total * 0.6), (int)(total * 0.4)
+                (int) Math.round(avgProg * 0.15),
+                (int) Math.round(avgProg * 0.30),
+                (int) Math.round(avgProg * 0.45),
+                (int) Math.round(avgProg * 0.60),
+                (int) Math.round(avgProg * 0.75),
+                (int) Math.round(avgProg * 0.90),
+                avgProg
             );
         }
 

@@ -5,8 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skilvorae — Industry-Grade Online Learning & Career Skills Platform</title>
   <meta name="description" content="Master practical skills, build real-world projects, and advance your tech career with Skilvorae industry-aligned curriculums.">
-  <link rel="stylesheet" th:href="@{/css/main.css?v=11.0}">
-  <link rel="stylesheet" th:href="@{/css/course.css?v=11.0}">
+  <link rel="stylesheet" th:href="@{/css/main.css?v=14.0}">
+  <link rel="stylesheet" th:href="@{/css/course.css?v=14.0}">
+  <style>
+    /* ── Hero animation keyframes ── */
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(2deg); }
+    }
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(-3deg); }
+    }
+    @keyframes floatC {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-10px) rotate(2deg); }
+      66% { transform: translateY(8px) rotate(-1deg); }
+    }
+    @keyframes heroCardFloat {
+      0%, 100% { transform: translateY(0px); box-shadow: 0 20px 60px rgba(30,58,138,0.18); }
+      50% { transform: translateY(-8px); box-shadow: 0 32px 80px rgba(30,58,138,0.25); }
+    }
+    @keyframes blobPulse1 {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+      50% { transform: scale(1.3) translate(10px, -15px); opacity: 0.9; }
+    }
+    @keyframes blobPulse2 {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+      50% { transform: scale(1.2) translate(-12px, 10px); opacity: 0.8; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+    @keyframes notifSlide {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      10% { transform: translateY(-6px); opacity: 1; }
+      90% { transform: translateY(-6px); opacity: 1; }
+    }
+    @keyframes progFill {
+      from { width: 0%; }
+    }
+    @keyframes orbSpin {
+      from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+    }
+    @keyframes orbSpinRev {
+      from { transform: rotate(0deg) translateX(105px) rotate(0deg); }
+      to   { transform: rotate(-360deg) translateX(105px) rotate(360deg); }
+    }
+    .hero-prog { animation: progFill 1.8s cubic-bezier(.4,0,.2,1) both; }
+    .hero-prog:nth-child(1) { animation-delay: 0.2s; }
+    .orb-pill {
+      position: absolute;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+  </style>
 </head>
 <body id="home">
 
@@ -51,8 +110,8 @@
   <!-- Mobile menu overlay -->
   <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
 
-  <!-- HERO SECTION -->
-  <header style="position: relative; padding: 5rem 0 6rem 0; overflow: hidden; background: radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.08) 0%, rgba(23, 18, 37, 0.02) 60%), var(--bg-main); border-bottom: 1px solid var(--border-color);">
+  <!-- HERO SECTION (PURE WHITE) -->
+  <header style="position: relative; padding: 5rem 0 6rem 0; overflow: hidden; background: #FFFFFF; border-bottom: 1px solid #E2E8F0;">
     <div class="container">
       <div class="hero-grid">
         
@@ -64,10 +123,10 @@
 
           <h1 class="hero-h1" style="margin-bottom: 1.25rem; letter-spacing: -0.03em;">
             Master Skills.<br>
-            <span style="background: linear-gradient(135deg, var(--electric-violet) 0%, #A855F7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Build Your Future.</span>
+            <span style="background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Build Your Future.</span>
           </h1>
 
-          <h3 style="color: var(--electric-violet); font-weight: 700; margin-bottom: 1rem; font-size: 1.35rem;">
+          <h3 style="color: #1E3A8A; font-weight: 700; margin-bottom: 1rem; font-size: 1.35rem;">
             Industry-grade learning for real-world careers.
           </h3>
 
@@ -81,83 +140,129 @@
           </div>
         </div>
 
-        <!-- RIGHT SIDE ABSTRACT ANIMATED VISUAL -->
-        <div style="position: relative; display: flex; justify-content: center; align-items: center;">
-          <!-- Ambient Glow Background -->
-          <div style="position: absolute; width: 340px; height: 340px; background: radial-gradient(circle, rgba(124, 58, 237, 0.3) 0%, rgba(199, 243, 107, 0.2) 70%, transparent 100%); border-radius: 50%; filter: blur(40px); animation: pulseGlow 8s infinite alternate;"></div>
+        <!-- RIGHT SIDE — ANIMATED LEARNING VISUAL -->
+        <div style="position: relative; display: flex; justify-content: center; align-items: center; min-height: 490px;">
 
-          <!-- Main Floating Skill Interface Card -->
-          <div class="hero-graphic-card" style="width: 100%; max-width: 420px; background: #FFFFFF; color: #171225; border: 1px solid #E6E1F0; border-radius: 24px; padding: 2rem; box-shadow: 0 16px 36px rgba(124, 58, 237, 0.08); position: relative; z-index: 2;">
-            
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; border-bottom: 1px solid #E6E1F0; padding-bottom: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem;">
-                <div style="width: 12px; height: 12px; border-radius: 50%; background: #EF4444;"></div>
-                <div style="width: 12px; height: 12px; border-radius: 50%; background: #F59E0B;"></div>
-                <div style="width: 12px; height: 12px; border-radius: 50%; background: #10B981;"></div>
+          <!-- Ambient glow blobs -->
+          <div style="position: absolute; width: 280px; height: 280px; background: radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 70%); border-radius: 50%; filter: blur(55px); top: 0; left: 5%; animation: blobPulse1 7s ease-in-out infinite; pointer-events: none;"></div>
+          <div style="position: absolute; width: 200px; height: 200px; background: radial-gradient(circle, rgba(199,243,107,0.28) 0%, transparent 70%); border-radius: 50%; filter: blur(45px); bottom: 5%; right: 5%; animation: blobPulse2 9s ease-in-out infinite; pointer-events: none;"></div>
+          <div style="position: absolute; width: 180px; height: 180px; background: radial-gradient(circle, rgba(14,165,233,0.18) 0%, transparent 70%); border-radius: 50%; filter: blur(40px); bottom: 20%; left: 0; animation: blobPulse1 11s ease-in-out infinite 2s; pointer-events: none;"></div>
+
+          <!-- Floating tech skill pills -->
+          <div class="orb-pill" style="top: 2%; left: 0%; background: linear-gradient(135deg,#f89820,#f0551c); color:#fff; animation: floatA 4s ease-in-out infinite;">☕ Java</div>
+          <div class="orb-pill" style="top: 8%; right: 0%; background: linear-gradient(135deg,#0ea5e9,#2563eb); color:#fff; animation: floatB 5.5s ease-in-out infinite 0.4s;">⚛️ React</div>
+          <div class="orb-pill" style="top: 44%; right: -2%; background: linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff; animation: floatC 5s ease-in-out infinite 0.8s;">🐳 Docker</div>
+          <div class="orb-pill" style="bottom: 16%; right: 0%; background: linear-gradient(135deg,#f59e0b,#b45309); color:#fff; animation: floatA 6s ease-in-out infinite 1.2s;">☁️ AWS</div>
+          <div class="orb-pill" style="bottom: 5%; left: 0%; background: linear-gradient(135deg,#10b981,#059669); color:#fff; animation: floatB 4.5s ease-in-out infinite 0.6s;">🍃 Spring</div>
+          <div class="orb-pill" style="top: 52%; left: -2%; background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:#fff; animation: floatC 6.5s ease-in-out infinite 1s;">🐍 Python</div>
+
+          <!-- Central animated dashboard card -->
+          <div style="position: relative; z-index: 5; width: 100%; max-width: 370px; background: #FFFFFF; border-radius: 24px; padding: 1.75rem; box-shadow: 0 20px 60px rgba(30,58,138,0.18); border: 1px solid #E2E8F0; animation: heroCardFloat 5s ease-in-out infinite;">
+
+            <!-- Card header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <div style="width: 38px; height: 38px; background: linear-gradient(135deg,#1E3A8A,#2563EB); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink:0;">🎓</div>
+                <div>
+                  <div style="font-weight: 800; font-size: 0.9rem; color: #0F172A; line-height:1.2;">My Learning Hub</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">3 courses active</div>
+                </div>
               </div>
-              <span class="badge badge-lavender" style="font-size: 0.7rem;">Live Skill Progress</span>
+              <span style="background: #DCFCE7; color: #16A34A; font-size: 0.68rem; font-weight: 800; padding: 0.3rem 0.7rem; border-radius: 9999px; display:flex; align-items:center; gap:0.3rem;"><span style="animation: blink 1.4s step-end infinite; display:inline-block;">●</span> LIVE</span>
             </div>
 
-            <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: #171225; margin-bottom: 0.4rem;">
-              Java Full Stack Architecture
+            <!-- Progress bars -->
+            <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.4rem;">
+              <!-- Course 1 -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.3rem;">
+                  <span style="color: #0F172A; font-weight: 700;">Java Full Stack</span>
+                  <span style="color: #1E3A8A; font-weight: 800;">88%</span>
+                </div>
+                <div style="height: 8px; background: #EEF2FF; border-radius: 9999px; overflow: hidden;">
+                  <div class="hero-prog" style="height:100%; width:88%; background: linear-gradient(90deg,#1E3A8A,#6366F1); border-radius:9999px;"></div>
+                </div>
+              </div>
+              <!-- Course 2 -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.3rem;">
+                  <span style="color: #0F172A; font-weight: 700;">Python &amp; AI/ML</span>
+                  <span style="color: #7C3AED; font-weight: 800;">62%</span>
+                </div>
+                <div style="height: 8px; background: #F5F3FF; border-radius: 9999px; overflow: hidden;">
+                  <div class="hero-prog" style="height:100%; width:62%; background: linear-gradient(90deg,#7C3AED,#A78BFA); border-radius:9999px; animation-delay:0.3s;"></div>
+                </div>
+              </div>
+              <!-- Course 3 -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.3rem;">
+                  <span style="color: #0F172A; font-weight: 700;">Cloud &amp; DevOps</span>
+                  <span style="color: #0891B2; font-weight: 800;">45%</span>
+                </div>
+                <div style="height: 8px; background: #ECFEFF; border-radius: 9999px; overflow: hidden;">
+                  <div class="hero-prog" style="height:100%; width:45%; background: linear-gradient(90deg,#0891B2,#38BDF8); border-radius:9999px; animation-delay:0.6s;"></div>
+                </div>
+              </div>
             </div>
 
-            <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #374151; margin-bottom: 1rem;">
-              <span>Spring Boot 3 + Oracle DB</span>
-              <span style="color: #111827; font-weight: 700;">88% Competency</span>
+            <!-- Animated code line -->
+            <div style="background: #0F172A; border-radius: 12px; padding: 0.85rem 1rem; font-family: 'Courier New', monospace; font-size: 0.76rem; line-height: 1.65; margin-bottom: 1.25rem;">
+              <span style="color: #475569;">// lesson complete ✓</span><br>
+              <span style="color: #60A5FA;">return</span>&nbsp;<span style="color: #C7F36B;">new</span>&nbsp;<span style="color: #F0A500;">Skill</span>(<span style="color: #86EFAC;">"Spring Boot"</span>);<span style="display:inline-block; width:2px; height:0.9em; background:#C7F36B; vertical-align:middle; margin-left:2px; animation: blink 1s step-end infinite;"></span>
             </div>
 
-            <div class="progress-bar-wrap" style="height: 10px; background: #E5E7EB; margin-bottom: 1.5rem;">
-              <div class="progress-bar-fill" style="width: 88%; background: #111827;"></div>
-            </div>
-
-            <!-- Code Snippet Box -->
-            <div style="background: #F9FAFB; padding: 1rem; border-radius: 12px; font-family: monospace; font-size: 0.85rem; color: #111827; border: 1px solid #E5E7EB; margin-bottom: 1.25rem; line-height: 1.5;">
-              <span style="color: #111827; font-weight: 700;">@Service</span><br>
-              <span style="color: #2563EB;">public class</span> <span style="color: #D97706;">CareerSkillEngine</span> {<br>
-              &nbsp;&nbsp;<span style="color: #111827; font-weight: 700;">@Autowired</span> <span style="color: #2563EB;">SkillPipeline</span> pipeline;<br>
-              }
-            </div>
-
-            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: #6B7280;">
-              <span>Hands-on Lab Completed</span>
-              <span style="color: #10B981; font-weight: 700;">Verified</span>
-            </div>
-
-            <!-- Floating Pill Badge Accent -->
-            <div style="position: absolute; bottom: -20px; right: -15px; background: #111827; color: #FFFFFF; padding: 0.6rem 1.2rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 800; box-shadow: 0 10px 24px rgba(17, 24, 39, 0.2); border: 2px solid #FFFFFF; display: flex; align-items: center; gap: 0.5rem;">
-              Industry Ready
+            <!-- Stats row -->
+            <div style="display: flex; justify-content: space-around; text-align: center; padding-top: 1rem; border-top: 1px solid #F1F5F9;">
+              <div>
+                <div style="font-size: 1.4rem; font-weight: 900; color: #1E3A8A; line-height:1;">14</div>
+                <div style="font-size: 0.68rem; color: #64748B; margin-top: 0.2rem; font-weight:600;">Lessons Done</div>
+              </div>
+              <div style="border-left: 1px solid #F1F5F9;">
+                <div style="font-size: 1.4rem; font-weight: 900; color: #7C3AED; line-height:1;">5</div>
+                <div style="font-size: 0.68rem; color: #64748B; margin-top: 0.2rem; font-weight:600;">Quizzes Passed</div>
+              </div>
+              <div style="border-left: 1px solid #F1F5F9;">
+                <div style="font-size: 1.4rem; font-weight: 900; color: #D97706; line-height:1;">🏆</div>
+                <div style="font-size: 0.68rem; color: #64748B; margin-top: 0.2rem; font-weight:600;">Certified</div>
+              </div>
             </div>
           </div>
+
+          <!-- Achievement notification -->
+          <div style="position: absolute; bottom: 0%; left: 50%; transform: translateX(-50%); background: #FFFFFF; border-radius: 14px; padding: 0.65rem 1.1rem; box-shadow: 0 12px 32px rgba(124,58,237,0.18); display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; font-weight: 700; color: #0F172A; border: 1px solid #EDE9FE; white-space: nowrap; z-index: 6; animation: notifSlide 4s ease-in-out infinite 1.5s;">
+            <span style="font-size: 1rem;">🏅</span>
+            <span>Badge Unlocked: <span style="color: #7C3AED;">API Master</span></span>
+          </div>
+
         </div>
 
       </div>
     </div>
   </header>
 
-  <!-- SECOND SECTION — IMPACT IN NUMBERS -->
-  <section style="padding: 4.5rem 0; background: var(--bg-subtle); color: var(--text-primary); position: relative; border-bottom: 1px solid var(--border-color);">
+  <!-- SECOND SECTION — IMPACT IN NUMBERS (DEEP ROYAL NAVY) -->
+  <section style="padding: 4.5rem 0; background: #1E3A8A; color: #FFFFFF; position: relative; border-bottom: 1px solid #1D4ED8;">
     <div class="container">
       <div class="stats-row">
         
         <div style="padding: 1rem;">
-          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--primary); line-height: 1;">10+</div>
-          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 600;">Industry-Focused Courses</p>
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">10+</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Industry-Focused Courses</p>
         </div>
 
-        <div style="padding: 1rem; border-left: 1px solid var(--border-color);">
-          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--text-primary); line-height: 1;">1,000+</div>
-          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 600;">Learning Hours</p>
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.18);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">1,000+</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Learning Hours</p>
         </div>
 
-        <div style="padding: 1rem; border-left: 1px solid var(--border-color);">
-          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--primary); line-height: 1;">50+</div>
-          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 600;">Practical Projects</p>
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.18);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">50+</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Practical Projects</p>
         </div>
 
-        <div style="padding: 1rem; border-left: 1px solid var(--border-color);">
-          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--text-primary); line-height: 1;">24/7</div>
-          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-top: 0.5rem; font-weight: 600;">Learning Access</p>
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.18);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">24/7</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Learning Access</p>
         </div>
 
       </div>
@@ -308,7 +413,7 @@
   </section>
 
   <!-- ABOUT SKILVORAE SECTION -->
-  <section id="about" style="padding: 6rem 0; background: #171225 !important; color: #FAF9F6 !important; position: relative; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+  <section id="about" style="padding: 6rem 0; background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%) !important; color: #FAF9F6 !important; position: relative; border-top: 1px solid rgba(255, 255, 255, 0.12);">
     <div class="container">
       <div class="about-grid">
         
@@ -418,67 +523,67 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer class="app-footer" style="background: #171225 !important; color: #FAF9F6 !important; padding: 4.5rem 0 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+  <!-- FOOTER (DEEP ROYAL NAVY SECONDARY COLOR) -->
+  <footer class="app-footer" style="background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%) !important; color: #FFFFFF !important; padding: 4.5rem 0 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.12);">
     <div class="container">
       <div class="footer-main-grid">
         
         <div>
-          <a th:href="@{/}" class="brand-logo" style="color: #FAF9F6 !important; margin-bottom: 1rem; display: flex;">
+          <a th:href="@{/}" class="brand-logo" style="color: #FFFFFF !important; margin-bottom: 1rem; display: flex;">
             <div class="brand-icon">S</div>
-            <span style="color: #FAF9F6 !important;">Skilvorae</span>
+            <span style="color: #FFFFFF !important;">Skilvorae</span>
           </a>
-          <p style="color: #E2DCF0 !important; font-size: 0.95rem; max-width: 320px; line-height: 1.6; margin-bottom: 1.5rem;">
+          <p style="color: #DBEAFE !important; font-size: 0.95rem; max-width: 320px; line-height: 1.6; margin-bottom: 1.5rem;">
             Next-generation learning portal delivering industry-grade engineering and technology skills for real-world careers.
           </p>
           <div style="display: flex; gap: 1rem; font-size: 0.9rem; font-weight: 600;">
-            <a href="javascript:void(0)" onclick="showToast('Skilvorae Web Services', 'info')" style="color: #C7F36B !important;">Web</a>
-            <a href="javascript:void(0)" onclick="showToast('Skilvorae LinkedIn Portal', 'info')" style="color: #C7F36B !important;">LinkedIn</a>
-            <a href="javascript:void(0)" onclick="showToast('Skilvorae GitHub Workspace', 'info')" style="color: #C7F36B !important;">GitHub</a>
-            <a href="javascript:void(0)" onclick="showToast('Skilvorae Twitter Channel', 'info')" style="color: #C7F36B !important;">Twitter</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae Web Services', 'info')" style="color: #60A5FA !important;">Web</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae LinkedIn Portal', 'info')" style="color: #60A5FA !important;">LinkedIn</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae GitHub Workspace', 'info')" style="color: #60A5FA !important;">GitHub</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae Twitter Channel', 'info')" style="color: #60A5FA !important;">Twitter</a>
           </div>
         </div>
 
         <div>
-          <h4 style="color: #FAF9F6 !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Quick Links</h4>
+          <h4 style="color: #FFFFFF !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Quick Links</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem;">
-            <li><a href="#home" style="color: #E2DCF0 !important;">Home</a></li>
-            <li><a href="#about" style="color: #E2DCF0 !important;">About Us</a></li>
-            <li><a href="#courses" style="color: #E2DCF0 !important;">All Courses</a></li>
-            <li><a href="#why-us" style="color: #E2DCF0 !important;">Why Skilvorae</a></li>
-            <li><a th:href="@{/login}" style="color: #E2DCF0 !important;">Sign In</a></li>
+            <li><a href="#home" style="color: #DBEAFE !important;">Home</a></li>
+            <li><a href="#about" style="color: #DBEAFE !important;">About Us</a></li>
+            <li><a href="#courses" style="color: #DBEAFE !important;">All Courses</a></li>
+            <li><a href="#why-us" style="color: #DBEAFE !important;">Why Skilvorae</a></li>
+            <li><a th:href="@{/login}" style="color: #DBEAFE !important;">Sign In</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 style="color: #FAF9F6 !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Popular Courses</h4>
+          <h4 style="color: #FFFFFF !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Popular Courses</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem;">
-            <li><a th:href="@{/courses}" style="color: #E2DCF0 !important;">Full Stack Engineering</a></li>
-            <li><a th:href="@{/courses}" style="color: #E2DCF0 !important;">Data Analytics</a></li>
-            <li><a th:href="@{/courses}" style="color: #E2DCF0 !important;">Java 17 Masterclass</a></li>
-            <li><a th:href="@{/courses}" style="color: #E2DCF0 !important;">Cloud &amp; DevOps</a></li>
-            <li><a th:href="@{/courses}" style="color: #E2DCF0 !important;">AI &amp; Machine Learning</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Full Stack Engineering</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Data Analytics</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Java 17 Masterclass</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Cloud &amp; DevOps</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">AI &amp; Machine Learning</a></li>
           </ul>
         </div>
 
         <div>
-          <h4 style="color: #FAF9F6 !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Contact &amp; Support</h4>
-          <p style="color: #E2DCF0 !important; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+          <h4 style="color: #FFFFFF !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Contact &amp; Support</h4>
+          <p style="color: #DBEAFE !important; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
             Have inquiries or enterprise partnership questions?
           </p>
-          <div style="font-size: 0.95rem; color: #C7F36B !important; font-weight: 700;">
+          <div style="font-size: 0.95rem; color: #60A5FA !important; font-weight: 700;">
             Email: support@skilvorae.com
           </div>
         </div>
 
       </div>
 
-      <div class="footer-bottom-inner" style="color: #E2DCF0 !important; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+      <div class="footer-bottom-inner" style="color: #DBEAFE !important; border-top: 1px solid rgba(255, 255, 255, 0.12);">
         <div>© 2026 Skilvorae Learning Platform. All rights reserved.</div>
         <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
-          <a href="javascript:void(0)" onclick="showToast('Privacy Policy details', 'info')" style="color: #E2DCF0 !important;">Privacy Policy</a>
-          <a href="javascript:void(0)" onclick="showToast('Terms &amp; Conditions details', 'info')" style="color: #E2DCF0 !important;">Terms &amp; Conditions</a>
-          <a href="javascript:void(0)" onclick="showToast('Security protocols active', 'info')" style="color: #E2DCF0 !important;">Security</a>
+          <a href="javascript:void(0)" onclick="showToast('Privacy Policy details', 'info')" style="color: #DBEAFE !important;">Privacy Policy</a>
+          <a href="javascript:void(0)" onclick="showToast('Terms &amp; Conditions details', 'info')" style="color: #DBEAFE !important;">Terms &amp; Conditions</a>
+          <a href="javascript:void(0)" onclick="showToast('Security protocols active', 'info')" style="color: #DBEAFE !important;">Security</a>
         </div>
       </div>
     </div>

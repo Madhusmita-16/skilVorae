@@ -11,15 +11,15 @@ function initActivityChart(weeklyData) {
     data: {
       labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
       datasets: [{
-        label: 'Lessons Completed',
-        data: weeklyData || [2, 4, 3, 5, 2, 6, 4],
-        borderColor: '#7C3AED',
-        backgroundColor: 'rgba(124, 58, 237, 0.12)',
+        label: 'Course Progress %',
+        data: weeklyData || [0, 15, 30, 45, 60, 75, 88],
+        borderColor: '#1E3A8A',
+        backgroundColor: 'rgba(30, 58, 138, 0.08)',
         borderWidth: 3,
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: '#C7F36B',
-        pointBorderColor: '#7C3AED',
+        pointBackgroundColor: '#2563EB',
+        pointBorderColor: '#1E3A8A',
         pointRadius: 5
       }]
     },
@@ -27,13 +27,25 @@ function initActivityChart(weeklyData) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return 'Progress: ' + context.raw + '%';
+            }
+          }
+        }
       },
       scales: {
         y: {
           beginAtZero: true,
-          grid: { color: 'rgba(124, 58, 237, 0.08)' },
-          ticks: { stepSize: 1, color: '#64748B' }
+          max: 100,
+          grid: { color: 'rgba(30, 58, 138, 0.08)' },
+          ticks: {
+            stepSize: 20,
+            color: '#64748B',
+            callback: function(value) { return value + '%'; }
+          }
         },
         x: {
           grid: { display: false },
