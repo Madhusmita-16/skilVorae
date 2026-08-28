@@ -1021,6 +1021,16 @@ p {
     gap: 0.5rem;
   }
 
+  /* Shorten nav-auth text buttons to save space */
+  #notif-bell-btn {
+    font-size: 0;
+    padding: 0.45rem 0.6rem;
+  }
+  #notif-bell-btn::after {
+    content: '\1F514';
+    font-size: 1rem;
+  }
+
   /* Hide the theme toggle on very small screens to save space */
   #theme-toggle-btn {
     display: none;
@@ -1075,9 +1085,17 @@ p {
     gap: 1rem;
   }
 
+  /* ---- Button size reduction on mobile ---- */
   .btn {
     padding: 0.75rem 1.4rem;
     font-size: 0.9rem;
+  }
+
+  /* ---- Limit notification dropdown width on tablets ---- */
+  #notif-dropdown {
+    width: min(320px, calc(100vw - 2rem));
+    right: 0;
+    left: auto;
   }
 }
 

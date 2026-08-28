@@ -6,7 +6,87 @@
     <title>Become an Instructor - SkilVorae</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/main.css}">
-    <link rel="stylesheet" th:href="@{/css/auth.css}">
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            background: radial-gradient(circle at top right, rgba(124, 58, 237, 0.08), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(199, 243, 107, 0.08), transparent 40%),
+                        var(--bg-main);
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 560px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-lg);
+            padding: 2.5rem 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+        .auth-header h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.4rem;
+        }
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .auth-form label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+        .auth-form input,
+        .auth-form textarea {
+            width: 100%;
+            padding: 0.85rem 1.1rem;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: border-color 200ms ease, box-shadow 200ms ease;
+            box-sizing: border-box;
+        }
+        .auth-form input:focus,
+        .auth-form textarea:focus {
+            outline: none;
+            border-color: var(--electric-violet);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.15);
+        }
+        .auth-submit {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .auth-footer p { margin-bottom: 0.4rem; font-size: 0.9rem; }
+        .alert {
+            padding: 0.85rem 1rem;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .alert-danger { background: rgba(239,68,68,0.1); color: #DC2626; border: 1px solid rgba(239,68,68,0.2); }
+        .alert-success { background: rgba(16,185,129,0.1); color: #059669; border: 1px solid rgba(16,185,129,0.2); }
+        @media (max-width: 480px) {
+            .auth-card { padding: 1.75rem 1.25rem; }
+            .auth-header h2 { font-size: 1.4rem; }
+        }
+    </style>
 </head>
 <body>
     <div class="auth-container">
