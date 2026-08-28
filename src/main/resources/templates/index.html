@@ -18,7 +18,7 @@
         <span>Skilvorae</span>
       </a>
 
-      <ul class="nav-links">
+      <ul class="nav-links" id="main-nav-links">
         <li><a th:href="@{/}" class="nav-link active">Home</a></li>
         <li><a href="#about" class="nav-link">About</a></li>
         <li><a href="#courses" class="nav-link">Courses</a></li>
@@ -39,13 +39,23 @@
           <a th:href="@{/logout}" class="btn btn-primary btn-sm">Logout</a>
         </th:block>
       </div>
+
+      <!-- Hamburger button (visible on mobile) -->
+      <button class="nav-hamburger" id="nav-hamburger-btn" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
 
   <!-- HERO SECTION -->
   <header style="position: relative; padding: 5rem 0 6rem 0; overflow: hidden; background: radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.08) 0%, rgba(23, 18, 37, 0.02) 60%), var(--bg-main); border-bottom: 1px solid var(--border-color);">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3.5rem; align-items: center;">
+      <div class="hero-grid">
         
         <div>
           <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
@@ -53,7 +63,7 @@
             <span class="badge badge-lavender">Industry-Ready Skills</span>
           </div>
 
-          <h1 style="margin-bottom: 1.25rem; font-size: 3.5rem; letter-spacing: -0.03em;">
+          <h1 class="hero-h1" style="margin-bottom: 1.25rem; letter-spacing: -0.03em;">
             Master Skills.<br>
             <span style="background: linear-gradient(135deg, var(--electric-violet) 0%, #A855F7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Build Your Future.</span>
           </h1>
@@ -129,7 +139,7 @@
   <!-- SECOND SECTION — IMPACT IN NUMBERS -->
   <section style="padding: 4.5rem 0; background: var(--midnight-plum); color: var(--off-white); position: relative;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center;">
+      <div class="stats-row">
         
         <div style="padding: 1rem;">
           <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--neon-lime); line-height: 1;">10+</div>
@@ -226,7 +236,7 @@
         <p style="margin-top: 0.5rem; font-size: 1.1rem;">Engineered to bridge the gap between conceptual understanding and workplace execution.</p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+      <div class="features-grid">
         
         <!-- Feature 1 -->
         <div class="card" style="padding: 2rem;">
@@ -301,7 +311,7 @@
   <!-- ABOUT SKILVORAE SECTION -->
   <section id="about" style="padding: 6rem 0; background: var(--midnight-plum); color: var(--off-white); position: relative;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+      <div class="about-grid">
         
         <div>
           <span class="badge badge-lime" style="margin-bottom: 1rem;">About Skilvorae</span>
@@ -373,7 +383,7 @@
               <input type="text" id="eq-fullname" class="form-control" placeholder="Alex Morgan" required>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-row-2">
               <div class="form-group">
                 <label class="form-label" for="eq-email">Email Address</label>
                 <input type="email" id="eq-email" class="form-control" placeholder="alex@example.com" required>
@@ -412,7 +422,7 @@
   <!-- FOOTER -->
   <footer style="background: var(--midnight-plum); color: var(--off-white); padding: 4.5rem 0 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.08);">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 3rem; margin-bottom: 3.5rem;">
+      <div class="footer-main-grid">
         
         <div>
           <a th:href="@{/}" class="brand-logo" style="color: var(--off-white); margin-bottom: 1rem; display: flex;">
@@ -464,11 +474,11 @@
 
       </div>
 
-      <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap; gap: 1rem;">
+      <div class="footer-bottom-inner">
         <div>© 2026 Skilvorae Learning Platform. All rights reserved.</div>
-        <div style="display: flex; gap: 1.5rem;">
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
           <a href="javascript:void(0)" onclick="showToast('Privacy Policy details', 'info')" style="color: var(--text-muted);">Privacy Policy</a>
-          <a href="javascript:void(0)" onclick="showToast('Terms & Conditions details', 'info')" style="color: var(--text-muted);">Terms & Conditions</a>
+          <a href="javascript:void(0)" onclick="showToast('Terms &amp; Conditions details', 'info')" style="color: var(--text-muted);">Terms &amp; Conditions</a>
           <a href="javascript:void(0)" onclick="showToast('Security protocols active', 'info')" style="color: var(--text-muted);">Security</a>
         </div>
       </div>
@@ -490,6 +500,44 @@
         btn.textContent = 'Send Enquiry →';
       }, 1000);
     }
+
+    // Hamburger mobile nav logic
+    (function() {
+      const hamburgerBtn = document.getElementById('nav-hamburger-btn');
+      const navLinks = document.getElementById('main-nav-links');
+      const overlay = document.getElementById('mobile-nav-overlay');
+      if (!hamburgerBtn || !navLinks || !overlay) return;
+
+      function openMobileNav() {
+        hamburgerBtn.classList.add('open');
+        navLinks.classList.add('open');
+        overlay.classList.add('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMobileNav() {
+        hamburgerBtn.classList.remove('open');
+        navLinks.classList.remove('open');
+        overlay.classList.remove('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      hamburgerBtn.addEventListener('click', function() {
+        if (navLinks.classList.contains('open')) {
+          closeMobileNav();
+        } else {
+          openMobileNav();
+        }
+      });
+
+      overlay.addEventListener('click', closeMobileNav);
+
+      navLinks.querySelectorAll('.nav-link').forEach(function(link) {
+        link.addEventListener('click', closeMobileNav);
+      });
+    })();
   </script>
 </body>
 </html>

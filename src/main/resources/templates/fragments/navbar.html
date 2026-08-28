@@ -8,7 +8,7 @@
         <span>SkilVorae</span>
       </a>
 
-      <ul class="nav-links">
+      <ul class="nav-links" id="main-nav-links">
         <li><a th:href="@{/courses}" class="nav-link">Catalog</a></li>
         <li><a th:href="@{/courses(difficulty='BEGINNER')}" class="nav-link">Beginner</a></li>
         <li><a th:href="@{/courses(difficulty='ADVANCED')}" class="nav-link">Advanced Full Stack</a></li>
@@ -48,7 +48,57 @@
           <a th:href="@{/logout}" class="btn btn-primary btn-sm">Logout</a>
         </th:block>
       </div>
+
+      <!-- Hamburger button -->
+      <button class="nav-hamburger" id="nav-hamburger-btn" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </nav>
+
+  <!-- Mobile overlay -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+
+  <script>
+    // Hamburger mobile nav logic
+    (function() {
+      var hamburgerBtn = document.getElementById('nav-hamburger-btn');
+      var navLinks = document.getElementById('main-nav-links');
+      var overlay = document.getElementById('mobile-nav-overlay');
+      if (!hamburgerBtn || !navLinks || !overlay) return;
+
+      function openMobileNav() {
+        hamburgerBtn.classList.add('open');
+        navLinks.classList.add('open');
+        overlay.classList.add('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMobileNav() {
+        hamburgerBtn.classList.remove('open');
+        navLinks.classList.remove('open');
+        overlay.classList.remove('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      hamburgerBtn.addEventListener('click', function() {
+        if (navLinks.classList.contains('open')) {
+          closeMobileNav();
+        } else {
+          openMobileNav();
+        }
+      });
+
+      overlay.addEventListener('click', closeMobileNav);
+
+      navLinks.querySelectorAll('.nav-link').forEach(function(link) {
+        link.addEventListener('click', closeMobileNav);
+      });
+    })();
+  </script>
 </body>
 </html>
