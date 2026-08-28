@@ -20,20 +20,20 @@
   --off-white: #FAF9F6;
   --deep-charcoal: #202020;
 
-  /* Sleek Dark Tech Theme as Default */
-  --bg-main: #140F21;
-  --bg-card: #1D182A;
-  --bg-dark: #0E091B;
-  --bg-subtle: #272037;
+  /* Default Light Theme variables — Clean & Blendable */
+  --bg-main: #F8F6FC;
+  --bg-card: #FFFFFF;
+  --bg-dark: #171225;
+  --bg-subtle: #EDE8F5;
 
-  --text-primary: #FAF9F6;   /* Crisp White */
-  --text-secondary: #E2DCF0; /* Soft Lavender White */
-  --text-muted: #A8A0BC;     /* Soft Lavender Gray */
+  --text-primary: #171225;   /* Rich dark plum for contrast */
+  --text-secondary: #4B3F6B; /* Soft dark violet */
+  --text-muted: #6B5E87;     /* Muted violet-gray */
   --text-on-dark: #FAF9F6;
 
-  --primary: #9D72FF;
-  --primary-hover: #8B5CF6;
-  --secondary: #1D182A;
+  --primary: #7C3AED;
+  --primary-hover: #6D28D9;
+  --secondary: #171225;
   --accent-lime: #C7F36B;
   --accent-lavender: #E9E2FF;
 
@@ -41,34 +41,39 @@
   --warning: #F59E0B;
   --danger: #EF4444;
 
-  --border-color: #312845;
-  --border-dark: #312845;
+  --border-color: #E6E1F0;
+  --border-dark: #2A243A;
 
   --border-radius-sm: 8px;
   --border-radius: 16px;
   --border-radius-lg: 24px;
   --border-radius-pill: 9999px;
 
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 24px 48px -12px rgba(124, 58, 237, 0.3);
+  --shadow-sm: 0 2px 8px rgba(23, 18, 37, 0.04);
+  --shadow-md: 0 8px 24px -4px rgba(23, 18, 37, 0.08);
+  --shadow-lg: 0 24px 48px -12px rgba(124, 58, 237, 0.15);
 
   --transition-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 350ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  --glass-bg: rgba(20, 15, 33, 0.94);
-  --glass-border: rgba(49, 40, 69, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.92);
+  --glass-border: rgba(230, 225, 240, 0.8);
 }
 
-/* Light Theme Override */
-[data-theme="light"] {
-  --bg-main: #F8F6FC;
-  --bg-card: #FFFFFF;
-  --bg-subtle: #EDE8F5;
-  --text-primary: #1E152A;
-  --text-secondary: #4A3E5D;
-  --text-muted: #7A6C91;
-  --border-color: #E4DEF0;
+/* Dark Theme Override — Sleek & Blendable */
+[data-theme="dark"] {
+  --bg-main: #140F21;
+  --bg-card: #1D182A;
+  --bg-subtle: #272037;
+  --text-primary: #FAF9F6;
+  --text-secondary: #E2DCF0;
+  --text-muted: #A8A0BC;
+
+  --primary: #9D72FF;
+  --primary-hover: #8B5CF6;
+  --border-color: #312845;
+  --glass-bg: rgba(20, 15, 33, 0.94);
+  --glass-border: rgba(49, 40, 69, 0.8);
 }
 
 /* Bright components MUST keep dark text for high contrast on neon green */
@@ -84,36 +89,37 @@
   color: #C7F36B !important;
 }
 
-/* Global White Text Rules — All cards, headers, labels, and text render white */
-body,
-h1, h2, h3, h4, h5, h6,
-label, th, td,
-.brand-logo, .nav-link, .sidebar-link,
-.modal-card, .stat-number, .schedule-title,
-.course-card-title a, .card, .stat-card,
-.dashboard-table {
-  color: #FAF9F6;
+/* Base Theme-aware element rules */
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
-p, small, .text-muted, .schedule-meta, .breadcrumbs span {
-  color: #E2DCF0;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
 }
 
-input, select, textarea, .form-control {
-  background-color: #1D182A;
-  color: #FAF9F6;
-  border-color: #312845;
-}
-
-input::placeholder, textarea::placeholder {
-  color: #A8A0BC;
+p, small {
+  color: var(--text-secondary);
 }
 
 .card, .modal-card, .stat-card, .schedule-card,
 .account-type-card, #notification-menu, #notif-dropdown, #profile-menu {
-  background-color: #1D182A;
-  border-color: #312845;
-  color: #FAF9F6;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+input, select, textarea, .form-control {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--text-muted);
 }
 
 /* Reset & Global Base */
@@ -337,7 +343,7 @@ p {
   font-family: 'Outfit', sans-serif;
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--midnight-plum);
+  color: var(--text-primary);
   letter-spacing: -0.03em;
   white-space: nowrap;
 }

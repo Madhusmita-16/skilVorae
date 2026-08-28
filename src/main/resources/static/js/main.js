@@ -43,11 +43,11 @@ function updateThemeButtons(theme) {
 }
 
 function initTheme() {
-  const savedTheme = localStorage.getItem('skilvorae_theme') || 'dark';
-  if (savedTheme === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-  } else {
+  const savedTheme = localStorage.getItem('skilvorae_theme') || 'light';
+  if (savedTheme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
   }
   updateThemeButtons(savedTheme);
 }
