@@ -259,14 +259,14 @@ p {
 }
 
 .btn-outline {
-  background-color: transparent;
-  border-color: var(--border-color);
-  color: var(--text-primary);
+  background-color: #FFFFFF;
+  border: 1px solid var(--electric-violet);
+  color: var(--electric-violet);
 }
 .btn-outline:hover {
-  background-color: var(--soft-lavender);
+  background-color: var(--electric-violet);
   border-color: var(--electric-violet);
-  color: var(--electric-violet);
+  color: #FFFFFF;
 }
 
 .btn-dark-outline {
@@ -336,17 +336,16 @@ p {
   color: var(--neon-lime);
 }
 
-/* Sticky Navbar */
-.navbar {
+/* Sticky Navbar — Always Pure White & Clean */
+.navbar,
+[data-theme="dark"] .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: var(--glass-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--glass-border);
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E6E1F0 !important;
   padding: 1rem 0;
-  transition: background var(--transition-fast);
+  box-shadow: 0 2px 12px rgba(23, 18, 37, 0.04) !important;
 }
 
 .navbar .container {
@@ -355,20 +354,17 @@ p {
   justify-content: space-between;
 }
 
-.brand-logo {
+.brand-logo,
+[data-theme="dark"] .brand-logo {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   font-family: 'Outfit', sans-serif;
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--text-primary);
+  color: #171225 !important;
   letter-spacing: -0.03em;
   white-space: nowrap;
-}
-
-[data-theme="dark"] .brand-logo {
-  color: var(--off-white);
 }
 
 .brand-icon {
@@ -446,14 +442,16 @@ p {
   opacity: 1;
 }
 
-.nav-link {
+.nav-link,
+[data-theme="dark"] .nav-link {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #4B3F6B !important;
 }
 
-.nav-link:hover, .nav-link.active {
-  color: var(--electric-violet);
+.nav-link:hover, .nav-link.active,
+[data-theme="dark"] .nav-link:hover, [data-theme="dark"] .nav-link.active {
+  color: #7C3AED !important;
 }
 
 .nav-auth {

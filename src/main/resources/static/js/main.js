@@ -43,9 +43,9 @@ function updateThemeButtons(theme) {
 }
 
 function initTheme() {
-  const savedTheme = localStorage.getItem('skilvorae_theme') || 'light';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  updateThemeButtons(savedTheme);
+  document.documentElement.setAttribute('data-theme', 'light');
+  localStorage.setItem('skilvorae_theme', 'light');
+  updateThemeButtons('light');
 }
 
 function toggleTheme() {

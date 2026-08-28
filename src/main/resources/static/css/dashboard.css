@@ -48,10 +48,11 @@
 }
 
 /* --- SIDEBAR --- */
-.sidebar {
+.sidebar,
+[data-theme="dark"] .sidebar {
   width: 280px;
-  background: var(--bg-card);
-  border-right: 1px solid var(--border-color);
+  background: #FFFFFF !important;
+  border-right: 1px solid #E6E1F0 !important;
   padding: 2rem 1.25rem;
   display: flex;
   flex-direction: column;
@@ -61,7 +62,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 50;
-  box-shadow: 4px 0 24px rgba(23, 18, 37, 0.03);
+  box-shadow: 2px 0 16px rgba(23, 18, 37, 0.04) !important;
 }
 
 .sidebar::-webkit-scrollbar {
@@ -85,11 +86,13 @@
   gap: 0.5rem;
 }
 
-.sidebar .brand-logo span {
-  color: var(--text-primary);
+.sidebar .brand-logo span,
+[data-theme="dark"] .sidebar .brand-logo span {
+  color: #171225 !important;
 }
 
-.sidebar-link {
+.sidebar-link,
+[data-theme="dark"] .sidebar-link {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -97,38 +100,43 @@
   border-radius: var(--border-radius-sm);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #4B3F6B !important;
   transition: all var(--transition-fast);
   white-space: nowrap;
   position: relative;
   overflow: hidden;
 }
 
-.sidebar-link svg {
+.sidebar-link svg,
+[data-theme="dark"] .sidebar-link svg {
   flex-shrink: 0;
-  color: var(--text-muted);
+  color: #6B5E87 !important;
   transition: color var(--transition-fast);
 }
 
-.sidebar-link:hover {
-  background: var(--bg-subtle);
-  color: var(--primary);
+.sidebar-link:hover,
+[data-theme="dark"] .sidebar-link:hover {
+  background: #F4F0FD !important;
+  color: #7C3AED !important;
   transform: translateX(4px);
 }
 
-.sidebar-link:hover svg {
-  color: var(--primary);
+.sidebar-link:hover svg,
+[data-theme="dark"] .sidebar-link:hover svg {
+  color: #7C3AED !important;
 }
 
-.sidebar-link.active {
-  background: rgba(124, 58, 237, 0.1);
-  color: var(--primary);
-  font-weight: 700;
-  border-left: 4px solid var(--primary);
+.sidebar-link.active,
+[data-theme="dark"] .sidebar-link.active {
+  background: rgba(124, 58, 237, 0.1) !important;
+  color: #7C3AED !important;
+  font-weight: 700 !important;
+  border-left: 4px solid #7C3AED !important;
 }
 
-.sidebar-link.active svg {
-  color: var(--primary);
+.sidebar-link.active svg,
+[data-theme="dark"] .sidebar-link.active svg {
+  color: #7C3AED !important;
 }
 
 .sidebar.collapsed .sidebar-link span {
