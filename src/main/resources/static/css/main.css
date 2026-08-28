@@ -61,8 +61,6 @@
 }
 
 [data-theme="dark"] {
-  --midnight-plum: #FAF9F6;
-  --deep-charcoal: #FAF9F6;
   --bg-main: #140F21;
   --bg-card: #1D182A;
   --bg-subtle: #272037;
@@ -77,7 +75,20 @@
   --glass-border: rgba(49, 40, 69, 0.8);
 }
 
-/* Explicit Dark Mode Text & Element Rules — Turns all dark/black text white */
+/* Bright components MUST keep dark text for high contrast on neon green */
+.btn-lime,
+.badge-lime,
+[style*="background: var(--neon-lime)"],
+[style*="background:var(--neon-lime)"] {
+  color: #171225 !important;
+}
+
+.badge-plum {
+  background-color: #171225 !important;
+  color: #C7F36B !important;
+}
+
+/* Explicit Dark Mode Text Rules — Crisp white text on dark surfaces */
 [data-theme="dark"] body,
 [data-theme="dark"] h1,
 [data-theme="dark"] h2,
@@ -130,19 +141,6 @@
 [data-theme="dark"] #profile-menu {
   background-color: #1D182A !important;
   border-color: #312845 !important;
-  color: #FAF9F6 !important;
-}
-
-[data-theme="dark"] [style*="color: var(--midnight-plum)"],
-[data-theme="dark"] [style*="color:var(--midnight-plum)"],
-[data-theme="dark"] [style*="color: #111827"],
-[data-theme="dark"] [style*="color:#111827"],
-[data-theme="dark"] [style*="color: #171225"],
-[data-theme="dark"] [style*="color:#171225"],
-[data-theme="dark"] [style*="color: #000"],
-[data-theme="dark"] [style*="color:#000"],
-[data-theme="dark"] [style*="color: rgba(10, 9, 14, 0.8)"],
-[data-theme="dark"] [style*="color: var(--text-color)"] {
   color: #FAF9F6 !important;
 }
 
