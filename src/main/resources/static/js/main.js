@@ -26,18 +26,42 @@ function showToast(message, type = 'info') {
 }
 
 // Theme Toggle Logic (Light / Dark)
+function updateThemeButtons(theme) {
+  document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+    const icon = btn.querySelector('.theme-icon');
+    const label = btn.querySelector('.theme-label');
+    if (theme === 'dark') {
+      if (icon) icon.textContent = '☀️';
+      if (label) label.textContent = 'Light';
+      btn.title = 'Switch to Light Theme';
+    } else {
+      if (icon) icon.textContent = '🌙';
+      if (label) label.textContent = 'Dark';
+      btn.title = 'Switch to Dark Theme';
+    }
+  });
+}
+
 function initTheme() {
   const savedTheme = localStorage.getItem('skilvorae_theme') || 'light';
   if (savedTheme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
   }
+  updateThemeButtons(savedTheme);
 }
 
 function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const currentTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
+  if (newTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
   localStorage.setItem('skilvorae_theme', newTheme);
+  updateThemeButtons(newTheme);
   showToast(`Switched to ${newTheme} mode`, 'info');
 }
 

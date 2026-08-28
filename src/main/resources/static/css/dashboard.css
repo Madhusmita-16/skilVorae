@@ -10,6 +10,43 @@
                     radial-gradient(circle at bottom left, rgba(199, 243, 107, 0.05), transparent 40%);
 }
 
+[data-theme="dark"] .dashboard-wrapper {
+  background: #140F21;
+}
+
+[data-theme="dark"] .search-bar input {
+  background: #1D182A !important;
+  color: #FAF9F6 !important;
+  border-color: #312845 !important;
+}
+
+[data-theme="dark"] .dashboard-table th {
+  background: #272037 !important;
+  color: #E2DCF0 !important;
+  border-bottom-color: #312845 !important;
+}
+
+[data-theme="dark"] .dashboard-table td {
+  border-bottom-color: #312845 !important;
+  color: #FAF9F6 !important;
+}
+
+[data-theme="dark"] .dashboard-table tr:hover td {
+  background: rgba(157, 114, 255, 0.08) !important;
+}
+
+[data-theme="dark"] .quick-action-btn {
+  background: #1D182A !important;
+  border-color: #312845 !important;
+  color: #FAF9F6 !important;
+}
+
+[data-theme="dark"] .quick-action-btn:hover {
+  background: #272037 !important;
+  border-color: #9D72FF !important;
+  color: #9D72FF !important;
+}
+
 /* --- SIDEBAR --- */
 .sidebar {
   width: 280px;

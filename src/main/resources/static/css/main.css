@@ -61,18 +61,89 @@
 }
 
 [data-theme="dark"] {
-  --bg-main: #171225;
-  --bg-card: #202020;
-  --bg-subtle: #251F36;
+  --midnight-plum: #FAF9F6;
+  --deep-charcoal: #FAF9F6;
+  --bg-main: #140F21;
+  --bg-card: #1D182A;
+  --bg-subtle: #272037;
   --text-primary: #FAF9F6;
-  --text-secondary: #D4CEE3;
-  --text-muted: #9E96B0;
+  --text-secondary: #E2DCF0;
+  --text-muted: #A8A0BC;
 
-  --primary: #8B5CF6;
-  --primary-hover: #7C3AED;
-  --border-color: #2F2842;
-  --glass-bg: rgba(23, 18, 37, 0.92);
-  --glass-border: rgba(47, 40, 66, 0.8);
+  --primary: #9D72FF;
+  --primary-hover: #8B5CF6;
+  --border-color: #312845;
+  --glass-bg: rgba(20, 15, 33, 0.94);
+  --glass-border: rgba(49, 40, 69, 0.8);
+}
+
+/* Explicit Dark Mode Text & Element Rules — Turns all dark/black text white */
+[data-theme="dark"] body,
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] h5,
+[data-theme="dark"] h6,
+[data-theme="dark"] label,
+[data-theme="dark"] th,
+[data-theme="dark"] td,
+[data-theme="dark"] .brand-logo,
+[data-theme="dark"] .nav-link,
+[data-theme="dark"] .sidebar-link,
+[data-theme="dark"] .modal-card,
+[data-theme="dark"] .stat-number,
+[data-theme="dark"] .schedule-title,
+[data-theme="dark"] .course-card-title a {
+  color: #FAF9F6 !important;
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] small,
+[data-theme="dark"] .text-muted,
+[data-theme="dark"] .schedule-meta,
+[data-theme="dark"] .breadcrumbs span {
+  color: #E2DCF0 !important;
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea,
+[data-theme="dark"] .form-control {
+  background-color: #1D182A !important;
+  color: #FAF9F6 !important;
+  border-color: #312845 !important;
+}
+
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: #A8A0BC !important;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .modal-card,
+[data-theme="dark"] .stat-card,
+[data-theme="dark"] .schedule-card,
+[data-theme="dark"] .account-type-card,
+[data-theme="dark"] #notification-menu,
+[data-theme="dark"] #notif-dropdown,
+[data-theme="dark"] #profile-menu {
+  background-color: #1D182A !important;
+  border-color: #312845 !important;
+  color: #FAF9F6 !important;
+}
+
+[data-theme="dark"] [style*="color: var(--midnight-plum)"],
+[data-theme="dark"] [style*="color:var(--midnight-plum)"],
+[data-theme="dark"] [style*="color: #111827"],
+[data-theme="dark"] [style*="color:#111827"],
+[data-theme="dark"] [style*="color: #171225"],
+[data-theme="dark"] [style*="color:#171225"],
+[data-theme="dark"] [style*="color: #000"],
+[data-theme="dark"] [style*="color:#000"],
+[data-theme="dark"] [style*="color: rgba(10, 9, 14, 0.8)"],
+[data-theme="dark"] [style*="color: var(--text-color)"] {
+  color: #FAF9F6 !important;
 }
 
 /* Reset & Global Base */
