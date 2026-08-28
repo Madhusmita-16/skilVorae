@@ -105,6 +105,22 @@ Starts the Spring Boot app and a MySQL 8.0 container together with a persistent 
 
 ---
 
+## Deploying to Render.com
+
+1. **Database Setup**: Create a free MySQL database on [Aiven.io](https://aiven.io/) (or another cloud MySQL provider).
+2. **Connect to Render**:
+   - Create a new **Web Service** or Blueprint on [Render.com](https://render.com/).
+   - Select your GitHub repository `Madhusmita-16/skilVorae`.
+   - Set the runtime environment to **Docker**.
+3. **Environment Variables**: Add the following Environment Variables in your Render Dashboard:
+   - `SPRING_DATASOURCE_URL`: `jdbc:mysql://<host>:<port>/<dbname>?sslmode=require`
+   - `SPRING_DATASOURCE_USERNAME`: `<your-db-user>`
+   - `SPRING_DATASOURCE_PASSWORD`: `<your-db-password>`
+   - `SPRING_JPA_HIBERNATE_DDL_AUTO`: `update`
+4. **Deploy**: Render will automatically build the Dockerfile and launch your service with health monitoring on `/login`.
+
+---
+
 ## Project layout
 
 ```

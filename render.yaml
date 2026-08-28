@@ -1,12 +1,19 @@
+# Render Blueprint Specification for SkilVorae
+# Learn more: https://render.com/docs/blueprint-spec
+
 services:
   - type: web
     name: skilvorae
     env: docker
+    region: oregon
     plan: free
     dockerfilePath: Dockerfile
+    healthCheckPath: /login
+    autoDeploy: true
     envVars:
+      # Database configuration (Set these in Render Dashboard when connecting to external MySQL e.g. Aiven)
       - key: SPRING_DATASOURCE_URL
-        sync: false          # set in Render dashboard
+        sync: false
       - key: SPRING_DATASOURCE_USERNAME
         sync: false
       - key: SPRING_DATASOURCE_PASSWORD
