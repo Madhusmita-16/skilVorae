@@ -1275,12 +1275,13 @@ p {
    APP FOOTER STYLING & CONTRAST ACCESSIBILITY
    ========================================================================== */
 .app-footer {
-  background: var(--bg-dark) !important;
-  color: var(--off-white) !important;
+  background: var(--bg-card) !important;
+  color: var(--text-primary) !important;
+  border-top: 1px solid var(--border-color) !important;
 }
 
 .app-footer h4 {
-  color: #FAF9F6 !important;
+  color: var(--text-primary) !important;
   font-size: 1.05rem !important;
   font-weight: 700;
 }
@@ -1288,15 +1289,15 @@ p {
 .app-footer p,
 .app-footer .footer-bottom,
 .app-footer .footer-bottom-inner {
-  color: rgba(250, 249, 246, 0.8) !important;
+  color: var(--text-secondary) !important;
 }
 
 .app-footer a {
-  color: rgba(250, 249, 246, 0.82) !important;
+  color: var(--text-secondary) !important;
   transition: color 0.2s ease;
   font-size: 0.95rem;
 }
 
 .app-footer a:hover {
-  color: var(--neon-lime) !important;
+  color: var(--primary) !important;
 }
