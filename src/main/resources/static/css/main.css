@@ -1021,14 +1021,10 @@ p {
     gap: 0.5rem;
   }
 
-  /* Shorten nav-auth text buttons to save space */
+  /* Compact button styling on mobile without hiding text or making elements tiny */
   #notif-bell-btn {
-    font-size: 0;
-    padding: 0.45rem 0.6rem;
-  }
-  #notif-bell-btn::after {
-    content: '\1F514';
-    font-size: 1rem;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.75rem;
   }
 
   /* Hide the theme toggle on very small screens to save space */
@@ -1038,6 +1034,23 @@ p {
 
   .container {
     padding: 0 1rem;
+  }
+}
+
+/* Global Mobile Readability Fix — Prevent micro text rendering */
+@media (max-width: 768px) {
+  [style*="font-size: 0.7rem"],
+  [style*="font-size:0.7rem"],
+  [style*="font-size: 0.65rem"],
+  [style*="font-size:0.65rem"],
+  [style*="font-size: 0.75rem"],
+  [style*="font-size:0.75rem"] {
+    font-size: 0.825rem !important;
+  }
+
+  .badge {
+    font-size: 0.75rem !important;
+    padding: 0.35rem 0.65rem !important;
   }
 }
 

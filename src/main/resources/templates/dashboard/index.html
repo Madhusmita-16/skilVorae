@@ -36,10 +36,10 @@
       </div>
 
       <!-- 6 Dynamic Statistics Cards -->
-      <div class="stats-grid" style="grid-template-columns: repeat(6, 1fr);">
+      <div class="stats-grid-6">
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ENROLLED</div>
+            <div style="font-size: 0.825rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">ENROLLED</div>
             <div class="stat-number" th:text="${stats != null ? stats.enrolledCoursesCount : '0'}">0</div>
           </div>
           <div class="stat-icon">
@@ -49,7 +49,7 @@
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETED</div>
+            <div style="font-size: 0.825rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">COMPLETED</div>
             <div class="stat-number" th:text="${stats != null ? stats.completedCoursesCount : '0'}">0</div>
           </div>
           <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
@@ -59,7 +59,7 @@
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">HOURS</div>
+            <div style="font-size: 0.825rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">HOURS</div>
             <div class="stat-number" th:text="${stats != null ? stats.totalLearningHours : '0'}">0</div>
           </div>
           <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6;">
@@ -69,7 +69,7 @@
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">AVG. SCORE</div>
+            <div style="font-size: 0.825rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">AVG. SCORE</div>
             <div class="stat-number" th:text="${stats != null ? stats.averageAssessmentScore + '%' : '0%'}">0%</div>
           </div>
           <div class="stat-icon">
@@ -79,7 +79,7 @@
         
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">STREAK</div>
+            <div style="font-size: 0.825rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">STREAK</div>
             <div class="stat-number" th:text="${stats != null ? stats.learningStreakDays + ' Days' : '0 Days'}">0 Days</div>
           </div>
           <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">
@@ -89,7 +89,7 @@
 
         <div class="stat-card">
           <div>
-            <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">CERTIFICATES</div>
+            <div style="font-size: 0.825rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em;">CERTIFICATES</div>
             <div class="stat-number" th:text="${stats != null ? stats.certificatesCount : '0'}">0</div>
           </div>
           <div class="stat-icon">
