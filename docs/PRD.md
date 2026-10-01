@@ -14,7 +14,7 @@ Educational institutions need automated tools to ingest course curriculum PDFs, 
 2. **Automated PDF Curriculum Parser**: Background service extracting course structures and quiz questions from uploaded PDF files (`PdfParsingService.java`).
 3. **Quiz & Assessment Engine**: Automated multiple-choice evaluation and score calculation.
 4. **Dynamic PDF Certificate Generator**: Renders personalized completion certificates upon course passing (`CertificateService.java`).
-5. **Polyglot Database Support**: Oracle 19c/21c (`schema-oracle.sql`), PostgreSQL, MySQL, and Docker Compose DB containers.
+5. **Polyglot Database Support**: Oracle 19c/21c (`schema-oracle.sql`), PostgreSQL, MySQL, and Vercel cloud deployment (`vercel.json`).
 
 ## Out of Scope
 - Native mobile app.

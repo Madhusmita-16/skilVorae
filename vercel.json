@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "name": "skilvorae-lms",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/login",
+      "destination": "/src/main/resources/templates/auth/login.html"
+    },
+    {
+      "source": "/register",
+      "destination": "/src/main/resources/templates/auth/register.html"
+    },
+    {
+      "source": "/courses",
+      "destination": "/src/main/resources/templates/course/catalog.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/src/main/resources/templates/dashboard/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

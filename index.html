@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skilvorae — Industry-Grade Online Learning & Career Skills Platform</title>
+  <meta name="description" content="Master practical skills, build real-world projects, and advance your tech career with Skilvorae industry-aligned curriculums.">
+  <link rel="stylesheet" th:href="@{/css/main.css?v=14.0}">
+  <link rel="stylesheet" th:href="@{/css/course.css?v=14.0}">
+  <style>
+    /* ── Hero animation keyframes ── */
+    @keyframes floatA {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(2deg); }
+    }
+    @keyframes floatB {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(-3deg); }
+    }
+    @keyframes floatC {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-10px) rotate(2deg); }
+      66% { transform: translateY(8px) rotate(-1deg); }
+    }
+    @keyframes heroCardFloat {
+      0%, 100% { transform: translateY(0px); box-shadow: 0 20px 60px rgba(30,58,138,0.18); }
+      50% { transform: translateY(-8px); box-shadow: 0 32px 80px rgba(30,58,138,0.25); }
+    }
+    @keyframes blobPulse1 {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.6; }
+      50% { transform: scale(1.3) translate(10px, -15px); opacity: 0.9; }
+    }
+    @keyframes blobPulse2 {
+      0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.5; }
+      50% { transform: scale(1.2) translate(-12px, 10px); opacity: 0.8; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+    @keyframes notifSlide {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      10% { transform: translateY(-6px); opacity: 1; }
+      90% { transform: translateY(-6px); opacity: 1; }
+    }
+    @keyframes progFill {
+      from { width: 0%; }
+    }
+    @keyframes orbSpin {
+      from { transform: rotate(0deg) translateX(130px) rotate(0deg); }
+      to   { transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+    }
+    @keyframes orbSpinRev {
+      from { transform: rotate(0deg) translateX(105px) rotate(0deg); }
+      to   { transform: rotate(-360deg) translateX(105px) rotate(360deg); }
+    }
+    .hero-prog { animation: progFill 1.8s cubic-bezier(.4,0,.2,1) both; }
+    .hero-prog:nth-child(1) { animation-delay: 0.2s; }
+    .orb-pill {
+      position: absolute;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+  </style>
+</head>
+<body id="home">
+
+  <!-- STICKY NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <a th:href="@{/}" class="brand-logo">
+        <div class="brand-icon">S</div>
+        <span>Skilvorae</span>
+      </a>
+
+      <ul class="nav-links" id="main-nav-links">
+        <li><a th:href="@{/}" class="nav-link active">Home</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#courses" class="nav-link">Courses</a></li>
+        <li><a href="#why-us" class="nav-link">Why Skilvorae</a></li>
+        <li><a href="#enquiry" class="nav-link">Enquiry</a></li>
+      </ul>
+
+      <div class="nav-auth">
+
+        <th:block th:if="${!isLoggedIn}">
+          <a th:href="@{/login}" class="btn btn-outline btn-sm">Login</a>
+          <a th:href="@{/register}" class="btn btn-primary btn-sm">Get Started</a>
+        </th:block>
+
+        <th:block th:if="${isLoggedIn}">
+          <a th:href="@{/dashboard}" class="btn btn-outline btn-sm" th:text="${user != null ? user.fullName : 'Dashboard'}">Dashboard</a>
+          <a th:href="@{/logout}" class="btn btn-primary btn-sm">Logout</a>
+        </th:block>
+      </div>
+
+      <!-- Hamburger button (visible on mobile) -->
+      <button class="nav-hamburger" id="nav-hamburger-btn" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+
+  <!-- HERO SECTION (PURE WHITE) -->
+  <header style="position: relative; padding: 5rem 0 6rem 0; overflow: hidden; background: #FFFFFF; border-bottom: 1px solid #E2E8F0;">
+    <div class="container">
+      <div class="hero-grid">
+        
+        <div>
+          <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <span class="badge badge-lime">Learn. Practice. Excel.</span>
+            <span class="badge badge-lavender">Industry-Ready Skills</span>
+          </div>
+
+          <h1 class="hero-h1" style="margin-bottom: 1.25rem; letter-spacing: -0.03em;">
+            Master Skills.<br>
+            <span style="background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Build Your Future.</span>
+          </h1>
+
+          <h3 style="color: #1E3A8A; font-weight: 700; margin-bottom: 1rem; font-size: 1.35rem;">
+            Industry-grade learning for real-world careers.
+          </h3>
+
+          <p style="font-size: 1.15rem; line-height: 1.7; margin-bottom: 2.25rem; max-width: 580px; color: var(--text-secondary);">
+            Learn practical skills, work on real-world projects, and build the expertise that helps you move confidently from learning to the workplace.
+          </p>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="#courses" class="btn btn-primary" style="padding: 0.95rem 2rem; font-size: 1rem;">Explore Courses →</a>
+            <a th:href="@{/register}" class="btn btn-outline" style="padding: 0.95rem 2rem; font-size: 1rem;">Get Started</a>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE — ANIMATED LEARNING VISUAL -->
+        <div style="position: relative; display: flex; justify-content: center; align-items: center; min-height: 490px;">
+
+          <!-- Ambient glow blobs -->
+          <div style="position: absolute; width: 280px; height: 280px; background: radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 70%); border-radius: 50%; filter: blur(55px); top: 0; left: 5%; animation: blobPulse1 7s ease-in-out infinite; pointer-events: none;"></div>
+          <div style="position: absolute; width: 200px; height: 200px; background: radial-gradient(circle, rgba(199,243,107,0.28) 0%, transparent 70%); border-radius: 50%; filter: blur(45px); bottom: 5%; right: 5%; animation: blobPulse2 9s ease-in-out infinite; pointer-events: none;"></div>
+          <div style="position: absolute; width: 180px; height: 180px; background: radial-gradient(circle, rgba(14,165,233,0.18) 0%, transparent 70%); border-radius: 50%; filter: blur(40px); bottom: 20%; left: 0; animation: blobPulse1 11s ease-in-out infinite 2s; pointer-events: none;"></div>
+
+          <!-- Floating tech skill pills -->
+          <div class="orb-pill" style="top: 2%; left: 0%; background: linear-gradient(135deg,#f89820,#f0551c); color:#fff; animation: floatA 4s ease-in-out infinite;">☕ Java</div>
+          <div class="orb-pill" style="top: 8%; right: 0%; background: linear-gradient(135deg,#0ea5e9,#2563eb); color:#fff; animation: floatB 5.5s ease-in-out infinite 0.4s;">⚛️ React</div>
+          <div class="orb-pill" style="top: 44%; right: -2%; background: linear-gradient(135deg,#7c3aed,#6d28d9); color:#fff; animation: floatC 5s ease-in-out infinite 0.8s;">🐳 Docker</div>
+          <div class="orb-pill" style="bottom: 16%; right: 0%; background: linear-gradient(135deg,#f59e0b,#b45309); color:#fff; animation: floatA 6s ease-in-out infinite 1.2s;">☁️ AWS</div>
+          <div class="orb-pill" style="bottom: 5%; left: 0%; background: linear-gradient(135deg,#10b981,#059669); color:#fff; animation: floatB 4.5s ease-in-out infinite 0.6s;">🍃 Spring</div>
+          <div class="orb-pill" style="top: 52%; left: -2%; background: linear-gradient(135deg,#3b82f6,#1d4ed8); color:#fff; animation: floatC 6.5s ease-in-out infinite 1s;">🐍 Python</div>
+
+          <!-- Central animated dashboard card -->
+          <div style="position: relative; z-index: 5; width: 100%; max-width: 370px; background: #FFFFFF; border-radius: 24px; padding: 1.75rem; box-shadow: 0 20px 60px rgba(30,58,138,0.18); border: 1px solid #E2E8F0; animation: heroCardFloat 5s ease-in-out infinite;">
+
+            <!-- Card header -->
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem;">
+              <div style="display: flex; align-items: center; gap: 0.65rem;">
+                <div style="width: 38px; height: 38px; background: linear-gradient(135deg,#1E3A8A,#2563EB); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink:0;">🎓</div>
+                <div>
+                  <div style="font-weight: 800; font-size: 0.9rem; color: #0F172A; line-height:1.2;">My Learning Hub</div>
+                  <div style="font-size: 0.7rem; color: #64748B;">3 courses active</div>
+                </div>
+              </div>
+              <span style="background: #DCFCE7; color: #16A34A; font-size: 0.68rem; font-weight: 800; padding: 0.3rem 0.7rem; border-radius: 9999px; display:flex; align-items:center; gap:0.3rem;"><span style="animation: blink 1.4s step-end infinite; display:inline-block;">●</span> LIVE</span>
+            </div>
+
+            <!-- Progress bars -->
+            <div style="display: flex; flex-direction: column; gap: 0.9rem; margin-bottom: 1.4rem;">
+              <!-- Course 1 -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.3rem;">
+                  <span style="color: #0F172A; font-weight: 700;">Java Full Stack</span>
+                  <span style="color: #1E3A8A; font-weight: 800;">88%</span>
+                </div>
+                <div style="height: 8px; background: #EEF2FF; border-radius: 9999px; overflow: hidden;">
+                  <div class="hero-prog" style="height:100%; width:88%; background: linear-gradient(90deg,#1E3A8A,#6366F1); border-radius:9999px;"></div>
+                </div>
+              </div>
+              <!-- Course 2 -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.3rem;">
+                  <span style="color: #0F172A; font-weight: 700;">Python &amp; AI/ML</span>
+                  <span style="color: #7C3AED; font-weight: 800;">62%</span>
+                </div>
+                <div style="height: 8px; background: #F5F3FF; border-radius: 9999px; overflow: hidden;">
+                  <div class="hero-prog" style="height:100%; width:62%; background: linear-gradient(90deg,#7C3AED,#A78BFA); border-radius:9999px; animation-delay:0.3s;"></div>
+                </div>
+              </div>
+              <!-- Course 3 -->
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.78rem; margin-bottom: 0.3rem;">
+                  <span style="color: #0F172A; font-weight: 700;">Cloud &amp; DevOps</span>
+                  <span style="color: #0891B2; font-weight: 800;">45%</span>
+                </div>
+                <div style="height: 8px; background: #ECFEFF; border-radius: 9999px; overflow: hidden;">
+                  <div class="hero-prog" style="height:100%; width:45%; background: linear-gradient(90deg,#0891B2,#38BDF8); border-radius:9999px; animation-delay:0.6s;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Animated code line -->
+            <div style="background: #0F172A; border-radius: 12px; padding: 0.85rem 1rem; font-family: 'Courier New', monospace; font-size: 0.76rem; line-height: 1.65; margin-bottom: 1.25rem;">
+              <span style="color: #475569;">// lesson complete ✓</span><br>
+              <span style="color: #60A5FA;">return</span>&nbsp;<span style="color: #C7F36B;">new</span>&nbsp;<span style="color: #F0A500;">Skill</span>(<span style="color: #86EFAC;">"Spring Boot"</span>);<span style="display:inline-block; width:2px; height:0.9em; background:#C7F36B; vertical-align:middle; margin-left:2px; animation: blink 1s step-end infinite;"></span>
+            </div>
+
+            <!-- Stats row -->
+            <div style="display: flex; justify-content: space-around; text-align: center; padding-top: 1rem; border-top: 1px solid #F1F5F9;">
+              <div>
+                <div style="font-size: 1.4rem; font-weight: 900; color: #1E3A8A; line-height:1;">14</div>
+                <div style="font-size: 0.68rem; color: #64748B; margin-top: 0.2rem; font-weight:600;">Lessons Done</div>
+              </div>
+              <div style="border-left: 1px solid #F1F5F9;">
+                <div style="font-size: 1.4rem; font-weight: 900; color: #7C3AED; line-height:1;">5</div>
+                <div style="font-size: 0.68rem; color: #64748B; margin-top: 0.2rem; font-weight:600;">Quizzes Passed</div>
+              </div>
+              <div style="border-left: 1px solid #F1F5F9;">
+                <div style="font-size: 1.4rem; font-weight: 900; color: #D97706; line-height:1;">🏆</div>
+                <div style="font-size: 0.68rem; color: #64748B; margin-top: 0.2rem; font-weight:600;">Certified</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Achievement notification -->
+          <div style="position: absolute; bottom: 0%; left: 50%; transform: translateX(-50%); background: #FFFFFF; border-radius: 14px; padding: 0.65rem 1.1rem; box-shadow: 0 12px 32px rgba(124,58,237,0.18); display: flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; font-weight: 700; color: #0F172A; border: 1px solid #EDE9FE; white-space: nowrap; z-index: 6; animation: notifSlide 4s ease-in-out infinite 1.5s;">
+            <span style="font-size: 1rem;">🏅</span>
+            <span>Badge Unlocked: <span style="color: #7C3AED;">API Master</span></span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- SECOND SECTION — IMPACT IN NUMBERS (DEEP ROYAL NAVY) -->
+  <section style="padding: 4.5rem 0; background: #1E3A8A; color: #FFFFFF; position: relative; border-bottom: 1px solid #1D4ED8;">
+    <div class="container">
+      <div class="stats-row">
+        
+        <div style="padding: 1rem;">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">10+</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Industry-Focused Courses</p>
+        </div>
+
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.18);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">1,000+</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Learning Hours</p>
+        </div>
+
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.18);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">50+</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Practical Projects</p>
+        </div>
+
+        <div style="padding: 1rem; border-left: 1px solid rgba(255, 255, 255, 0.18);">
+          <div style="font-family: 'Outfit', sans-serif; font-size: 3.5rem; font-weight: 800; color: #FFFFFF; line-height: 1;">24/7</div>
+          <p style="font-size: 0.95rem; color: #DBEAFE; margin-top: 0.5rem; font-weight: 600;">Learning Access</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPLORE COURSES SECTION -->
+  <section id="courses" style="padding: 6rem 0; background: var(--bg-card); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem auto;">
+        <span class="badge badge-lime" style="margin-bottom: 0.75rem;">Comprehensive Catalog</span>
+        <h2>Explore All Courses</h2>
+        <p style="margin-top: 0.5rem; font-size: 1.1rem;">Master in-demand technologies through practical labs, real-world case studies, and industry mentorship.</p>
+      </div>
+
+      <!-- 3 Cards Per Row Grid (Row 1: 3 cards, Row 2: 3 cards) -->
+      <div class="course-grid" id="all-courses-grid">
+
+        <!-- Dynamic Course Cards from Backend -->
+        <div class="card card-interactive landing-course-item"
+             th:each="course : ${allCourses}"
+             style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+          
+          <div>
+            <div style="position: relative; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0; margin: -1.5rem -1.5rem 1.25rem -1.5rem; height: 180px;">
+              <img th:src="${course.thumbnailUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Course thumbnail">
+              <span class="badge-discount" style="position: absolute; top: 12px; right: 12px; font-weight: 700;" th:text="${course.discountPercentage + '% OFF'}">50% OFF</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; gap: 0.5rem; flex-wrap: wrap;">
+              <span class="badge badge-lavender" th:text="${course.categoryName}">Category</span>
+              <span class="badge badge-plum" th:text="${course.difficulty}">Beginner</span>
+            </div>
+
+            <h3 class="course-card-title" style="font-size: 1.1rem; line-height: 1.4; margin-bottom: 0.5rem;">
+              <a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}">Course Title</a>
+            </h3>
+
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;" th:text="${'By ' + course.instructorName}">By Instructor</p>
+
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;" th:text="${#strings.abbreviate(course.description, 100)}">Short Description</p>
+          </div>
+
+          <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.825rem; color: var(--text-muted); margin-bottom: 0.85rem;">
+              <span><span th:text="${course.durationHours != null ? #numbers.formatDecimal(course.durationHours, 1, 0) + ' Hours' : '12 Hours'}">12 Hours</span></span>
+              <span><span th:text="${(course.totalModules != null && course.totalModules > 0 ? course.totalModules : 3) + ' Modules'}">3 Modules</span></span>
+              <span style="font-weight: 700; color: var(--warning);" th:text="${'Rating: ' + course.rating}">Rating: 4.8</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="price-tag" style="font-size: 1.1rem; font-weight: 700;" th:text="${course.formattedPrice}">₹1,499 + taxes</span>
+                <span class="price-original" style="font-size: 0.85rem; text-decoration: line-through; color: var(--text-muted); margin-left: 0.35rem;" th:text="${'₹' + #numbers.formatDecimal(course.originalPrice, 0, 'COMMA', 0, 'POINT')}">₹2,999</span>
+              </div>
+              <a th:href="@{/courses/{id}(id=${course.id})}" class="btn btn-sm btn-outline">View Details</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="text-align: center; margin-top: 3.5rem;">
+        <a th:href="@{/courses}" class="btn btn-primary" style="padding: 0.9rem 2.5rem; font-size: 1rem;">View More Courses →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY SKILVORAE SECTION -->
+  <section id="why-us" style="padding: 6rem 0; background: var(--bg-main);">
+    <div class="container">
+      <div style="text-align: center; max-width: 650px; margin: 0 auto 4rem auto;">
+        <span class="badge badge-lavender" style="margin-bottom: 0.75rem;">The Skilvorae Advantage</span>
+        <h2>Why Learners Choose Skilvorae</h2>
+        <p style="margin-top: 0.5rem; font-size: 1.1rem;">Engineered to bridge the gap between conceptual understanding and workplace execution.</p>
+      </div>
+
+      <div class="features-grid">
+        
+        <!-- Feature 1 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 42px; height: 42px; background: var(--soft-lavender); color: var(--electric-violet); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1.25rem;">
+            01
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Industry-Aligned Curriculum</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Curriculums designed in collaboration with active tech leads to ensure every topic meets current industry demands.
+          </p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 42px; height: 42px; background: rgba(199, 243, 107, 0.3); color: var(--midnight-plum); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1.25rem;">
+            02
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Hands-On Projects</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Build production-ready applications, microservices, and analytical dashboards for your professional portfolio.
+          </p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 42px; height: 42px; background: var(--soft-lavender); color: var(--electric-violet); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1.25rem;">
+            03
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Practical Learning</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Focus on writing clean code, profiling performance, debugging edge cases, and applying design patterns.
+          </p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 42px; height: 42px; background: rgba(199, 243, 107, 0.3); color: var(--midnight-plum); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1.25rem;">
+            04
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Real-World Case Studies</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Analyze actual enterprise engineering challenges, system trade-offs, and database optimization techniques.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 42px; height: 42px; background: var(--soft-lavender); color: var(--electric-violet); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1.25rem;">
+            05
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Career-Focused Skills</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Develop end-of-course assessments and earn verifiable completion certificates recognized by hiring partners.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="card" style="padding: 2rem;">
+          <div style="width: 42px; height: 42px; background: rgba(199, 243, 107, 0.3); color: var(--midnight-plum); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; margin-bottom: 1.25rem;">
+            06
+          </div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.6rem;">Learn at Your Own Pace</h3>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.6;">
+            Flexible lifetime access to all course modules, code repositories, assessments, and continuous content updates.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SKILVORAE SECTION -->
+  <section id="about" style="padding: 6rem 0; background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%) !important; color: #FAF9F6 !important; position: relative; border-top: 1px solid rgba(255, 255, 255, 0.12);">
+    <div class="container">
+      <div class="about-grid">
+        
+        <div>
+          <span class="badge badge-lime" style="margin-bottom: 1rem;">About Skilvorae</span>
+          <h2 style="color: #FAF9F6 !important; margin-bottom: 1.25rem; font-size: 2.5rem; letter-spacing: -0.02em;">
+            Bridging the Gap Between Learning &amp; Industry Execution.
+          </h2>
+          <p style="color: #C7F36B !important; font-size: 1.15rem; font-weight: 700; line-height: 1.8; margin-bottom: 1.5rem;">
+            Skilvorae exists to eliminate the disconnect between traditional academic courses and actual software industry requirements.
+          </p>
+          <p style="color: #E2DCF0 !important; font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem;">
+            We combine rigorous computer science fundamentals with real-world developer tools, cloud infrastructure deployments, and automated testing suites so learners can transition into workplace roles with confidence.
+          </p>
+          <a th:href="@{/register}" class="btn btn-lime">Start Your Journey Today →</a>
+        </div>
+
+        <!-- Abstract Career Progression Graphic -->
+        <div style="position: relative; display: flex; justify-content: center;">
+          <div style="width: 100%; max-width: 440px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(199, 243, 107, 0.2); border-radius: 24px; padding: 2.5rem; backdrop-filter: blur(12px);">
+            <div style="font-size: 1.25rem; font-weight: 700; color: #C7F36B !important; margin-bottom: 1.5rem;">
+              Career Progression Track
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: #C7F36B; color: #171225 !important; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;">1</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 1.05rem; color: #FAF9F6 !important;">Core Concepts &amp; Syntax</div>
+                  <div style="font-size: 0.95rem; color: #E2DCF0 !important;">Master fundamental architecture &amp; data structures.</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: #7C3AED; color: #FAF9F6 !important; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;">2</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 1.05rem; color: #FAF9F6 !important;">Hands-On Project Labs</div>
+                  <div style="font-size: 0.95rem; color: #E2DCF0 !important;">Build full stack services and microservice APIs.</div>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: #C7F36B; color: #171225 !important; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem;">3</div>
+                <div>
+                  <div style="font-weight: 700; font-size: 1.05rem; color: #FAF9F6 !important;">Industry Certification</div>
+                  <div style="font-size: 0.95rem; color: #E2DCF0 !important;">Pass rigorous assessments and earn verified credentials.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ENQUIRY FORM SECTION -->
+  <section id="enquiry" style="padding: 6rem 0; background: var(--bg-main);">
+    <div class="container">
+      <div style="max-width: 680px; margin: 0 auto;">
+        <div class="card" style="padding: 3rem; box-shadow: var(--shadow-lg); border-radius: 24px;">
+          <div style="text-align: center; margin-bottom: 2rem;">
+            <span class="badge badge-lavender" style="margin-bottom: 0.75rem;">Get in Touch</span>
+            <h2>Start Your Learning Journey</h2>
+            <p style="margin-top: 0.4rem;">Have questions about our curriculums or career tracks? Drop us a message.</p>
+          </div>
+
+          <form id="enquiry-form" onsubmit="handleEnquirySubmit(event)">
+            <div class="form-group">
+              <label class="form-label" for="eq-fullname">Full Name</label>
+              <input type="text" id="eq-fullname" class="form-control" placeholder="Alex Morgan" required>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label class="form-label" for="eq-email">Email Address</label>
+                <input type="email" id="eq-email" class="form-control" placeholder="alex@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="eq-phone">Phone Number</label>
+                <input type="tel" id="eq-phone" class="form-control" placeholder="+91 98765 43210" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="eq-course">Course Interested In</label>
+              <select id="eq-course" class="form-control">
+                <option value="Full Stack Development">Full Stack Development</option>
+                <option value="Data Analytics">Data Analytics & Visualization</option>
+                <option value="Java Development">Java 17 Enterprise Masterclass</option>
+                <option value="AI & Machine Learning">Python AI & Machine Learning</option>
+                <option value="Cloud & DevOps">Docker & Kubernetes Cloud</option>
+                <option value="Digital Marketing">Digital Marketing & Growth Analytics</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="eq-message">Message</label>
+              <textarea id="eq-message" class="form-control" rows="4" placeholder="Tell us about your learning goals or background..." required></textarea>
+            </div>
+
+            <button type="submit" id="eq-btn" class="btn btn-primary btn-block" style="padding: 0.95rem; font-size: 1rem;">Send Enquiry →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (DEEP ROYAL NAVY SECONDARY COLOR) -->
+  <footer class="app-footer" style="background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%) !important; color: #FFFFFF !important; padding: 4.5rem 0 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.12);">
+    <div class="container">
+      <div class="footer-main-grid">
+        
+        <div>
+          <a th:href="@{/}" class="brand-logo" style="color: #FFFFFF !important; margin-bottom: 1rem; display: flex;">
+            <div class="brand-icon">S</div>
+            <span style="color: #FFFFFF !important;">Skilvorae</span>
+          </a>
+          <p style="color: #DBEAFE !important; font-size: 0.95rem; max-width: 320px; line-height: 1.6; margin-bottom: 1.5rem;">
+            Next-generation learning portal delivering industry-grade engineering and technology skills for real-world careers.
+          </p>
+          <div style="display: flex; gap: 1rem; font-size: 0.9rem; font-weight: 600;">
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae Web Services', 'info')" style="color: #60A5FA !important;">Web</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae LinkedIn Portal', 'info')" style="color: #60A5FA !important;">LinkedIn</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae GitHub Workspace', 'info')" style="color: #60A5FA !important;">GitHub</a>
+            <a href="javascript:void(0)" onclick="showToast('Skilvorae Twitter Channel', 'info')" style="color: #60A5FA !important;">Twitter</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Quick Links</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem;">
+            <li><a href="#home" style="color: #DBEAFE !important;">Home</a></li>
+            <li><a href="#about" style="color: #DBEAFE !important;">About Us</a></li>
+            <li><a href="#courses" style="color: #DBEAFE !important;">All Courses</a></li>
+            <li><a href="#why-us" style="color: #DBEAFE !important;">Why Skilvorae</a></li>
+            <li><a th:href="@{/login}" style="color: #DBEAFE !important;">Sign In</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Popular Courses</h4>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.95rem;">
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Full Stack Engineering</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Data Analytics</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Java 17 Masterclass</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">Cloud &amp; DevOps</a></li>
+            <li><a th:href="@{/courses}" style="color: #DBEAFE !important;">AI &amp; Machine Learning</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 style="color: #FFFFFF !important; font-size: 1.05rem; margin-bottom: 1.25rem;">Contact &amp; Support</h4>
+          <p style="color: #DBEAFE !important; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+            Have inquiries or enterprise partnership questions?
+          </p>
+          <div style="font-size: 0.95rem; color: #60A5FA !important; font-weight: 700;">
+            Email: support@skilvorae.com
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom-inner" style="color: #DBEAFE !important; border-top: 1px solid rgba(255, 255, 255, 0.12);">
+        <div>© 2026 Skilvorae Learning Platform. All rights reserved.</div>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+          <a href="javascript:void(0)" onclick="showToast('Privacy Policy details', 'info')" style="color: #DBEAFE !important;">Privacy Policy</a>
+          <a href="javascript:void(0)" onclick="showToast('Terms &amp; Conditions details', 'info')" style="color: #DBEAFE !important;">Terms &amp; Conditions</a>
+          <a href="javascript:void(0)" onclick="showToast('Security protocols active', 'info')" style="color: #DBEAFE !important;">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script th:src="@{/js/main.js}"></script>
+  <script>
+    function handleEnquirySubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('eq-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sending Enquiry...';
+
+      setTimeout(() => {
+        showToast('Enquiry sent successfully! Our career advisor will reach out shortly.', 'success');
+        document.getElementById('enquiry-form').reset();
+        btn.disabled = false;
+        btn.textContent = 'Send Enquiry →';
+      }, 1000);
+    }
+
+    // Hamburger mobile nav logic
+    (function() {
+      const hamburgerBtn = document.getElementById('nav-hamburger-btn');
+      const navLinks = document.getElementById('main-nav-links');
+      const overlay = document.getElementById('mobile-nav-overlay');
+      if (!hamburgerBtn || !navLinks || !overlay) return;
+
+      function openMobileNav() {
+        hamburgerBtn.classList.add('open');
+        navLinks.classList.add('open');
+        overlay.classList.add('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMobileNav() {
+        hamburgerBtn.classList.remove('open');
+        navLinks.classList.remove('open');
+        overlay.classList.remove('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      hamburgerBtn.addEventListener('click', function() {
+        if (navLinks.classList.contains('open')) {
+          closeMobileNav();
+        } else {
+          openMobileNav();
+        }
+      });
+
+      overlay.addEventListener('click', closeMobileNav);
+
+      navLinks.querySelectorAll('.nav-link').forEach(function(link) {
+        link.addEventListener('click', closeMobileNav);
+      });
+    })();
+  </script>
+  <script th:src="@{/js/main.js?v=5.0}"></script>
+</body>
+</html>

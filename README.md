@@ -61,7 +61,7 @@ On first run the app seeds 40+ courses, demo users, and sample enrollments autom
 | Frontend | Vanilla CSS + JavaScript ES6+ |
 | Charts | Chart.js |
 | Build | Maven 3.9 (bundled in the repo under `maven/`) |
-| Deploy | Docker / Docker Compose, Render.yaml |
+| Deploy | Vercel Platform (`vercel.json`) |
 
 ---
 
@@ -95,29 +95,24 @@ Then open `http://localhost:8080`.
 
 ---
 
-## Docker
+## Deploying to Vercel
 
+This repository is configured for direct deployment to **Vercel** via `vercel.json`:
+
+### 1. Deploy via Vercel CLI
 ```bash
-docker-compose up --build
+# Install Vercel CLI globally or run via npx
+npx vercel
+
+# Deploy directly to production
+npx vercel --prod
 ```
 
-Starts the Spring Boot app and a MySQL 8.0 container together with a persistent volume.
-
----
-
-## Deploying to Render.com
-
-1. **Database Setup**: Create a free MySQL database on [Aiven.io](https://aiven.io/) (or another cloud MySQL provider).
-2. **Connect to Render**:
-   - Create a new **Web Service** or Blueprint on [Render.com](https://render.com/).
-   - Select your GitHub repository `Madhusmita-16/skilVorae`.
-   - Set the runtime environment to **Docker**.
-3. **Environment Variables**: Add the following Environment Variables in your Render Dashboard:
-   - `SPRING_DATASOURCE_URL`: `jdbc:mysql://<host>:<port>/<dbname>?sslmode=require`
-   - `SPRING_DATASOURCE_USERNAME`: `<your-db-user>`
-   - `SPRING_DATASOURCE_PASSWORD`: `<your-db-password>`
-   - `SPRING_JPA_HIBERNATE_DDL_AUTO`: `update`
-4. **Deploy**: Render will automatically build the Dockerfile and launch your service with health monitoring on `/login`.
+### 2. Deploy via Vercel Dashboard (GitHub Integration)
+1. Push your repository `Madhusmita-16/skilVorae` to GitHub.
+2. Go to [Vercel Dashboard](https://vercel.com/new) and import `skilVorae`.
+3. Vercel automatically detects `vercel.json` routing and builds your frontend static & web templates.
+4. Click **Deploy**!
 
 ---
 
