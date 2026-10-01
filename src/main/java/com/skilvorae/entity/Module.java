@@ -37,4 +37,39 @@ public class Module {
     @OrderBy("createdAt ASC")
     @Builder.Default
     private List<Assignment> assignments = new ArrayList<>();
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Course getCourse() { return course; }
+    public void setCourse(Course course) { this.course = course; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public Integer getModuleOrder() { return moduleOrder; }
+    public void setModuleOrder(Integer moduleOrder) { this.moduleOrder = moduleOrder; }
+    public List<Lesson> getLessons() { return lessons; }
+    public void setLessons(List<Lesson> lessons) { this.lessons = lessons; }
+    public List<Assignment> getAssignments() { return assignments; }
+    public void setAssignments(List<Assignment> assignments) { this.assignments = assignments; }
+
+    public static ModuleBuilder builder() { return new ModuleBuilder(); }
+
+    public static class ModuleBuilder {
+        private Long id;
+        private Course course;
+        private String title;
+        private Integer moduleOrder;
+        private List<Lesson> lessons = new ArrayList<>();
+        private List<Assignment> assignments = new ArrayList<>();
+
+        public ModuleBuilder id(Long id) { this.id = id; return this; }
+        public ModuleBuilder course(Course course) { this.course = course; return this; }
+        public ModuleBuilder title(String title) { this.title = title; return this; }
+        public ModuleBuilder moduleOrder(Integer moduleOrder) { this.moduleOrder = moduleOrder; return this; }
+        public ModuleBuilder lessons(List<Lesson> lessons) { this.lessons = lessons; return this; }
+        public ModuleBuilder assignments(List<Assignment> assignments) { this.assignments = assignments; return this; }
+
+        public Module build() {
+            return new Module(id, course, title, moduleOrder, lessons, assignments);
+        }
+    }
 }
