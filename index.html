@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skilvorae — Industry-Grade Online Learning & Career Skills Platform</title>
   <meta name="description" content="Master practical skills, build real-world projects, and advance your tech career with Skilvorae industry-aligned curriculums.">
-  <link rel="stylesheet" th:href="@{/css/main.css?v=14.0}">
-  <link rel="stylesheet" th:href="@{/css/course.css?v=14.0}">
+  <link rel="stylesheet" href="/css/main.css?v=14.0" th:href="@{/css/main.css?v=14.0}">
+  <link rel="stylesheet" href="/css/course.css?v=14.0" th:href="@{/css/course.css?v=14.0}">
   <style>
     /* ── Hero animation keyframes ── */
     @keyframes floatA {
@@ -589,60 +589,6 @@
     </div>
   </footer>
 
-  <script th:src="@{/js/main.js}"></script>
-  <script>
-    function handleEnquirySubmit(e) {
-      e.preventDefault();
-      const btn = document.getElementById('eq-btn');
-      btn.disabled = true;
-      btn.textContent = 'Sending Enquiry...';
-
-      setTimeout(() => {
-        showToast('Enquiry sent successfully! Our career advisor will reach out shortly.', 'success');
-        document.getElementById('enquiry-form').reset();
-        btn.disabled = false;
-        btn.textContent = 'Send Enquiry →';
-      }, 1000);
-    }
-
-    // Hamburger mobile nav logic
-    (function() {
-      const hamburgerBtn = document.getElementById('nav-hamburger-btn');
-      const navLinks = document.getElementById('main-nav-links');
-      const overlay = document.getElementById('mobile-nav-overlay');
-      if (!hamburgerBtn || !navLinks || !overlay) return;
-
-      function openMobileNav() {
-        hamburgerBtn.classList.add('open');
-        navLinks.classList.add('open');
-        overlay.classList.add('active');
-        hamburgerBtn.setAttribute('aria-expanded', 'true');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeMobileNav() {
-        hamburgerBtn.classList.remove('open');
-        navLinks.classList.remove('open');
-        overlay.classList.remove('active');
-        hamburgerBtn.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      }
-
-      hamburgerBtn.addEventListener('click', function() {
-        if (navLinks.classList.contains('open')) {
-          closeMobileNav();
-        } else {
-          openMobileNav();
-        }
-      });
-
-      overlay.addEventListener('click', closeMobileNav);
-
-      navLinks.querySelectorAll('.nav-link').forEach(function(link) {
-        link.addEventListener('click', closeMobileNav);
-      });
-    })();
-  </script>
-  <script th:src="@{/js/main.js?v=5.0}"></script>
+  <script src="/js/main.js?v=5.0" th:src="@{/js/main.js?v=5.0}"></script>
 </body>
 </html>
